@@ -1,0 +1,18 @@
+tfin = 600
+nsteps = 6000
+x0 = 0.0
+y0 = 0.0
+vx0 = 0.0
+vy0 = 5.0
+mass = 0.056
+g   = 9.81
+omega   = 10
+mu = 6
+R = 0.033
+rho = 1.2
+Ct = 0
+sampling = 1
+tol = 1e-5
+maxit = 200
+alpha = 0.5
+
