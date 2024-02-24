@@ -53,6 +53,7 @@ private:
 	void printOut(bool write)
 	{
 		// TODO calculer l'energie mecanique
+		// y = (x, y, vx, vy)
 		double Energy = (
 			1.0 / 2.0 * mass * (y[2]*y[2] + y[3]*y[3])
 			+ 1.0 / 5.0 * mass * R*R * omega*omega
@@ -80,7 +81,7 @@ private:
 		f[0] = y[2];
 		f[1] = y[3];
 		f[2] = -mu * R3 * rho * omega * y[3] / mass;
-		f[3] = mu * R3 * rho * y[2] / mass - g;
+		f[3] = mu * R3 * rho * omega * y[2] / mass - g;
 	}
 
 	// New step method from EngineEuler
@@ -94,26 +95,22 @@ private:
 		valarray<double> delta_y_EE = valarray<double>(y);
 
 		if (alpha >= 0. && alpha <= 1.0) {
-			// y -> y_{n+1}^{k+1}
-			// y_old -> y_{n+1}^{k}
-			// y_control -> y_n
-
 			// Once
-			valarray<double> f_control = valarray<double>(f);
 			// Using y = y_n, because y *is* y_n initially
-			compute_f(f_control);
+			compute_f(f);
+			delta_y_EE = alpha * f * dt;
 
 			// Lööps
 			while (error > tol && iteration < maxit) {
 				// Using y = y_n^k (before updating y)
 				compute_f(f);
-				y = y_control + (alpha * f_control + (1 - alpha) * f) * dt;
+				y = y_old + delta_y_EE + (1 - alpha) * f * dt;
 				
 				// Using y = y_n^{k+1} (after updating y)
 				compute_f(f);
-				delta_y_EE = abs(y - y_control - (alpha * f_control + (1 - alpha) * f) * dt);
+				y_control = abs(y - y_old - delta_y_EE + (1 - alpha) * f * dt);
 				// TODO: norme mdr
-				error = delta_y_EE.max();
+				error = y_control.max();
 				
 				// Don't forget to increment
 				iteration++;
