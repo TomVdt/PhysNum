@@ -1,0 +1,31 @@
+\documentclass[a4paper, 12pt, oneside]{article}
+
+\input{config/imports.tex}
+\input{config/biblatex.tex}
+\input{config/commands.tex}
+
+\begin{document}
+
+
+
+
+\couille{Exercise 1 - Trajectory of rotating ball}{Tom Vadot}{Martin Godet}{tom.vadot}{martin.godet}
+
+\input{sections/0-introduction.tex}
+\input{sections/1-analytics.tex}
+\input{sections/2-simulations.tex}
+\input{sections/3-analysis.tex}
+%\input{sections/4-discussion.tex}
+\input{sections/5-conclusion.tex}
+
+% Bibliography
+\nocite{*}  % While writing report, ignore unused citations
+\printbibliography
+
+\newpage
+
+\begin{appendices}
+\input{sections/6-annexe.tex}
+\end{appendices}
+
+\end{document}
