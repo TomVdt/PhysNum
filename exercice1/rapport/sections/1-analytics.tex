@@ -5,28 +5,65 @@ For the purpose of this study it is first needed to prove some analytical result
 We are considering a sphere (tennis ball) of mass $m$ and radius $R$. It is rotating according to $\vec{\omega} = \omega \vec{e_z}$. It is moving in the gravity field $\vec{g} = -g\vec{e_y}$ and inside a fluid of density $\rho$ which applies a force due to the Magnus effect:
 \be
     \vec{F}_p = \mu R^3 \rho \vec{\omega} \times \vec{v}
+    \label{eq:Magnus}
 \ee
 
-We want to determine the movement of the ball knowing the initial velocity $\vec{v_0}$ and rotation $\vec{\omega}$. In an effort to simplify the problem we assume that the rotation is constant and we consider trajectories occuring only on the $(x,y)$ plan.
+We want to determine the movement of the ball knowing the initial velocity $\vec{v_0}$ and rotation $\vec{\omega}$. In an effort to simplify the problem we assume that the rotation is constant and we consider trajectories occuring only on the $(x,y)$ plane.
 
 
 \subsection{System of differential equations}
-Question 1.1-(a)
+\underline{Question 1.1-(a)}
 
-Let us take the vector: $y$
+Let us take the vector: $\textbf{y} = (x,y,v_x,v_y)$
 
+We are searching for $f$ such that:
+\be
+    \frac{\dd \textbf{y}}{\dd t} = \left(\begin{array}{l} v_x \\ v_y \\ a_x \\ a_y \end{array}\right) = f(\textbf{y})
+    \label{eq:a_question}
+\ee
+
+We know that $m\vec{a} = \vec{F}_p + m\vec{g}$ and from \autoref{eq:Magnus} we have:
+\[\vec{F}_p = \mu R^3 \rho \omega \left(\begin{array}{l} -v_y \\ v_x \\ 0 \end{array}\right)\]
+
+We get from this and $g_z = 0$ that $a_z = 0$ so the trajectory will indeed stay inside the $(x,y)$ plane. Most importantly we also get: 
+\[ \left(\begin{array}{l} a_x \\ a_y\end{array}\right) = 
+    \left( \begin{array}{l} -\frac{\mu R^3 \rho \omega}{m} v_y \\ \frac{\mu R^3 \rho \omega}{m} v_x - g \end{array}\right) \]
+
+Which allows us to rewrite \autoref{eq:a_question} as:
+\be
+    \frac{\dd \textbf{y}}{\dd t} = f(\textbf{y}) = \left(\begin{array}{l}
+    v_x \\
+    v_y \\
+    -\frac{\mu R^3 \rho \omega}{m} v_y \\
+    \frac{\mu R^3 \rho \omega}{m} v_x - g
+    \end{array}\right)
+\ee
+\#
 
 \subsection{Mechanical energy}
-Question 1.1-(b)
+\underline{Question 1.1-(b)}
 
+We are searching for the total mechanical energy of the system. We know that for a rigid body such as the tennis ball considered in this problem the total mechanical energy is the sum of: the translational kinetic energy, the rotational kinetic energy and the potential so:
+\[ 
+    \mathrm{E_{tot}} = \frac{1}{2}mv^2 + \frac{1}{2}I\omega^2 + mgy 
+\]
 
+We get the moment of inertia of a sphere for any rotation around an axis going through the center: $I = \frac{2}{5}mR^2$ \cite*{moment-inertia}.
+
+Which yields the final formula for the energy:
+\be
+    \mathrm{E_{tot}} = \frac{1}{2}mv^2 + \frac{1}{5}mR^2\omega^2 + mgy
+\ee
+
+We now want to know if this energy is conserved. We know that the gravitational force from the $\vec{g}$ field is conservative. We now consider the force $\vec{F}_p$. It is strictly orthogonal to the velocity at any point from \autoref{eq:Magnus} which means that $\vec{F}_p$ does not produce any work throughout the movement. We can conclude that we have no non-conservative forces doing work so the total mechanical energy must be conserved. \#
 
 \subsection{Zero-gravity situation}
-Question 1.1-(c)
+\underline{Question 1.1-(c)}
+
 
 
 
 \subsection{Gravity with no initial speed situation}
-Question 1.1-(d)
+\underline{Question 1.1-(d)}
 
 
