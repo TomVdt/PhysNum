@@ -75,13 +75,13 @@ private:
 
 	void compute_f(valarray<double>& f) const
 	{
-		double Frict = 0.0;
-		double R3 = pow(R, 3);
-
+		const double Frict = 1.0 / 2.0 * Ct * rho * S * sqrt(y[2]*y[2] + y[3]*y[3]) / mass;
+		const double R3 = pow(R, 3);
+		// cerr << Frict << ", " << Ct << ", " << S << endl;
 		f[0] = y[2];
 		f[1] = y[3];
-		f[2] = -mu * R3 * rho * omega * y[3] / mass;
-		f[3] = mu * R3 * rho * omega * y[2] / mass - g;
+		f[2] = -mu * R3 * rho * omega * y[3] / mass - Frict * y[2];
+		f[3] = mu * R3 * rho * omega * y[2] / mass - g - Frict * y[3];
 	}
 
 	// New step method from EngineEuler
@@ -166,7 +166,7 @@ public:
 	void run()
 	{
 		// TODO à ajuster selon vos besoins
-		S = 0.0;
+		S = pi * R * R;
 		Om = 0.0;
 		t = 0.e0; // initialiser le temps
 		y = y0;   // initialiser

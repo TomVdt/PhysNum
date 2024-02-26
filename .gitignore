@@ -6,7 +6,7 @@
 !*/
 
 .vscode
-
+data/*.log
 
 # Eviter les conflits, normalement les rapports ca se recompile sans problème
 rapport.pdf
