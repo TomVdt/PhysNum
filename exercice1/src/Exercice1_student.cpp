@@ -53,7 +53,6 @@ private:
 	void printOut(bool write)
 	{
 		// y = (x, y, vx, vy)
-		constexpr double fuck = 0.5f;
 		double Energy = (
 			1.0 / 2.0 * mass * (y[2]*y[2] + y[3]*y[3])
 			+ 1.0 / 5.0 * mass * R*R * omega*omega
