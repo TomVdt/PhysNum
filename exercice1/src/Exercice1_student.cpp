@@ -82,6 +82,7 @@ private:
 		f[3] = mu * R3 * rho * omega * y[2] / mass - g - Frict * y[3];
 	}
 
+
 	// New step method from EngineEuler
 	void step()
 	{
@@ -106,9 +107,9 @@ private:
 				
 				// Using y = y_n^{k+1} (after updating y)
 				compute_f(f);
-				y_control = abs(y - y_old - delta_y_EE - (1 - alpha) * f * dt);
-				// TODO: norme mdr
-				error = y_control.max();
+				y_control = y - y_old - delta_y_EE - (1 - alpha) * f * dt;
+				// Taking the norm to get the error
+				error = sqrt(y[0]*y[0] + y[1]*y[1] + y[2]*y[2] + y[3]*y[3]);
 				
 				// Don't forget to increment
 				iteration++;
