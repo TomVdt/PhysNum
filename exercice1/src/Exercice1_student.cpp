@@ -53,6 +53,7 @@ private:
 	void printOut(bool write)
 	{
 		// y = (x, y, vx, vy)
+		constexpr double fuck = 0.5f;
 		double Energy = (
 			1.0 / 2.0 * mass * (y[2]*y[2] + y[3]*y[3])
 			+ 1.0 / 5.0 * mass * R*R * omega*omega
@@ -109,7 +110,7 @@ private:
 				compute_f(f);
 				y_control = y - y_old - delta_y_EE - (1 - alpha) * f * dt;
 				// Taking the norm to get the error
-				error = sqrt(y[0]*y[0] + y[1]*y[1] + y[2]*y[2] + y[3]*y[3]);
+				error = sqrt(y_control[0]*y_control[0] + y_control[1]*y_control[1] + y_control[2]*y_control[2] + y_control[3]*y_control[3]);
 				
 				// Don't forget to increment
 				iteration++;
