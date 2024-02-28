@@ -9,10 +9,10 @@
 data/*.log
 
 # Eviter les conflits, normalement les rapports ca se recompile sans problème
-rapport.pdf
+*/rapport/rapport.pdf
 output/
-.venv
-__pycache__
+**/.venv
+**/__pycache__
 *.pyc
 
 ## https://github.com/github/gitignore/blob/main/TeX.gitignore
