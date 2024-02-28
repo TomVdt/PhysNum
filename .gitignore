@@ -5,6 +5,7 @@
 # Unignore all dirs
 !*/
 
+!Makefile
 .vscode
 data/*.log
 
