@@ -52,7 +52,6 @@ private:
 	*/
 	void printOut(bool write)
 	{
-		// TODO calculer l'energie mecanique
 		// y = (x, y, vx, vy)
 		double Energy = (
 			1.0 / 2.0 * mass * (y[2]*y[2] + y[3]*y[3])
@@ -77,7 +76,6 @@ private:
 	{
 		const double Frict = 1.0 / 2.0 * Ct * rho * S * sqrt(y[2]*y[2] + y[3]*y[3]) / mass;
 		const double R3 = pow(R, 3);
-		// cerr << Frict << ", " << Ct << ", " << S << endl;
 		f[0] = y[2];
 		f[1] = y[3];
 		f[2] = -mu * R3 * rho * omega * y[3] / mass - Frict * y[2];
@@ -108,7 +106,7 @@ private:
 				
 				// Using y = y_n^{k+1} (after updating y)
 				compute_f(f);
-				y_control = abs(y - y_old - delta_y_EE + (1 - alpha) * f * dt);
+				y_control = abs(y - y_old - delta_y_EE - (1 - alpha) * f * dt);
 				// TODO: norme mdr
 				error = y_control.max();
 				
