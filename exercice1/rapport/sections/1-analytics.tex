@@ -23,23 +23,22 @@ We are searching for $f$ such that:
 \ee
 
 We know that $m\vec{a} = \vec{F}_p + m\vec{g}$ and from \autoref{eq:Magnus} we have:
-\[\vec{F}_p = \mu R^3 \rho \omega \left(\begin{array}{l} -v_y \\ v_x \\ 0 \end{array}\right)\]
+\[\vec{F}_p = \mu R^3 \rho \omega \left(\begin{matrix}{l} -v_y \\ v_x \\ 0 \end{matrix}\right)\]
 
 We get from this and $g_z = 0$ that $a_z = 0$ so the trajectory will indeed stay inside the $(x,y)$ plane for $v_z(0) = 0$ and $z(0) = 0$. Most importantly we also get: 
-\[ \left(\begin{array}{l} a_x \\ a_y\end{array}\right) = 
-    \left( \begin{array}{l} -\frac{\mu R^3 \rho \omega}{m} v_y \\ \frac{\mu R^3 \rho \omega}{m} v_x - g \end{array}\right) \]
+\[ \left(\begin{matrix}{l} a_x \\ a_y\end{matrix}\right) = 
+    \left( \begin{matrix}{l} -\frac{\mu R^3 \rho \omega}{m} v_y \\ \frac{\mu R^3 \rho \omega}{m} v_x - g \end{matrix}\right) \]
 
 Which allows us to rewrite \autoref{eq:a_question} as:
 \be
-    \frac{\dd \textbf{y}}{\dd t} = f(\textbf{y}) = \left(\begin{array}{l}
+    \frac{\dd \textbf{y}}{\dd t} = f(\textbf{y}) = \left(\begin{matrix}{l}
     v_x \\
     v_y \\
     -\frac{\mu R^3 \rho \omega}{m} v_y \\
     \frac{\mu R^3 \rho \omega}{m} v_x - g
-    \end{array}\right)
+    \end{matrix}\right)
     \label{eq:ode}
 \ee
-\#
 
 \subsection{Mechanical energy}
 \underline{Question 1.1-(b)}
@@ -56,7 +55,7 @@ Which yields the final formula for the energy:
     \mathrm{E_{tot}} = \frac{1}{2}mv^2 + \frac{1}{5}mR^2\omega^2 + mgy
 \ee
 
-We now want to know if this energy is conserved. We know that the gravitational force from the $\vec{g}$ field is conservative. We now consider the force $\vec{F}_p$. It is strictly orthogonal to the velocity at any point from \autoref{eq:Magnus} which means that $\vec{F}_p$ does not produce any work throughout the movement. We can conclude that we have no non-conservative forces doing work so the total mechanical energy must be conserved. \#
+We now want to know if this energy is conserved. We know that the gravitational force from the $\vec{g}$ field is conservative. We now consider the force $\vec{F}_p$. It is strictly orthogonal to the velocity at any point from \autoref{eq:Magnus} which means that $\vec{F}_p$ does not produce any work throughout the movement. We can conclude that we have no non-conservative forces doing work so the total mechanical energy must be conserved.
 
 \subsection{Zero-gravity situation}
 \underline{Question 1.1-(c)}
@@ -64,50 +63,52 @@ We now want to know if this energy is conserved. We know that the gravitational 
 All the considerations in this subsection will be done inside the $(x,y)$ plane since we have shown that the movement always stays inside of it. The $z$ and $v_z$ coordinates are thus always 0.
 
 We now want to solve \autoref{eq:ode} for $\vec{g}=0$ and the initial conditions $\vec{x}(0)=0$ and $\vec{v}(0)=v_0\vec{e_x}$. Let us write $\alpha = \frac{\mu R^3 \rho \omega}{m}$. We have:
-\[ a_x = \dot{v_x} = -\alpha v_y \]
-\[ a_y = \dot{v_y} = \alpha v_x \]
+\begin{eqnarray}
+    a_x = \dot{v_x} = -\alpha v_y \\
+    a_y = \dot{v_y} = \alpha v_x \label{eq:nograv:ay}
+\end{eqnarray}
 
-Which yields:
-\begin{align*}
+Taking the time derivative yields:
+\be
     \ddot{v_x} = -\alpha \dot{v_y} = -\alpha ^2 v_x \\
-    \Rightarrow \ddot{v_x} + \alpha^2 v_x = 0
-\end{align*}
+    \implies \ddot{v_x} + \alpha^2 v_x = 0
+\ee
 which we recognise as the harmonic oscillator equation. Its general solution is:
 \be
     v_x(t) = A\cos(\alpha t + \varphi)
     \label{eq:general_vx}
 \ee
 
-We can deduce all the general solutions from this:
+We can deduce the general solution for \(x(t)\) from this:
 \be
     x(t) = \frac{A}{\alpha}\sin(\alpha t + \varphi) + c_1
     \label{eq:general_x}
 \ee
-\[ \dot{v_y}(t) = \alpha v_x = A\alpha\cos(\alpha t + \varphi) \]
-\be
-    \Rightarrow v_y(t) = A \sin(\alpha t + \varphi) + c_2
-    \label{eq:general_vy}
-\ee
-\be
-    \Rightarrow y(t) = -\frac{A}{\alpha}\cos(\alpha t + \varphi) + c_2 t+ c_3
-    \label{eq:general_y}
-\ee
 
-Using the mentioned initial conditions inside these equations gives us 5 unknown for 4 equations. We can set $\varphi = 0$ without any influence on the physics which gives the other constants:
+We can find \(y(t)\) by substituing \(v_x\) into \autoref{eq:nograv:ay}
+\begin{eqnarray}
+    \dot{v_y}(t) = \alpha v_x = A\alpha\cos(\alpha t + \varphi) \\
+    \implies v_y(t) = A \sin(\alpha t + \varphi) + c_2
+    \label{eq:general_vy} \\
+    \implies y(t) = -\frac{A}{\alpha}\cos(\alpha t + \varphi) + c_2 t+ c_3
+    \label{eq:general_y}
+\end{eqnarray}
+
+Using the mentioned initial conditions inside these equations gives us 5 unknowns for 4 equations. For symmetry reasons we can set $\varphi = 0$ which gives the other constants:
 \[ c_1 = 0, \quad c_2 = 0, \quad c_3 = \frac{v_0}{\alpha}, \quad A = v_0\]
 
 We now want to characterise the type of movement we are having with this ball. We show that the acceleration is orthogonal to the velocity and has a constant norm:
-\begin{align*}
-    \vec{a}.\vec{v} = \alpha(-v_y v_x + v_x v_y) = 0 \\
+\begin{gather}
+    \vec{a} \cdot \vec{v} = \alpha(-v_y v_x + v_x v_y) = 0 \\
     ||\vec{a}||^2 = \alpha^2 ((-v_y)^2 + (v_x)^2) = \alpha^2 A^2 = \mathrm{cst}
-\end{align*}
+\end{gather}
 
 This means that the movement is circular uniform and we can write:
-\begin{align*} 
+\begin{gather*} 
     a = \frac{v^2}{r} , \quad a = \alpha v_0, \quad v = \mathrm{cst} = v_0 \\
     \Rightarrow r = \frac{v_0}{\alpha}
-\end{align*}
-with $r$ the radius of the circular movement. We finally want the angular frequency given by: $\Omega = \frac{v}{r} = \alpha$. \#
+\end{gather*}
+with $r$ the radius of the circular movement. The angular frequency is given by: $\Omega = \frac{v}{r} = \alpha$.
 
 For clarity we rewrite \autoref{eq:general_vx}, \autoref{eq:general_x}, \autoref{eq:general_vy} and \autoref{eq:general_y} with the constants found and reminding that $\alpha = \frac{\mu R^3 \rho \omega}{m}$:
 \be
@@ -133,28 +134,28 @@ For clarity we rewrite \autoref{eq:general_vx}, \autoref{eq:general_x}, \autoref
 
 We now want to solve the same problem with $g\ne0$. The given initial conditions are $\vec{x}(0)=0$ and $\vec{v}(0)=0$.
 
-We choose a new referential $\mathcal{R}'$ moving at a constant velocity $\vec{v}_E = \frac{m}{\omega^2 \mu R^3 \rho}\vec{\omega}\times\vec{g} = \frac{1}{\alpha}\vec{e}_z\times\vec{g}$ relative to our first referential $\mathcal{R}$ of the ground.
+We choose a new referential $\mathcal{R}'$ moving at a constant velocity $\vec{v}_E = \frac{m}{\omega^2 \mu R^3 \rho}\vec{\omega}\times\vec{g} = \frac{1}{\alpha}\vec{e}_z\times\vec{g}$ relative to our first referential $\mathcal{R}$.
 
 
 We first write down the equations of motion in the new referential using $\vec{v} = \vec{v}' + \vec{v}_E \Rightarrow \vec{a} = \vec{a}'$:
 \begin{align*}
-    \vec{a}' = \frac{1}{m}\vec{F}_p + \vec{g} \\
-    \vec{a}' = \alpha \vec{e}_z\times\vec{v} + \vec{g} \\
-    \vec{a}' = \alpha \vec{e}_z\times\vec{v}' + \alpha \vec{e}_z\times\vec{v}_E + \vec{g} \\
-    \vec{a}' = \alpha \vec{e}_z\times\vec{v}' + \vec{e}_z\times(\vec{e}_z\times\vec{g}) + \vec{g} \\
-    \vec{a}' = \alpha \vec{e}_z\times\vec{v}' + g(-\vec{e}_z\times(\vec{e}_z\times\vec{e}_y) - \vec{e}_y) \\
-    \vec{a}' = \alpha \vec{e}_z\times\vec{v}' + g(\vec{e}_y - \vec{e}_y) \\
+    \vec{a}' &= \frac{1}{m}\vec{F}_p + \vec{g} \\
+    &= \alpha \vec{e}_z\times\vec{v} + \vec{g} \\
+    &= \alpha \vec{e}_z\times\vec{v}' + \alpha \vec{e}_z\times\vec{v}_E + \vec{g} \\
+    &= \alpha \vec{e}_z\times\vec{v}' + \vec{e}_z\times(\vec{e}_z\times\vec{g}) + \vec{g} \\
+    &= \alpha \vec{e}_z\times\vec{v}' + g(-\vec{e}_z\times(\vec{e}_z\times\vec{e}_y) - \vec{e}_y) \\
+    &= \alpha \vec{e}_z\times\vec{v}' + g(\vec{e}_y - \vec{e}_y) \\
 \end{align*}
 \be
-    \Rightarrow \vec{a}' = \alpha \left(\begin{array}{l} -v_y' \\ v_x' \\ 0 \end{array}\right)
+    \implies \vec{a}' = \alpha \left(\begin{array}{l} -v_y' \\ v_x' \\ 0 \end{array}\right)
     \label{eq:motionRprime}
 \ee
 
-In the question \underline{1.1-(c)} we had an equation of motion $\vec{a} = \alpha \vec{e}_z\times\vec{v}$ which has the exact same form and thus the general solutions are the same for $\vec{a}'$ and $\vec{v}'$ as in \autoref{eq:general_vx} to \ref{eq:general_y}. 
+In the question \underline{1.1-(c)} we had an equation of motion $\vec{a} = \alpha \vec{e}_z\times\vec{v}$ which has the exact same form and thus the general solutions are the same for $\vec{a}'$ and $\vec{v}'$ as in \autoref{eq:general_vx} to \ref{eq:general_y}.
 
-Assuming as before $\varphi = 0$ with no influence on the physics and using the initial conditions given we can find:
+Assuming like before $\varphi = 0$ and using the given initial conditions we can find:
 \[ A = -v_E, \quad c_3 = -\frac{v_E}{\alpha}, \quad c_1 = 0, \quad c_2 = 0 \]
-with $\vec{v_E} = g / \alpha \vec{e}_x$.
+with $\vec{v_E} = \frac{g}{\alpha} \vec{e}_x$.
 
 This gives us our final solution by changing back to the $\mathcal{R}$ referential knowing it will have translated along $\hat{x}$ by $x = x' + v_E t$:
 \be
@@ -166,7 +167,7 @@ This gives us our final solution by changing back to the $\mathcal{R}$ referenti
     \label{eq:y_fall}
 \ee
 
-We want to determine if the ball will at some point get back to its starting height $y = 0$. We see easily that the movement according to $y$ is periodic with a $\cos$ being the only term depending on $t$. More formally for $t_\mathrm{fin} = 2\pi / \alpha$ we have:
+We want to determine if the ball will at some point get back to its starting height $y = 0$. We see easily that the movement according to $y$ is periodic with $\cos$ being the only term depending on $t$. More formally, because $\cos$ is $2\pi$-periodic, we have for $t_\mathrm{fin} = 2\pi / \alpha$
 \[ y(t_\mathrm{fin}) = \frac{g}{\alpha^2}\left(\cos\left(\frac{2\pi \alpha}{\alpha}\right) - 1\right) = \frac{g}{\alpha^2}(1 - 1) = 0 \]
 which does show that at $t_\mathrm{fin} = 2\pi / \alpha = 2\pi m / \mu R^3\rho\omega$ the ball gets back to its original height. This happens at a distance $L$ from the origin:
 \[
@@ -175,5 +176,3 @@ which does show that at $t_\mathrm{fin} = 2\pi / \alpha = 2\pi m / \mu R^3\rho\o
 \be
     L = \frac{2\pi g}{\alpha^2} = \frac{2\pi g m^2}{(\mu R^3\rho\omega)^2}
 \ee
-
-\#
