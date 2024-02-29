@@ -31,7 +31,7 @@ The numeric convergence of the final position of each method is illustrated in \
     \begin{subfigure}{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/nograv_energy_error_all.pdf}
-        \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$}
+        \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$ ($n_\textrm{steps}=4000$)}
         \label{fig:nograv:energy_error}
     \end{subfigure}
     \caption{Numeric convergence analysis for different methods}
@@ -81,12 +81,13 @@ To illustrate the numeric stabilty of each method, the energy over time has been
 \subsection{Rotating ball with gravity}
 
 \subsubsection{Method comparaison}
+\label{seq:gravrot:comp}
 
 \subsubsection{Adding drag force}
 
-The aerodynamic air drag force
+The aerodynamic drag force
 \be
-    \vec{F_t} = -\frac{1}{2}C_t \rho S v \vec{v}
+    \vec{F_t} = -\frac{1}{2}C_t \rho S \|v\| \vec{v}
 \ee
 was added to the simulation by adding a term to $f(\textbf{y})$ from \autoref{eq:ode}
 \be
@@ -98,4 +99,34 @@ was added to the simulation by adding a term to $f(\textbf{y})$ from \autoref{eq
     \end{matrix}\right)
 \ee
 
-then show some results but now its bedtime and am \textit{zleeepy}
+In order to simulate this system, the SE method was used as it yields better results than EE or IE. The parameters of the simulation were as described in \ref{seq:gravrot:comp} and with $C_t = 0.35$, $S = \pi R^2$.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.49\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/grav_frict_position.pdf}
+        \caption{Trajectory after $t_\textrm{fin}$ ($n_\textrm{steps}=4000$)}
+        \label{fig:gravfrict:pos}
+    \end{subfigure}%
+    \hspace*{0.2cm}
+    \begin{subfigure}{0.45\linewidth}
+        \begin{subfigure}{\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/grav_frict_convergence_x.pdf}
+        \end{subfigure}
+        \begin{subfigure}{\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/grav_frict_convergence_y.pdf}
+        \end{subfigure}
+        \caption{Convergence analysis for the final position. $n_\textrm{steps}$ was varied between 100 and 4000.}
+        \label{fig:gravfrict:conv}
+    \end{subfigure}
+    \caption{Simulation of the system including friction using the SE method}
+\end{figure}
+
+The trajectory is shown in \autoref{fig:gravfrict:pos} and seems to behave as expected, with an equilibrium between the applied force that make it follow a straight path. As shown in \autoref{fig:gravfrict:conv}, the convergence order of the final position is $n=2$.
+
+\subsection{Additionnal results}
+
+Pour les extensions \& stuff
