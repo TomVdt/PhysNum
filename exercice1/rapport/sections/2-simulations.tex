@@ -2,15 +2,81 @@
 
 \subsection{Rotating ball in zero gravity}
 
-The simulations were done on a tenis ball with mass $m = 0.056$ kg and radius $R = 0.033$ m, with air density $\rho = 1.2$ kg/m$^3$. The coefficient $\mu = 6$ has been chosen. The ball is sent with initial conditions $\omega = 10$ rotations/s, $\vec{x}(0) = \vec{0}$, $\vec{v}(0) = 5 \vec{e_x}$ and simulated until $t_\textrm{fin} = 60$ s.
+\begin{wrapfigure}{R}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/nograv_trajectory_all.pdf}
+    \caption{Postion of the ball after $t_\textrm{fin}$ for different methods ($n_\textrm{steps} = 2000$)}
+    \label{fig:nograv:trajectory_all}
+\end{wrapfigure}
+The simulations were done on a tenis ball with mass $m = 0.056$ kg and radius $R = 0.033$ m, with air density $\rho = 1.2$ kg/m$^3$. The coefficient $\mu = 6$ has been chosen. The ball is sent with initial conditions $\omega = 10$ rotations/s ($\omega = 20\pi$ rad/s), $\vec{x}(0) = \vec{0}$, $\vec{v}(0) = 5 \vec{e_x}$ and simulated until \mbox{$t_\textrm{fin} = 60$ s}.
 
 To lighten the notation, we will use EE for the Explicit Euler method, IE for Implicit Euler and SE for Semi-implicit Euler.
 
+The position after $t_\textrm{fin}$ is shown in \autoref{fig:nograv:trajectory_all}. We can see that the EE method overshoots the expected trajectory, while the IE method undershoots it and SE remains almost exactly on the analytical result.
+
+\subsubsection{Numeric convergence}
+
+The numeric convergence of the final position of each method is illustrated in \autoref{fig:nograv:convergence}. We observe that the error on the final position tends to 0 as $\Delta t \rightarrow 0$ for every method, meaning that they all converge numerically. Furthermore, the convergence order is given by the slope of the line passing through the points. We can thus deduce that the convergence order is 1 for EE and IE, and 2 for SE.
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/nograv_trajectory_all.pdf}
-    \caption{Postion of the ball after $t_\textrm{fin}$ for different methods ($n_\textrm{steps} = 2000$)}
-    \label{fig:nograv:trajectory_all}
+    \includegraphics[width=0.8\linewidth]{figures/nograv_numeric_convergence_all.pdf}
+    \caption{Error on final position w.r.t. analytical solution. $n_\textrm{steps}$ was varied between 100 and 4000.}
+    \label{fig:nograv:convergence}
 \end{figure}
 
-The position after $t_\textrm{fin}$ is shown in \autoref{fig:nograv:trajectory_all}. We can see that feur
+The numeric convergence of the energy for each method is also given in \autoref{fig:nograv:energy_error}. Again, we observe that the error clearly tends to 0, as $t \rightarrow 0$ for EE and IE. The error for SE remains quite constant and is of the order of $10^{-14}$, close to the limit for double-precision floating point numbers. We thus conclude that every method converges numerically. The convergence order for EE and IE is 1, but SE does not have a convergence order as it's energy remains pretty much constant for a wide range of $\Delta t$.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/nograv_energy_error_all.pdf}
+    \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$}
+    \label{fig:nograv:energy_error}
+\end{figure}
+
+\subsubsection{Numeric stabilty}
+
+feur.png
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/nograv_energy_explicit.pdf}
+        \caption{Explicit}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/nograv_energy_implicit.pdf}
+        \caption{Implicit}
+    \end{subfigure}
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/nograv_energy_semiimplicit.pdf}
+        \caption{Semi-implicit}
+    \end{subfigure}
+    \caption{}
+    \label{fig:nograv:energy}
+\end{figure}
+
+\subsection{Rotating ball with gravity}
+
+\subsubsection{Method comparaison}
+
+\subsubsection{Adding drag force}
+
+The aerodynamic air drag force
+\be
+    \vec{F_t} = -\frac{1}{2}C_t \rho S v \vec{v}
+\ee
+was added to the simulation by adding a term to $f(\textbf{y})$ from \autoref{eq:ode}
+\be
+    f(\textbf{y}) = \left(\begin{matrix}{l}
+    v_x \\
+    v_y \\
+    -\frac{\mu R^3 \rho \omega}{m} v_y  - \frac{1}{2m} C_t \rho S \|v\| v_x \\
+    \frac{\mu R^3 \rho \omega}{m} v_x - g - \frac{1}{2m} C_t \rho S \|v\| v_y
+    \end{matrix}\right)
+\ee
+
+then show some results but now its bedtime and am \textit{zleeepy}
