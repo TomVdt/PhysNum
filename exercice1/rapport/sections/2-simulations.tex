@@ -7,6 +7,7 @@
     \includegraphics[width=0.85\linewidth]{figures/nograv_trajectory_all.pdf}
     \caption{Postion of the ball after $t_\textrm{fin}$ for different methods ($n_\textrm{steps} = 2000$)}
     \label{fig:nograv:trajectory_all}
+    \vspace*{-1cm}
 \end{wrapfigure}
 The simulations were done on a tenis ball with mass $m = 0.056$ kg and radius $R = 0.033$ m, with air density $\rho = 1.2$ kg/m$^3$. The coefficient $\mu = 6$ has been chosen. The ball is sent with initial conditions $\omega = 10$ rotations/s ($\omega = 20\pi$ rad/s), $\vec{x}(0) = \vec{0}$, $\vec{v}(0) = 5 \vec{e_x}$ and simulated until \mbox{$t_\textrm{fin} = 60$ s}.
 
@@ -20,23 +21,27 @@ The numeric convergence of the final position of each method is illustrated in \
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/nograv_numeric_convergence_all.pdf}
-    \caption{Error on final position w.r.t. analytical solution. $n_\textrm{steps}$ was varied between 100 and 4000.}
-    \label{fig:nograv:convergence}
+    \begin{subfigure}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/nograv_numeric_convergence_all.pdf}
+        \caption{Error on final position w.r.t. analytical solution. $n_\textrm{steps}$ was varied between 100 and 4000.}
+        \label{fig:nograv:convergence}
+    \end{subfigure}
+    \hspace*{0.2cm}
+    \begin{subfigure}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/nograv_energy_error_all.pdf}
+        \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$}
+        \label{fig:nograv:energy_error}
+    \end{subfigure}
+    \caption{Numeric convergence analysis for different methods}
 \end{figure}
 
 The numeric convergence of the energy for each method is also given in \autoref{fig:nograv:energy_error}. Again, we observe that the error clearly tends to 0, as $t \rightarrow 0$ for EE and IE. The error for SE remains quite constant and is of the order of $10^{-14}$, close to the limit for double-precision floating point numbers. We thus conclude that every method converges numerically. The convergence order for EE and IE is 1, but SE does not have a convergence order as it's energy remains pretty much constant for a wide range of $\Delta t$.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{figures/nograv_energy_error_all.pdf}
-    \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$}
-    \label{fig:nograv:energy_error}
-\end{figure}
-
 \subsubsection{Numeric stabilty}
 
-feur.png
+To illustrate the numeric stabilty of each method, the energy over time has been plotted in \autoref{fig:nograv:energy}. EE is numerically unstable, as its energy over time grows exponentially for smaller $n_\textrm{steps}$. IE is stable, but loses energy over time, decaying exponentially. Using a curve fit of the function $g(t) = A + e^{\gamma t}$, where A is an offset and $\gamma$ is the growth rate, to calculate the growth or decrease rate we obtain the results presented in \autoref{tab:nograv:rate}. Finally, the SE method remains at constant energy even for smaller $n_\textrm{steps}$, meaning it is both stable and conserves energy.
 
 \begin{figure}[h]
     \centering
@@ -55,9 +60,23 @@ feur.png
         \includegraphics[width=\linewidth]{figures/nograv_energy_semiimplicit.pdf}
         \caption{Semi-implicit}
     \end{subfigure}
-    \caption{}
+    \caption{Energy over time for different methods and $n_\textrm{steps}$. To improve the results, the tolerance on the error was set to $10^{-10}$}
     \label{fig:nograv:energy}
 \end{figure}
+
+\begin{table}[h]
+    \centering
+    \begin{tabulary}{0.8\linewidth}{C|C|C|C|C}
+        \toprule
+        $n_\textrm{steps}$ & 200 & 400 & 1600 & 4000 \\
+        \midrule
+        EE & 0.0203 & 0.0096 & 0.0023 & 0.0009 \\
+        IE & -0.0146 & -0.0081 & -0.0022 & -0.0009 \\
+        \bottomrule
+    \end{tabulary}
+    \caption{Rate of growth or decrease for non energy-conserving methods}
+    \label{tab:nograv:rate}
+\end{table}
 
 \subsection{Rotating ball with gravity}
 
