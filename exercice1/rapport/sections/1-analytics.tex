@@ -87,7 +87,7 @@ We can deduce the general solution for \(x(t)\) from this:
 
 We can find \(y(t)\) by substituing \(v_x\) into \autoref{eq:nograv:ay}
 \begin{eqnarray}
-    \dot{v_y}(t) = \alpha v_x = A\alpha\cos(\alpha t + \varphi) \\
+    \dot{v_y}(t) = \alpha v_x = A\alpha\cos(\alpha t + \varphi) \nonumber\\
     \implies v_y(t) = A \sin(\alpha t + \varphi) + c_2
     \label{eq:general_vy} \\
     \implies y(t) = -\frac{A}{\alpha}\cos(\alpha t + \varphi) + c_2 t+ c_3
@@ -104,27 +104,23 @@ We now want to characterise the type of movement we are having with this ball. W
 \end{gather}
 
 This means that the movement is circular uniform and we can write:
-\begin{gather*} 
-    a = \frac{v^2}{r} , \quad a = \alpha v_0, \quad v = \mathrm{cst} = v_0 \\
+\begin{gather} 
+    a = \frac{v^2}{r} , \quad a = \alpha v_0, \quad v = \mathrm{cst} = v_0 \nonumber\\
     \Rightarrow r = \frac{v_0}{\alpha}
-\end{gather*}
-with $r$ the radius of the circular movement. The angular frequency is given by: $\Omega = \frac{v}{r} = \alpha$.
+\end{gather}
+with $r$ the radius of the circular movement. The angular frequency is given by: \mbox{$\Omega = \frac{v}{r} = \alpha$}.
 
-For clarity we rewrite \autoref{eq:general_vx}, \autoref{eq:general_x}, \autoref{eq:general_vy} and \autoref{eq:general_y} with the constants found and reminding that $\alpha = \frac{\mu R^3 \rho \omega}{m}$:
+For clarity we rewrite \autoref{eq:general_vx} to \ref{eq:general_y} with the constants found and reminding that \mbox{$\alpha = \frac{\mu R^3 \rho \omega}{m}$}:
 \be
-    v_x(t) = v_0\cos(\alpha t)
-    \label{eq:vx_g0}
-\ee
-\be
-    v_y(t) = v_0\sin(\alpha t)
-    \label{eq:vy_g0}
-\ee
-\be
-    x(t) = \frac{v_0}{\alpha}\sin(\alpha t)
-    \label{eq:x_g0}
-\ee
-\be
-    y(t) = \frac{v_0}{\alpha}(1 - \cos(\alpha t))
+    \begin{cases}
+        v_x(t) = v_0\cos(\alpha t) \\
+        % \label{eq:vx_g0}
+        v_y(t) = v_0\sin(\alpha t) \\
+        % \label{eq:vy_g0}
+        x(t) = \frac{v_0}{\alpha}\sin(\alpha t) \\
+        % \label{eq:x_g0}
+        y(t) = \frac{v_0}{\alpha}(1 - \cos(\alpha t)) \\
+    \end{cases}
     \label{eq:y_g0}
 \ee
 
@@ -147,7 +143,7 @@ We first write down the equations of motion in the new referential using $\vec{v
     &= \alpha \vec{e}_z\times\vec{v}' + g(\vec{e}_y - \vec{e}_y) \\
 \end{align*}
 \be
-    \implies \vec{a}' = \alpha \left(\begin{array}{l} -v_y' \\ v_x' \\ 0 \end{array}\right)
+    \implies \vec{a}' = \alpha \left(\begin{matrix}{l} -v_y' \\ v_x' \\ 0 \end{matrix}\right)
     \label{eq:motionRprime}
 \ee
 
@@ -159,12 +155,12 @@ with $\vec{v_E} = \frac{g}{\alpha} \vec{e}_x$.
 
 This gives us our final solution by changing back to the $\mathcal{R}$ referential knowing it will have translated along $\hat{x}$ by $x = x' + v_E t$:
 \be
-    x(t) = -\frac{g}{\alpha^2}\sin(\alpha t) + \frac{g}{\alpha}t
+    \begin{cases}
+        x(t) = -\frac{g}{\alpha^2}\sin(\alpha t) + \frac{g}{\alpha}t \\
+        y(t) = \frac{g}{\alpha^2}(\cos(\alpha t) - 1)
+    \end{cases}
     \label{eq:x_fall}
-\ee
-\be
-    y(t) = \frac{g}{\alpha^2}(\cos(\alpha t) - 1)
-    \label{eq:y_fall}
+    % \label{eq:y_fall}
 \ee
 
 We want to determine if the ball will at some point get back to its starting height $y = 0$. We see easily that the movement according to $y$ is periodic with $\cos$ being the only term depending on $t$. More formally, because $\cos$ is $2\pi$-periodic, we have for $t_\mathrm{fin} = 2\pi / \alpha$
