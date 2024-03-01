@@ -39,7 +39,7 @@ The numeric convergence of the final position of each method is illustrated in \
 
 The numeric convergence of the energy for each method is also given in \autoref{fig:nograv:energy_error}. Again, we observe that the error clearly tends to 0, as $t \rightarrow 0$ for EE and IE. The error for SE remains quite constant and is of the order of $10^{-14}$, close to the limit for double-precision floating point numbers. We thus conclude that every method converges numerically. The convergence order for EE and IE is 1, but SE does not have a convergence order as it's energy remains pretty much constant for a wide range of $\Delta t$.
 
-\subsubsection{Numeric stabilty}
+\subsubsection{Numeric stability}
 
 To illustrate the numeric stabilty of each method, the energy over time has been plotted in \autoref{fig:nograv:energy}. EE is numerically unstable, as its energy over time grows exponentially for smaller $n_\textrm{steps}$. IE is stable, but loses energy over time, decaying exponentially. Using a curve fit of the function $g(t) = A + e^{\gamma t}$, where A is an offset and $\gamma$ is the growth rate, to calculate the growth or decrease rate we obtain the results presented in \autoref{tab:nograv:rate}. Finally, the SE method remains at constant energy even for smaller $n_\textrm{steps}$, meaning it is both stable and conserves energy.
 
@@ -80,8 +80,20 @@ To illustrate the numeric stabilty of each method, the energy over time has been
 
 \subsection{Rotating ball with gravity}
 
-\subsubsection{Method comparaison}
+\subsubsection{Method comparison}
 \label{seq:gravrot:comp}
+
+Another set of simulations was run with $\vec{g} = -9.81 \vec{e}_y$ to analyse a trajectory uwu
+
+
+
+
+
+
+
+
+
+
 
 \subsubsection{Adding drag force}
 
