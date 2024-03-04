@@ -2,7 +2,7 @@
 
 For the purpose of this study it is first needed to prove some analytical results that will later be achieved through numerical simulations.
 
-We are considering a sphere (tennis ball) of mass $m$ and radius $R$. It is rotating according to $\vec{\omega} = \omega \vec{e_z}$. It is moving in the gravity field $\vec{g} = -g\vec{e_y}$ and inside a fluid of density $\rho$ which applies a force due to the Magnus effect:
+We are considering a tennis ball (sphere) of mass $m$ and radius $R$. It is rotating according to $\vec{\omega} = \omega \vec{e_z}$. It is moving in the gravity field $\vec{g} = -g\vec{e_y}$ and inside a fluid of density $\rho$ which applies a force due to the Magnus effect:
 \be
     \vec{F}_p = \mu R^3 \rho \vec{\omega} \times \vec{v}
     \label{eq:Magnus}
@@ -85,14 +85,14 @@ We can deduce the general solution for \(x(t)\) from this:
     \label{eq:general_x}
 \ee
 
-We can find \(y(t)\) by substituing \(v_x\) into \autoref{eq:nograv:ay}
-\begin{eqnarray}
-    \dot{v_y}(t) = \alpha v_x = A\alpha\cos(\alpha t + \varphi) \nonumber\\
-    \implies v_y(t) = A \sin(\alpha t + \varphi) + c_2
+We can find \(y(t)\) by substituting \(v_x\) into \autoref{eq:nograv:ay}
+\begin{align}
+    \dot{v_y}(t) &= \alpha v_x = A\alpha\cos(\alpha t + \varphi) \nonumber\\
+    \implies v_y(t) &= A \sin(\alpha t + \varphi) + c_2
     \label{eq:general_vy} \\
-    \implies y(t) = -\frac{A}{\alpha}\cos(\alpha t + \varphi) + c_2 t+ c_3
+    \implies y(t) &= -\frac{A}{\alpha}\cos(\alpha t + \varphi) + c_2 t+ c_3
     \label{eq:general_y}
-\end{eqnarray}
+\end{align}
 
 Using the mentioned initial conditions inside these equations gives us 5 unknowns for 4 equations. For symmetry reasons we can set $\varphi = 0$ which gives the other constants:
 \[ c_1 = 0, \quad c_2 = 0, \quad c_3 = \frac{v_0}{\alpha}, \quad A = v_0\]
@@ -100,7 +100,7 @@ Using the mentioned initial conditions inside these equations gives us 5 unknown
 We now want to characterise the type of movement we are having with this ball. We show that the acceleration is orthogonal to the velocity and has a constant norm:
 \begin{gather}
     \vec{a} \cdot \vec{v} = \alpha(-v_y v_x + v_x v_y) = 0 \\
-    ||\vec{a}||^2 = \alpha^2 ((-v_y)^2 + (v_x)^2) = \alpha^2 A^2 = \mathrm{cst}
+    \|\vec{a}\|^2 = \alpha^2 ((-v_y)^2 + (v_x)^2) = \alpha^2 A^2 = \mathrm{cst}
 \end{gather}
 
 This means that the movement is circular uniform and we can write:
@@ -151,7 +151,7 @@ Assuming like before $\varphi = 0$ and using the given initial conditions we can
 \[ A = -v_E, \quad c_3 = -\frac{v_E}{\alpha}, \quad c_1 = 0, \quad c_2 = 0 \]
 with $\vec{v_E} = \frac{g}{\alpha} \vec{e}_x$.
 
-This gives us our final solution by changing back to the $\mathcal{R}$ referential knowing it will have translated along $\hat{x}$ by $x = x' + v_E t$:
+This gives us our final solution by changing back to the $\mathcal{R}$ referential knowing it will have translated along $\hat{x}$ such that $x = x' + v_E t$:
 \be
     \begin{cases}
         x(t) = -\frac{g}{\alpha^2}\sin(\alpha t) + \frac{g}{\alpha}t \\
