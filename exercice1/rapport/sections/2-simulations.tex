@@ -107,7 +107,7 @@ Another set of simulations was run with $\vec{g} = -9.81 \vec{e}_y$ to analyse a
 
 The trajectories obtained are extremely similar and diverge slightly around the end of the simulation as the close-up view shows. The expected behavior is observed with EE slightly overshooting, having gained energy, and IE falling short of reaching the original height of $y(0) = 0$ with a loss of energy. As before, the SE method is extremely precise, ending up exactly at the expected height at the time of the end of the simulation corresponding to the theoretical value.
 
-In particular the \autoref{fig:rotate_grav:nrj} shows the great stability of the SE method with an energy seemingly constant. The EE and IE are more unstable with the energies diverging exponentially from the theoretical constant value. This can be illustrated by observing the trajectories for larger times as shown in \autoref{fig:rotate_grav:yolo} with $t_\mathrm{fin} = 300$ s. In this new simulation it is obvious that the EE diverges strongly. Observing the IE it can also be seen that the amplitude of its oscillations diminish through time as it loses energy.
+In particular the \autoref{fig:rotate_grav:nrj} shows the great stability of the SE method with an energy seemingly constant. The EE and IE are more unstable with the energies diverging exponentially from the theoretically constant value. This can be illustrated by observing the trajectories for larger times as shown in \autoref{fig:rotate_grav:yolo} with $t_\mathrm{fin} = 300$ s. In this new simulation it is obvious that the EE diverges strongly. Observing the IE it can also be seen that the amplitude of its oscillations diminish through time as it loses energy.
 
 \begin{figure}[h]
     \centering
@@ -117,15 +117,14 @@ In particular the \autoref{fig:rotate_grav:nrj} shows the great stability of the
 \end{figure}
 
 
-\begin{minipage}{\textwidth}
-    The SE method as been shown to give better results than the other two in this simulation as well. It can also be of interest to determine its order of convergence. As shown in \autoref{fig:rotate_grav:errors} the error tends to $0$ as $\Delta t \rightarrow 0$ meaning this method converges numerically. The figure is represented with a log-log scale which allows to read the order of convergence for the SE method is 2.
+The SE method as been shown to give better results than the other two in this simulation as well. It can also be of interest to determine its order of convergence. As shown in \autoref{fig:rotate_grav:errors} the error tends to $0$ as $\Delta t \rightarrow 0$ meaning this method converges numerically. The figure is represented with a log-log scale which allows to read the order of convergence for the SE method is $n = 2$.
 
-    \begin{wrapfigure}{R}{0.5\textwidth}
-        \includegraphics[width=\linewidth]{figures/rotate_grav_errors.pdf}
-        \caption{Error on the final position after one oscillation ($t_\mathrm{fin} = 21.6$ s) for the falling ball}
-        \label{fig:rotate_grav:errors}
-    \end{wrapfigure}
-\end{minipage}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/rotate_grav_errors.pdf}
+    \caption{Error on the final position after one oscillation ($t_\mathrm{fin} = 21.6$ s) for the falling ball}
+    \label{fig:rotate_grav:errors}
+\end{figure}
 
 
 \subsubsection{Adding drag force}
@@ -136,7 +135,7 @@ The aerodynamic drag force
 \ee
 was added to the simulation by adding a term to $f(\textbf{y})$ from \autoref{eq:ode}
 \be
-    f(\textbf{y}) = \left(\begin{matrix}{l}
+    f(\textbf{y}) = \left(\begin{matrix}
     v_x \\
     v_y \\
     -\frac{\mu R^3 \rho \omega}{m} v_y  - \frac{1}{2m} C_t \rho S \|v\| v_x \\
@@ -145,6 +144,10 @@ was added to the simulation by adding a term to $f(\textbf{y})$ from \autoref{eq
 \ee
 
 In order to simulate this system, the SE method was used as it yields better results than EE or IE. The parameters of the simulation were as described in \ref{seq:gravrot:comp} and with $C_t = 0.35$, $S = \pi R^2$.
+
+The trajectory is shown in \autoref{fig:gravfrict:pos} and seems to behave as expected, with an equilibrium between the applied forces of the air drag, the Magnus effect and the weight that make it follow a straight path. As shown in \autoref{fig:gravfrict:conv}, the order of convergence of the final position is $n=2$.
+
+\newpage
 
 \begin{figure}[h]
     \centering
@@ -167,11 +170,5 @@ In order to simulate this system, the SE method was used as it yields better res
         \caption{Convergence analysis for the final position. $n_\textrm{steps}$ was varied between 100 and 4000.}
         \label{fig:gravfrict:conv}
     \end{subfigure}
-    \caption{Simulation of the system including friction using the SE method}
+    \caption{Simulation of the system including air drag using the SE method}
 \end{figure}
-
-The trajectory is shown in \autoref{fig:gravfrict:pos} and seems to behave as expected, with an equilibrium between the applied force that make it follow a straight path. As shown in \autoref{fig:gravfrict:conv}, the convergence order of the final position is $n=2$.
-
-\subsection{Additionnal results}
-
-Pour les extensions \& stuff
