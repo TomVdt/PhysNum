@@ -2,18 +2,19 @@
 
 \subsection{Rotating ball in zero gravity}
 
-\begin{wrapfigure}{R}{0.45\linewidth}
+The simulations were done on a tenis ball of mass $m = 0.056$ kg and radius $R = 0.033$ m, with air density $\rho = 1.2$ kg/m$^3$. The coefficient $\mu = 6$ has been chosen. The ball is sent with initial conditions $\omega = 10$ rotations/s ($\omega = 20\pi$ rad/s), $\vec{x}(0) = \vec{0}$, $\vec{v}(0) = 5 \vec{e_x}$ and its trajectory is simulated until \mbox{$t_\textrm{fin} = 60$ s}.
+
+To lighten the notation, we will use EE for the Explicit Euler method, IE for Implicit Euler and SE for Semi-implicit Euler.
+
+The position after $t_\textrm{fin}$ is shown in \autoref{fig:nograv:trajectory_all}. We can see that the EE method overshoots the expected trajectory, while the IE method undershoots it and SE remains almost exactly on the analytical result.
+\begin{wrapfigure}{hR}{0.45\linewidth}
     \centering
     \includegraphics[width=0.85\linewidth]{figures/nograv_trajectory_all.pdf}
     \caption{Postion of the ball after $t_\textrm{fin}$ for different methods ($n_\textrm{steps} = 2000$)}
     \label{fig:nograv:trajectory_all}
     \vspace*{-1cm}
 \end{wrapfigure}
-The simulations were done on a tenis ball with mass $m = 0.056$ kg and radius $R = 0.033$ m, with air density $\rho = 1.2$ kg/m$^3$. The coefficient $\mu = 6$ has been chosen. The ball is sent with initial conditions $\omega = 10$ rotations/s ($\omega = 20\pi$ rad/s), $\vec{x}(0) = \vec{0}$, $\vec{v}(0) = 5 \vec{e_x}$ and simulated until \mbox{$t_\textrm{fin} = 60$ s}.
 
-To lighten the notation, we will use EE for the Explicit Euler method, IE for Implicit Euler and SE for Semi-implicit Euler.
-
-The position after $t_\textrm{fin}$ is shown in \autoref{fig:nograv:trajectory_all}. We can see that the EE method overshoots the expected trajectory, while the IE method undershoots it and SE remains almost exactly on the analytical result.
 
 \subsubsection{Numeric convergence}
 
@@ -31,13 +32,13 @@ The numeric convergence of the final position of each method is illustrated in \
     \begin{subfigure}{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/nograv_energy_error_all.pdf}
-        \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$ ($n_\textrm{steps}=4000$)}
+        \caption{Error on final energy for each method where the error is defined as $\max(E_\textrm{mec}) - \min(E_\textrm{mec}).$ (maximum $n_\textrm{steps}=4000$)}
         \label{fig:nograv:energy_error}
     \end{subfigure}
     \caption{Numeric convergence analysis for different methods}
 \end{figure}
 
-The numeric convergence of the energy for each method is also given in \autoref{fig:nograv:energy_error}. Again, we observe that the error clearly tends to 0, as $t \rightarrow 0$ for EE and IE. The error for SE remains quite constant and is of the order of $10^{-14}$, close to the limit for double-precision floating point numbers. We thus conclude that every method converges numerically. The convergence order for EE and IE is 1, but SE does not have a convergence order as it's energy remains pretty much constant for a wide range of $\Delta t$.
+The numeric convergence of the energy for each method is also given in \autoref{fig:nograv:energy_error}. Again, we observe that the error clearly tends to 0, as $\Delta t \rightarrow 0$ for EE and IE. The error for SE remains quite constant and is of the order of $10^{-14}$, close to the limit for double-precision floating point numbers. We thus conclude that every method converges numerically. The convergence order for EE and IE is 1, but SE does not have a convergence order as it's energy remains pretty much constant for a wide range of $\Delta t$.
 
 \subsubsection{Numeric stability}
 
@@ -79,14 +80,51 @@ To illustrate the numeric stabilty of each method, the energy over time has been
 \end{table}
 
 \subsection{Rotating ball with gravity}
-
 \subsubsection{Method comparison}
 \label{seq:gravrot:comp}
 
-Another set of simulations was run with $\vec{g} = -9.81 \vec{e}_y$ to analyse a trajectory uwu
 
+Another set of simulations was run with $\vec{g} = -9.81 \vec{e}_y$ to analyse a more realistic trajectory. The tenis ball is let go at $\vec{x}(0) = \vec{0}$ and with $\vec{v}(0) = \vec{0}$. It rotates with the same angular speed $\omega$ as in the previous part. The simulation was run up to the time $t_\mathrm{fin}$ calculted in \autoref{seq:analytics_gravity} for the numerical values given. The given results for trajectories and energy are shown respectively in \autoref{fig:rotate_grav:traj} and \autoref{fig:rotate_grav:nrj}.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/rotate_grav_trajectories.pdf}
+    \caption{Trajectories of the falling ball with each method}
+    \label{fig:rotate_grav:traj}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/rotate_grav_energy.pdf}
+    \caption{Trajectories of the falling ball with each method}
+    \label{fig:rotate_grav:nrj}
+\end{figure}
+
+% \begin{wrapfigure}{hR}{0.6\linewidth}
+%     \vspace*{\fill}
+%     \centering
+%     {\includegraphics[width=\linewidth]{figures/rotate_grav_trajectories.pdf}
+%     \subcaption{Trajectories of the falling ball with each method}
+%     \label{fig:rotate_grav:traj}
+%     }\par\vfill
+%     {\includegraphics[width=\linewidth]{figures/rotate_grav_energy.pdf}
+%     \subcaption{Evolution of the energy of the simulation for each method}
+%     \label{fig:rotate_grav:nrj}
+%     }
+%     \caption{Simulation of the falling tennis ball with the three methods EE, IE and SE \mbox{($n_\textrm{steps}=2000$)}}
+%     \label{fig:rotate_grav}
+% \end{wrapfigure}
+
+The trajectories obtained are extremely similar and diverge slightly around the end of the simulation as the close-up view shows. The expected behavior is observed with EE slightly overshooting, having gained energy, and IE falling short of reaching the original height of $y(0) = 0$ with a loss of energy. As before, the SE method is extremely precise, ending up exactly at the expected height at the time of the end of the simulation corresponding to the theoretical value.
+
+In particular the \autoref{fig:rotate_grav:nrj} shows the great stability of the SE method with an energy seemingly constant. The EE and IE are more unstable with the energies diverging exponentially from the theoretical constant starting value. This can be illustrated by observing the trajectories for larger times as shown in \autoref{fig:rotate_grav:yolo} for $t_\mathrm{fin} = 300$. In this new simulation it is obvious that the EE diverges strongly. Observing the IE it can also be seen that its oscillations diminish through times and become imperceptible by the end of the simulation.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/rotate_grav_trajectories_yolo.pdf}
+    \caption{Trajectories for the falling tennis ball with each method for $t_\mathrm{fin} = 300$}
+    \label{fig:rotate_grav:yolo}
+\end{figure}
 
 
 
