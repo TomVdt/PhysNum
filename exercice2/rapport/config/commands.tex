@@ -1,0 +1,51 @@
+
+% Something figure spacing
+% \setlength\intextsep{5pt}
+
+% Smallcaps autoref
+\let\oldautoref=\autoref
+\renewcommand{\autoref}[1]{\textsc{\oldautoref{#1}}}
+
+% Legendes correctes
+% \captionsetup[figure]{name=Figure}
+% \captionsetup[table]{name=Tableau}
+
+% Template de mes couilles
+\makeatletter
+\renewcommand{\section}{\@startsection {section}{1}{\z@}
+	{-3.5ex \@plus -1ex \@minus -.2ex}%
+	{2.3ex \@plus.2ex}%
+	{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+\renewcommand{\subsection}{\@startsection {subsection}{1}{\z@}%
+	{-3.5ex \@plus -1ex \@minus -.2ex}%
+	{2.3ex \@plus.2ex}%
+	{\normalfont\normalsize\bfseries}}
+\makeatother
+
+% Ancien titre pour les rapports de labo
+% \newcommand{\couille}[5]{
+%	\begin{center}
+%		\large\textbf{\sffamily Expérience #1: #2}\\%
+%		\large\sffamily Groupe N$^\circ$#3: #4\\%
+%		\large\sffamily \today\qquad #5\\%
+%	\end{center}
+%}
+
+
+\newcommand{\mail}[1]{{\href{mailto:#1}{#1}}}
+
+\newcommand{\couille}[5]{
+	\title{#1}
+	\author{#2, #3\\  % \\ pour fin de ligne
+	{\small \mail{#4@epfl.ch}, \mail{#5@epfl.ch}}}
+	\date{\today}\maketitle
+	\tableofcontents % Table des matieres
+
+}
+
+\def \be {\begin{equation}}
+\def \ee {\end{equation}}
+\def \dd  {{\rm d}}
