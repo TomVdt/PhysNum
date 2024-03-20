@@ -79,7 +79,6 @@ private:
 
 	void step()
 	{
-		// TODO: vérfier
 		valarray<double> a = acceleration(theta, thetadot, t);
 		const double dt2 = dt*dt;
 		const double a_tot = a.sum();
