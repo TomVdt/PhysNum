@@ -23,7 +23,6 @@ private:
 	{
 		if ((!force && last >= sampling) || (force && last != 1))
 		{
-			// TODO: vérifier
 			double emec = Emec(theta, thetadot, t);
 			double pnc = Pnonc(theta, thetadot, t);
 
@@ -41,7 +40,6 @@ private:
 		}
 	}
 
-	// TODO: vérifier
 	valarray<double> acceleration(double x, double v, double t_)
 	{
 		valarray<double> acc = valarray<double>(2);
@@ -53,17 +51,15 @@ private:
 		return acc;
 	}
 
-	// TODO: vérifier
 	double Emec(double x, double v, double t_)
 	{
 		const double l = length(t_);
-		return  1.0 / 2.0 * m * pow(l * v, 2) + m * g * l * cos(x);
+		return  1.0 / 2.0 * m * (pow(l * v, 2) + pow(lendot(t_), 2)) - m * g * l * cos(x);
 	}
 
-	// TODO: vérifier
 	double Pnonc(double x, double v, double t_)
 	{
-		return m * (lendotdot(t_) - g * cos(x) - v * v * length(t_));
+		return m * (lendotdot(t_) - g * cos(x) - v * v * length(t_)) * lendot(t_);
 	}
 
 	double length(double t_)
@@ -90,7 +86,6 @@ private:
 
 		theta = theta + thetadot * dt + 1.0 / 2.0 * a_tot * dt2;
 
-		// TODO: verifier
 		const double v_plus_dt_2 = thetadot + 1.0 / 2.0 * a_tot * dt;
 		// v doesn't matter for this, explicitly mark it to avoid ~confusion~
 		const double new_a1 = acceleration(theta, 0.0, t + dt)[0];
@@ -133,14 +128,12 @@ public:
 		outputFile->precision(15);
 
 		if (N_excit > 0) {
-			// TODO: vérifer
 			const double omega0 = sqrt(g/L);
 			const double T = 2.0 * pi / omega0;
 			tFin = N_excit * T;
 			dt = T / nsteps_per;
 		}
 		else {
-			// TODO: vérifier
 			dt = tFin / nsteps_per;
 		}
 		cout << dt << endl;
