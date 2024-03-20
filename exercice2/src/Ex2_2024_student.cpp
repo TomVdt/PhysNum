@@ -63,7 +63,7 @@ private:
 	// TODO: vérifier
 	double Pnonc(double x, double v, double t_)
 	{
-		return m * (lendotdot(t_) - g * cos(v) - v * v * length(t_));
+		return m * (lendotdot(t_) - g * cos(x) - v * v * length(t_));
 	}
 
 	double length(double t_)
@@ -143,6 +143,7 @@ public:
 			// TODO: vérifier
 			dt = tFin / nsteps_per;
 		}
+		cout << dt << endl;
 	}
 
 	~Exercice2()
