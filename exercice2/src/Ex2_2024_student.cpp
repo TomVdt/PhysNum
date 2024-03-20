@@ -60,10 +60,10 @@ private:
 		return  1.0 / 2.0 * m * pow(l * v, 2) + m * g * l * cos(x);
 	}
 
-	// TODO: FAUX
+	// TODO: vérifier
 	double Pnonc(double x, double v, double t_)
 	{
-		return (-m * length(t_) * v*v - m * g * cos(x) * lendot(t_));
+		return m * (lendotdot(t_) - g * cos(v) - v * v * length(t_));
 	}
 
 	double length(double t_)
@@ -90,7 +90,8 @@ private:
 
 		theta = theta + thetadot * dt + 1.0 / 2.0 * a_tot * dt2;
 
-		const double v_plus_dt_2 = thetadot + 1.0 / 2.0 * a_tot;
+		// TODO: verifier
+		const double v_plus_dt_2 = thetadot + 1.0 / 2.0 * a_tot * dt;
 		// v doesn't matter for this, explicitly mark it to avoid ~confusion~
 		const double new_a1 = acceleration(theta, 0.0, t + dt)[0];
 		// x doesn't matter for this, explicitly mark it to avoid ~confusion~
@@ -132,9 +133,11 @@ public:
 		outputFile->precision(15);
 
 		if (N_excit > 0) {
-			// TODO Définir le pas temporel et le temp final si N_excit est défini.
-			tFin = 10.0;
-			dt = 1.0;
+			// TODO: vérifer
+			const double omega0 = sqrt(g/L);
+			const double T = 2.0 * pi / omega0;
+			tFin = N_excit * T;
+			dt = T / nsteps_per;
 		}
 		else {
 			// TODO: vérifier
