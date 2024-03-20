@@ -136,7 +136,6 @@ public:
 		else {
 			dt = tFin / nsteps_per;
 		}
-		cout << dt << endl;
 	}
 
 	~Exercice2()
