@@ -64,7 +64,7 @@ private:
 
 	double length(double t_)
 	{
-		return L + alpha * t + d * sin(Omega * t_);
+		return L + alpha * t_ + d * sin(Omega * t_);
 	}
 
 	double lendot(double t_)
