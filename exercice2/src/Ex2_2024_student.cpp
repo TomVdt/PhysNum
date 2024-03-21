@@ -127,8 +127,7 @@ public:
 		outputFile->precision(15);
 
 		if (N_excit > 0) {
-			const double omega0 = sqrt(g/L);
-			const double T = 2.0 * pi / omega0;
+			const double T = 2.0 * pi / Omega;
 			tFin = N_excit * T;
 			dt = T / nsteps_per;
 		}
