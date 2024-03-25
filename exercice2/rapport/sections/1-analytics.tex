@@ -39,7 +39,7 @@ where \(g=9.81\) \si{\meter\per\second} and \(T\) is the (signed) norm of the te
     \end{cases}
     \label{eq:motion}
 \end{equation}
-By rearanging these equations, we obtain
+knowing $\dot\ell(t) = \alpha + d\omega\cos(\omega t)$ and $\ddot\ell(t) = -d\omega^2\sin(\omega t)$. By rearanging these equations, we obtain
 \begin{equation}
     \begin{cases}
         \dot\theta = \pm \sqrt{\frac{-g\cos(\theta) - \frac{T}{m} + \ddot\ell(t)}{\ell(t)}} \\
@@ -82,11 +82,11 @@ which gives us the final expression for the power
     P = m(\ddot\ell(t) - g\cos(\theta) - \dot\theta^2 \ell(t)) \dot\ell(t)
 \end{equation}
 
-\subsection{Specific solution for constant length rod}
+\subsection{Specific solution for a rod with constant length}
 \label{sec:analytic:constant_length}
 \underline{Question (c)}
 
-For this part we will set \(\alpha=0\) and \(d=0\), meaning the length of the pendulum remains constant (\(\ell(t)=L\)). We assume small movements around the stable equilibrium position, i.e. \(\theta \ll 1\). Under this assumption, we can write \(\sin(\theta) \approx \theta\) and \(\cos(\theta) \approx 1\). The equations of motion from \autoref{eq:motion} then become
+For this part we will set \(\alpha=0\) and \(d=0\), meaning the length of the pendulum remains constant (\(\ell(t)=L\)). We assume small movements around the stable equilibrium position, i.e. \(\theta \ll 1\). Under this assumption, we can write \(\sin(\theta) \approx \theta\) and \(\cos(\theta) \approx 1\). The equations of motion from \autoref{eq:motion} then become:
 \begin{equation}
     \begin{cases}
         -m L \dot\theta^2 = mg\cos(\theta) + T = mg + T \\
@@ -97,11 +97,11 @@ from which we get
 \begin{equation}
     \ddot\theta = - \underbrace{\frac{g}{L}}_{\omega_0^2} \theta
 \end{equation}
-which is the equation for a harmonic oscillator. The general solution is given by
+which is the equation for a harmonic oscillator with pulsation $\omega_0 = \sqrt{g/L}$. The general solution is given by
 \begin{equation}
     \theta(t) = A\cos(\omega_0 t) + B\sin(\omega_0 t)
 \end{equation}
-Imposing the intial conditions \(\theta(0) = \theta_0\) and \(\dot\theta(0) = 0\), we find \(A = \theta_0\) and \(B = 0\). The solution for this case is thus given by
+Imposing the intial conditions \(\theta(0) = \theta_0\) and \(\dot\theta(0) = 0\), we find \(A = \theta_0\) and \(B = 0\). The solution for this case is thus given by:
 \begin{equation}
     \theta(t) = \theta_0 \cos(\omega_0 t)
 \end{equation}
