@@ -20,7 +20,7 @@ In this first part, we will consider the case where \(\alpha=0\) and \(d=0\), th
     \label{fig:numeric_convergence_small_angle}
 \end{figure}
 
-Varying the initial angle \(\theta_0\) between \(0\) and \(\pi\) allows us to get larger motion of the pendulum, as shown in \autoref{fig:oscillations_time}. The angular frequency was extracted by looking at the time elapsed between the starting condition and the time it takes for two sign changes in angular speed (otherwise we would be mesuring a half-period). Writing that time as \(T\), the period of oscillation, we get the angular frequency \(\Omega = \frac{2\pi}{T}\). The results are shown in \autoref{fig:angular_frequency}. These results are coherent with the physical reality, as a larger angle should correspond to a longer oscillation period than a smaller angle. It is interesting to note that the angular frequency does not change linearly, which is consistent the results measured in the lab: small angles have less effect than large angles.
+Varying the initial angle \(\theta_0\) between \(0\) and \(\pi\) allows us to get larger movement from the pendulum, as shown in \autoref{fig:oscillations_time}. The angular frequency was extracted by looking at the time elapsed between the starting condition and the time it takes for two sign changes in angular speed (otherwise we would be measuring a half-period). Writing that time as \(T\), the period of oscillation, we get the angular frequency \(\Omega = \frac{2\pi}{T}\). The results are shown in \autoref{fig:angular_frequency}. These results are coherent with the physical reality, as a larger angle should correspond to a longer oscillation period than a smaller angle. It is interesting to note that the angular frequency does not change linearly, which is consistent with the results measured in the lab: small angles have less effect than large angles.
 
 \begin{figure}[h]
     \centering
@@ -39,7 +39,20 @@ Varying the initial angle \(\theta_0\) between \(0\) and \(\pi\) allows us to ge
     \caption{Time evolution and angular frequency for multiple starting angles (\(n_\textrm{steps}=10000\))}
 \end{figure}
 
-\subsection{Feur 1}
+
+\subsection{Decreasing length pendulum}
+The next simulations were run with conditions $\alpha=-0.02$ \si{\meter\per\second} and $d=0$ \si{\meter} and up to $t_\textrm{fin}=0.96L/|\alpha|$ in order to show the behavior of the mass when its rod has a length decreasing almost to 0. First a convergence analysis was done to determine the characteristics of 
+
+
+\begin{wrapfigure}{R}{0.6\linewidth}
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/converg_retraction.pdf}
+    \caption{Convergence analysis of a pendulum with decreasing length, initial conditions: $\theta_0 = 0.5$, $\dot(\theta)_0 = 0$ \si{\per\second}}
+    \label{fig:conv_retract}
+    \vspace*{-1cm}
+\end{wrapfigure}
+
+
 
 \subsection{Feur 2}
 
