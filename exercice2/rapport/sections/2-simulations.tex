@@ -41,19 +41,59 @@ Varying the initial angle \(\theta_0\) between \(0\) and \(\pi\) allows us to ge
 
 
 \subsection{Decreasing length pendulum}
-The next simulations were run with conditions $\alpha=-0.02$ \si{\meter\per\second} and $d=0$ \si{\meter} and up to $t_\textrm{fin}=0.96L/|\alpha|$ in order to show the behavior of the mass when its rod has a length decreasing almost to 0. First a convergence analysis was done to determine the characteristics of 
-
-
-\begin{wrapfigure}{R}{0.6\linewidth}
+\begin{wrapfigure}{h}{0.5\linewidth}
     \centering
-    \includegraphics[width=0.6\linewidth]{figures/converg_retraction.pdf}
-    \caption{Convergence analysis of a pendulum with decreasing length, initial conditions: $\theta_0 = 0.5$, $\dot(\theta)_0 = 0$ \si{\per\second}}
+    \includegraphics[width=\linewidth]{figures/converg_retraction.pdf}
+    \caption{Convergence analysis of a pendulum with decreasing length, initial conditions: $\theta_0 = 0.5$, $\dot{\theta}_0 = 0$ \si{\per\second}}
     \label{fig:conv_retract}
-    \vspace*{-1cm}
+    % \vspace*{-2cm}
 \end{wrapfigure}
+The next simulations were run with conditions $\alpha=-0.02$ \si{\meter\per\second} and $d=0$ \si{\meter} and up to $t_\textrm{fin}=0.96L/|\alpha|$ in order to show the behavior of the mass when its rod has a length decreasing almost to 0. First a convergence analysis was done to determine the characteristics of the algorithm used. The various final positions for a given time step $\Delta t$ are shown in \autoref{fig:conv_retract}. Taking the time step squared show the points aligning which indicates that the Velocity-Verlet algorithm converged in order 2 for this simulation.
+
+The first step in studying this system is understanding conceptually how it behaves. As shown in \autoref{fig:retract_time} the oscillations remain low until close to the end of the simulation, corresponding to a very short rod for the pendulum, where they explode. The values in radians going up to 80 show that in the simulation the pendulum stops oscillating aroung its stable equilibrium and rather does complete rotations around the center $O$. This is coherent with the fact that it will have not only gained mechanical energy with the work from the tension $T$ but as the rod gets shorter less energy is required to do a complete rotation. The phase space in \autoref{fig:retract_phase} also shows the small oscillations followed by an explosion towards higher values of $\theta$ and $\dot\theta$
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/traj_retraction.pdf}
+        \caption{Time evolution}
+        \label{fig:retract_time}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/phase_retraction.pdf}
+        \caption{Phase space}
+        \label{fig:retract_phase}
+    \end{subfigure}
+    \caption{Time evolution and phase space of a pendulum with decreasing length for various time steps, initial conditions: $\theta_0 = 0.5$, $\dot{\theta}_0 = 0$ \si{\per\second}}
+\end{figure}
+
+A final physical point of interest is the energy of the system. We want to verify if the algorithm respects the theorem of mechanical energy $\dd E_{mec}/\dd t$. The \autoref{fig:retract_energy} and \autoref{fig:retract_power} show that this theorem is perfectly verified in this simulation. The \autoref{fig:retract_power} in particular illustrates that the variation of the energy in time, calculated through centered differences, is exactly the power. This can also be illustrated by integrating the power, this is done by summing the small $\dd P = P_\mathrm{nonc} \dd t$, and showing as in \autoref{fig:retract_energy} that substracting it to the energy gives a constant.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/retract_power.pdf}
+        \caption{Power}
+        \label{fig:retract_power}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/retract_energy.pdf}
+        \caption{Energy}
+        \label{fig:retract_energy}
+    \end{subfigure}
+    \caption{Theorem of mechanical energy for a pendulum with decreasing length; initial conditions: $\theta_0 = 0.5$, $\dot{\theta}_0 = 0$ \si{\per\second}; $n_\textrm{steps}=2000$}
+\end{figure}
+
+
+\subsection{Oscillating length pendulum}
 
 
 
-\subsection{Feur 2}
 
-\subsection{Feur 3}
+
+\subsection{Poincaré map}
+
+
+
