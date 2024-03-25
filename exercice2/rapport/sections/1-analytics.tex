@@ -4,7 +4,7 @@ The system studied for this report is a simple pendulum of mass \(m=0.2\) kg att
 \begin{equation}
     \ell(t) = L + \alpha t + d \sin (\omega t)
 \end{equation}
-where \(L=0.2\) m and the other parameters are set depending on the simulation. The mass experiences a downwards acceleration due to gravity \(\vec{g}=-g \vec{e_y}\) and a tension force due to the rod \(\vec{T} = T \vec{e_r}\), where \(\vec{e_x}\), \(\vec{e_y}\) are the basis vectors of a carthesian coordinate system centered in \(\mathcal O\) and \(\vec{e_r}\), \(\vec{e_\theta}\) the basis vectors of a polar coordinate system, as shown in \autoref{fig:system_schematic}.
+where \(L=0.2\) m and the other parameters are set depending on the simulation. The mass experiences a downwards acceleration due to gravity \(\vec{g}=-g \vec{e_y}\) and a tension force due to the rod \(\vec{T} = T \vec{e_r}\), where \(\vec{e_x}\), \(\vec{e_y}\) are the basis vectors of a cartesian coordinate system centered in \(\mathcal O\) and \(\vec{e_r}\), \(\vec{e_\theta}\) the basis vectors of a polar coordinate system, as shown in \autoref{fig:system_schematic}.
 
 \begin{figure}[h]
     \centering
@@ -16,17 +16,17 @@ where \(L=0.2\) m and the other parameters are set depending on the simulation. 
 \subsection{System of differential equations}
 \underline{Question (a)}
 
-Let us take the vector: $\textbf{y} = (\theta, \dot\theta)$
+Let us take the vector: $\mathbf{y} = (\theta, \dot\theta)$
 
-We are searching for $f$ such that:
+We are searching for $\mathbf{f}$ such that:
 \begin{equation}
-    \frac{\dd \textbf{y}}{\dd t} = \left(\begin{matrix} \dot\theta \\ \ddot\theta \end{matrix}\right) = f(\textbf{y})
+    \frac{\dd \mathbf{y}}{\dd t} = \left(\begin{matrix} \dot\theta \\ \ddot\theta \end{matrix}\right) = \mathbf{f}(\mathbf{y})
     \label{eq:a_question}
 \end{equation}
 
 The forces applied on the mass expressed in the polar coordinate system \(\vec{e_r}, \vec{e_\theta}\) are
 \begin{equation}
-    \vec{g} = g \cos(\theta) \vec{e_r} - g \sin(\theta) \vec{e_\theta}
+    m\vec{g} = mg \cos(\theta) \vec{e_r} - mg \sin(\theta) \vec{e_\theta}
 \end{equation}
 \begin{equation}
     \vec{T} = T \vec{e_r}
@@ -59,14 +59,14 @@ which allows us to rewrite \autoref{eq:a_question} as
 \subsection{Mechanical energy}
 \underline{Question (b)}
 
-We are searching for the total mechanical energy of the system. By considering the mass as a point mass, we can write the total mechanical energy as the sum of the translational kinetic energy and the potential
+We are searching for the total mechanical energy of the system. By considering the mass as a point mass, we can write the total mechanical energy as the sum of the translational kinetic energy and the potential:
 \begin{equation}
     \begin{aligned}
-        \mathrm{E_{tot}} &= \frac{1}{2}mv^2 - mgy \\
+        \mathrm{E_{tot}} &= \frac{1}{2}mv^2 + mgy \\
         &= \frac{1}{2}m(\ell(t)^2 \dot\theta^2 + \dot\ell(t)^2) - mgl(t)\cos(\theta)
     \end{aligned}
 \end{equation}
-This energy is not conserved. The gravitational potential is conserved as gravity is a central force. However, the tension does not derive from a potential and does produce work, as the mass does move along the \(\vec{e_r}\) direction, which means it is not conserved. The power of this non-conservative force is given by
+This energy is not conserved. The energy of the gravitational potential is conserved as gravity is a central force. However, the tension does not derive from a potential and does produce work, as the mass moves along the \(\vec{e_r}\) direction. This impacts the total mechanical energy that is therefore not conserved. The power of this non-conservative force is given by:
 \begin{equation}
     \begin{aligned}
         P &= \vec{T} \cdot \vec{v} \\
