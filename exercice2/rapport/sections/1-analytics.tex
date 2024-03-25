@@ -59,7 +59,7 @@ which allows us to rewrite \autoref{eq:a_question} as
 \subsection{Mechanical energy}
 \underline{Question (b)}
 
-We are searching for the total mechanical energy of the system. By considering the mass as a point mass, we can write the total mechanical energy as the sum of the translational kinetic energy and the potential:
+We are searching for the total mechanical energy of the system. By considering the mass as a point mass, we can write the total mechanical energy as the sum of the translational kinetic energy and the potential. The tension does not derive from any potential so it will not appear in the expression of the mechanical energy. The gravitational force is of course derived from a potential which gives:
 \begin{equation}
     \begin{aligned}
         \mathrm{E_{tot}} &= \frac{1}{2}mv^2 + mgy \\
@@ -104,4 +104,10 @@ which is the equation for a harmonic oscillator with pulsation $\omega_0 = \sqrt
 Imposing the intial conditions \(\theta(0) = \theta_0\) and \(\dot\theta(0) = 0\), we find \(A = \theta_0\) and \(B = 0\). The solution for this case is thus given by:
 \begin{equation}
     \theta(t) = \theta_0 \cos(\omega_0 t)
+    \label{eq:analytic_harmonic_pos}
+\end{equation}
+which gives:
+\begin{equation}
+    \dot\theta(t) = -\theta_0\omega_0\sin(\omega_0 t)
+    \label{eq:analytic_harmonic_speed}
 \end{equation}
