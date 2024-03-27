@@ -6,7 +6,7 @@ CXXFLAGS = -std=c++23 -Wall -Wextra -O2
 BIN = bin
 SRC = src
 
-$(BIN)/$(EXE): $(SRC)/Ex2_2024.cpp
+$(BIN)/$(EXE): $(SRC)/Ex3_2024.cpp
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(DEFINES)
 
 clean:
