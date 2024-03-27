@@ -29,8 +29,9 @@ private:
 	valarray<double> x  = valarray<double>(0.e0, 4); // Correctly initialized
 	ofstream *outputFile;
 
-	// TODO this or calculate it with r0 and r1
+	// TODO this or calculate it with r0 and r1, and omega?
 	double d = 149.598023e9;
+	double omega;
 
 	void printOut(bool write) {
 		if((!write && last>=sampling) || (write && last!=1)) {
@@ -46,20 +47,29 @@ private:
 
 	valarray<double> get_f(const valarray<double>& x, double t) {
 		valarray<double> xdot(0.0, 4);
-		//TO DO
+		//TO DO cheeeeeeck formulae
 		if (nsel_physics == 1) {
 
-			double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3/2);
+			const double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3/2);
 
 			xdot[2] = x[0] * prefact;
 			xdot[3] = x[1] * prefact;
 		}
 		else if (nsel_physics == 2) {
+		// TODO same cheeeeeck formulae
+
+			const valarray<double> rs_vect({x[0] + r0, x[1]});
+			const double rs = norm(rs_vect);
+
+			const valarray<double> rt_vect({x[0] - r1, x[1]});
+			const double rt = norm(rt_vect);
+
+			const double prefact_s = G * m[0]/(pow(rs,3));
+			const double prefact_t = G * m[1]/(pow(rt,3));
 
 
-
-			xdot[2] = 0;
-			xdot[3] =  0;
+			xdot[2] = -prefact_s*(x[0] + alpha*d) - prefact_t*(x[0] - beta*d) + omega*omega*x[0] + 2*omega*x[3];
+			xdot[3] = -prefact_s*x[1] - prefact_t*x[1] + omega*omega*x[1] - 2*omega*x[2];
 		}
 		else {
 			cerr << "No dynamics corresponds to this index" << endl;
@@ -95,15 +105,18 @@ private:
 			x0[0] = -r0;
 			x0[1] = 0.;
 
-			x0[2] = v0;
+			x0[2] = v0;		// TODO expression of v0
 			x0[3] = 0.;
 		}
 		else if (nsel_physics==2) {
 			// TODO go back through this to check correct initialisation
-			x0[0] = 2*r1;
-			x0[1] = 0;
+			omega = sqrt(G*m[0] / (d*d * d*beta));
 
-			x0[2] = 0;
+
+			x0[0] = L2x;
+			x0[1] = L2y;
+
+			x0[2] = 0.;
 			x0[3] = -0.1;
 
 		}
@@ -154,7 +167,10 @@ public:
 		mtot = m[0]+m[1];
 		alpha = m[1] / mtot;
 		beta = m[0] / mtot;
-		//TO DO		
+
+		//TO DO	cheeeeeeck
+		v0 = r1 * sqrt(2*G*m[1] * (1/r0 - 1/r1)/(r1*r1 - r0*r0));
+
 
 		// Ouverture du fichier de sortie
 		outputFile = new ofstream(configFile.get<string>("output").c_str());
@@ -185,7 +201,7 @@ public:
 			}
 		}
 		else {
-			//TODO adaptive case, verify algorithm from 
+			//TODO adaptive case, verify algorithm from polycopie
 			nsteps = 0;
 			const double f(0.99);
 
