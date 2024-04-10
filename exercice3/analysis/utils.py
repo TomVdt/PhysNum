@@ -1,4 +1,5 @@
 import subprocess
+from typing import Any
 
 # Matplotlib stuff
 rcParams = {
@@ -39,7 +40,7 @@ def run(config_file: str, output_file: str, params: dict = {}) -> None:
     # print(f"Running command `{cmd}`\n", end='')
     subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL)
 
-def load_conf(config_name: str) -> dict[str, float | str]:
+def load_conf(config_name: str) -> dict[str, Any]:
     conf = {}
     with open(path + config_path + config_name + config_ext, 'r') as f:
         lines = f.read().split('\n')

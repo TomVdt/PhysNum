@@ -131,7 +131,7 @@ private:
 	}
 
 	valarray<double> RK4_do_onestep(const valarray<double>& y_old, double t, double dt) {
-		valarray<double> k1, k2, k3, k4, ynew;
+		valarray<double> k1(0.0, 4), k2(0.0, 4), k3(0.0, 4), k4(0.0, 4), ynew(0.0, 4);
 
 		k1 = dt * get_f(y_old, t);
 		k2 = dt * get_f(y_old + k1/2.0, t + dt/2.0);
@@ -196,9 +196,9 @@ public:
 		x = x0;
 		last = 0;
 		printOut(true);
-		valarray<double> y1;
-		valarray<double> y2;
-		valarray<double> y_tilde;
+		valarray<double> y1(0.0, 4);
+		valarray<double> y2(0.0, 4);
+		valarray<double> y_tilde(0.0, 4);
 
 		if (!adapt) {
 			//TODO fixed dt scheme
