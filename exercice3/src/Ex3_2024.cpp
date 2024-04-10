@@ -101,13 +101,17 @@ private:
 		return sqrt(vect[0]*vect[0] + vect[1]*vect[1]);
 	}
 
+	// double norm4(const valarray<double>& vect) {
+	// 	return sqrt(vect[0]*vect[0] + vect[1]*vect[1] + vect[2]*vect[2] + vect[3]*vect[3]);
+	// }
+
 	void initial_condition(void){
 		if (nsel_physics==1) {
 			x0[0] = -r0;
-			x0[1] = 0.;
+			x0[1] = 0.0;
 
-			x0[2] = v0;		// TODO expression of v0
-			x0[3] = 0.;
+			x0[2] = 0.0;		// TODO expression of v0
+			x0[3] = v0;
 		}
 		else if (nsel_physics==2) {
 			// TODO go back through this to check correct initialisation
@@ -117,7 +121,7 @@ private:
 			x0[0] = L2x;
 			x0[1] = L2y;
 
-			x0[2] = 0.;
+			x0[2] = 0.0;
 			x0[3] = -0.1;
 
 		}
@@ -134,8 +138,8 @@ private:
 		k3 = dt * get_f(y_old + k2/2, t + dt/2);
 		k4 = dt * get_f(y_old + k3, t + dt);
 
-		ynew = y_old + 1/6 * (k1 + 2*k2 + 2*k3 + k4);
-		*outputFile << ynew[0] << ynew[1] << endl;
+		ynew = y_old + 1.0/6.0 * (k1 + 2*k2 + 2*k3 + k4);
+		// ynew = y_old + k1;
 		return ynew;
 	}
 
