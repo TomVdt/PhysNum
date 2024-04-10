@@ -220,7 +220,7 @@ public:
 			const double f(0.99);
 
 			// TODO verifier cette condition mais je crois ça marche quand même
-			while (t < tFin - 0.5 * dt) {
+			while (t < tFin) {
 				dt = min(dt, tFin - t);
 				++nsteps;
 
@@ -241,14 +241,12 @@ public:
 						d = norm(y1 - y2);
 					} while (d > tol);
 					x = y2;
-					t += dt;
 				} else {
 					x = y2;
-					t += dt;
 					dt = dt * pow(tol/d, 1.0/(4.0 + 1.0));
 				}
-
-
+	
+				t += dt;
 				printOut(false);
 
 
