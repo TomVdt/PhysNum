@@ -38,7 +38,7 @@ private:
 		if((!write && last>=sampling) || (write && last!=1)) {
 			double Energy = compute_energy(x[0],x[1],x[2],x[3]);
 			*outputFile << t << " " << x[0] << " " << x[1] << " "<< x[2] << " " << x[3] << " " \
-			<< Energy << " " << nsteps << endl; // write output on file
+			<< Energy << " " << nsteps << " " << v0 << endl; // write output on file
 			last = 1;
 		}
 		else {
@@ -51,7 +51,7 @@ private:
 		//TO DO cheeeeeeck formulae
 		if (nsel_physics == 1) {
 
-			const double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3/2);
+			const double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3.0/2.0);
 
 			xdot[2] = x[0] * prefact;
 			xdot[3] = x[1] * prefact;
@@ -134,11 +134,11 @@ private:
 		valarray<double> k1, k2, k3, k4, ynew;
 
 		k1 = dt * get_f(y_old, t);
-		k2 = dt * get_f(y_old + k1/2, t + dt/2);
-		k3 = dt * get_f(y_old + k2/2, t + dt/2);
+		k2 = dt * get_f(y_old + k1/2.0, t + dt/2.0);
+		k3 = dt * get_f(y_old + k2/2.0, t + dt/2.0);
 		k4 = dt * get_f(y_old + k3, t + dt);
 
-		ynew = y_old + 1.0/6.0 * (k1 + 2*k2 + 2*k3 + k4);
+		ynew = y_old + 1.0/6.0 * (k1 + 2.0*k2 + 2.0*k3 + k4);
 		// ynew = y_old + k1;
 		return ynew;
 	}
@@ -176,7 +176,7 @@ public:
 
 		//TO DO	cheeeeeeck
 		v0 = r1 * sqrt(2*G*m[1] * (1/r0 - 1/r1)/(r1*r1 - r0*r0));
-
+		// v0 = 1e4;
 
 		// Ouverture du fichier de sortie
 		outputFile = new ofstream(configFile.get<string>("output").c_str());
@@ -200,7 +200,7 @@ public:
 		valarray<double> y2;
 		valarray<double> y_tilde;
 
-		if (adapt==false) {
+		if (!adapt) {
 			//TODO fixed dt scheme
 			while (t < tFin - 0.5 * dt) {
 				x = RK4_do_onestep(x, t, dt);
