@@ -91,7 +91,10 @@ private:
 			energy_pot = - G*m[1]/norm(x);
 		} else if (nsel_physics == 2){
 			// TODO: weeeeewooooo do this formula
-			energy_pot = 0;
+			energy_pot = 1.0/2.0 * omega*omega * (x[0]*x[0] + x[1]*x[1])
+						+ omega * (x[3] * x[0] - x[2] * x[1])
+						- G * m[0] / sqrt(pow(x[0] + m[1] * d / mtot, 2) + x[1]*x[1])
+						- G * m[1] / sqrt(pow(x[0] - m[2] * d / mtot, 2) + x[1]*x[1]);
 		}
 		return energy_pot;
 	}
@@ -206,7 +209,7 @@ public:
 
 		if (!adapt) {
 			//TODO fixed dt scheme
-			while (t < tFin - 0.5 * dt) {
+			while (t < tFin) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
 
