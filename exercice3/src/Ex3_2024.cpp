@@ -65,12 +65,12 @@ private:
 			const valarray<double> rt_vect({x[0] - r1, x[1]});
 			const double rt = norm(rt_vect);
 
-			const double prefact_s = G * m[0]/(pow(rs,3));
-			const double prefact_t = G * m[1]/(pow(rt,3));
+			const double prefact_s = G * m[0]/(pow(rs,3.0));
+			const double prefact_t = G * m[1]/(pow(rt,3.0));
 
 
-			xdot[2] = -prefact_s*(x[0] + alpha*d) - prefact_t*(x[0] - beta*d) + omega*omega*x[0] + 2*omega*x[3];
-			xdot[3] = -prefact_s*x[1] - prefact_t*x[1] + omega*omega*x[1] - 2*omega*x[2];
+			xdot[2] = -prefact_s*(x[0] + alpha*d) - prefact_t*(x[0] - beta*d) + omega*omega*x[0] + 2.0*omega*x[3];
+			xdot[3] = -prefact_s*x[1] - prefact_t*x[1] + omega*omega*x[1] - 2.0*omega*x[2];
 		}
 		else {
 			cerr << "No dynamics corresponds to this index" << endl;
@@ -101,9 +101,6 @@ private:
 		return sqrt(vect[0]*vect[0] + vect[1]*vect[1]);
 	}
 
-	// double norm4(const valarray<double>& vect) {
-	// 	return sqrt(vect[0]*vect[0] + vect[1]*vect[1] + vect[2]*vect[2] + vect[3]*vect[3]);
-	// }
 
 	void initial_condition(void){
 		if (nsel_physics==1) {
@@ -221,18 +218,18 @@ public:
 				++nsteps;
 
 				y1 = RK4_do_onestep(x, t, dt);
-				y_tilde = RK4_do_onestep(x, t, dt/2);
-				y2 = RK4_do_onestep(y_tilde, t, dt/2);
+				y_tilde = RK4_do_onestep(x, t, dt/2.0);
+				y2 = RK4_do_onestep(y_tilde, t, dt/2.0);
 
 				d = norm(y1 - y2);
 
 				if (d > tol) {
 					do {
-						dt = f * dt * pow(tol/d, 1/(4 + 1));			// TODO: RK4 converge ordre 4
+						dt = f * dt * pow(tol/d, 1.0/(4.0 + 1.0));			// TODO: RK4 converge ordre 4
 
 						y1 = RK4_do_onestep(x, t, dt);
-						y_tilde = RK4_do_onestep(x, t, dt/2);
-						y2 = RK4_do_onestep(y_tilde, t, dt/2);
+						y_tilde = RK4_do_onestep(x, t, dt/2.0);
+						y2 = RK4_do_onestep(y_tilde, t, dt/2.0);
 
 						d = norm(y1 - y2);
 					} while (d > tol);
@@ -241,7 +238,7 @@ public:
 				} else {
 					x = y2;
 					t += dt;
-					dt = dt * pow(tol/d, 1/(4 + 1));
+					dt = dt * pow(tol/d, 1.0/(4.0 + 1.0));
 				}
 
 
