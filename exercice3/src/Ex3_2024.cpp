@@ -17,7 +17,8 @@ private:
 	double mtot = 0e0;
 	double L2x,L2y;
 	valarray<double> m = std::valarray<double>(0.e0, 2);
-	int N_excit, nsteps;
+	// int N_excit;
+	int nsteps;
 	int sampling;
 	int last;
 	int  nsel_physics;
@@ -87,13 +88,13 @@ private:
 	// Function to compute potential energy per mass in R (nsel_physics=1) or in R'(nsel_physics=2)
 	double get_Epot(double xx, double yy) {
 		//TO DO
-		return 0;
+		return xx + yy;
 	}
 
 	// Function to compute mechanical energy per mass in R'
 	double compute_energy(double xx, double yy, double vx, double vy) {
 		//TO DO
-		return 0;
+		return vx + vy + get_Epot(xx, yy);
 	}
 
 	double norm(const valarray<double>& vect) {
@@ -134,13 +135,14 @@ private:
 		k4 = dt * get_f(y_old + k3, t + dt);
 
 		ynew = y_old + 1/6 * (k1 + 2*k2 + 2*k3 + k4);
+		*outputFile << ynew[0] << ynew[1] << endl;
 		return ynew;
 	}
 
 
 public:
 	Exercice3(int argc, char* argv[]) {
-		const double pi=3.1415926535897932384626433832795028841971e0;
+		// const double pi=3.1415926535897932384626433832795028841971e0;
 		string inputPath("configuration.in"); // Fichier d'input par defaut
 		if(argc>1) // Fichier d'input specifie par l'utilisateur ("./Exercice3 config_perso.in")
 			inputPath = argv[1];
@@ -193,11 +195,15 @@ public:
 		valarray<double> y1;
 		valarray<double> y2;
 		valarray<double> y_tilde;
+
 		if (adapt==false) {
 			//TODO fixed dt scheme
 			while (t < tFin - 0.5 * dt) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
+
+				printOut(false);
+
 			}
 		}
 		else {
@@ -233,6 +239,10 @@ public:
 					t += dt;
 					dt = dt * pow(tol/d, 1/(4 + 1));
 				}
+
+
+				printOut(false);
+
 
 			}
 		}
