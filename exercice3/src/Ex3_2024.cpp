@@ -36,9 +36,9 @@ private:
 
 	void printOut(bool write) {
 		if((!write && last>=sampling) || (write && last!=1)) {
-			double Energy = compute_energy(x[0],x[1],x[2],x[3]);
+			double Energy = compute_energy(x);
 			*outputFile << t << " " << x[0] << " " << x[1] << " "<< x[2] << " " << x[3] << " " \
-			<< Energy << " " << nsteps << " " << endl; // write output on file
+			<< Energy << " " << nsteps << endl; // write output on file
 			last = 1;
 		}
 		else {
@@ -50,7 +50,7 @@ private:
 		valarray<double> xdot(0.0, 4);
 		if (nsel_physics == 1) {
 
-			const double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3.0/2.0);
+			const double prefact = -G * m[1] / pow(norm(x), 3.0);
 
 			xdot[2] = x[0] * prefact;
 			xdot[3] = x[1] * prefact;
@@ -85,17 +85,23 @@ private:
 
 
 	// Function to compute potential energy per mass in R (nsel_physics=1) or in R'(nsel_physics=2)
-	double get_Epot(double xx, double yy) {
-		//TO DO
-		return xx + yy;
+	double get_Epot(const valarray<double>& x) {
+		double energy_pot = 0;
+		if (nsel_physics == 1){
+			energy_pot = - G*m[1]/norm(x);
+		} else if (nsel_physics == 2){
+			// TODO: weeeeewooooo do this formula
+			energy_pot = 0;
+		}
+		return energy_pot;
 	}
 
 	// Function to compute mechanical energy per mass in R'
-	double compute_energy(double xx, double yy, double vx, double vy) {
-		//TO DO
-		return vx + vy + get_Epot(xx, yy);
+	double compute_energy(const valarray<double>& x) {
+		return 1.0/2.0 * (x[2]*x[2] + x[3]*x[3]) + get_Epot(x);
 	}
 
+	// Norm of the position, does not take the velocity
 	double norm(const valarray<double>& vect) {
 		return sqrt(vect[0]*vect[0] + vect[1]*vect[1]);
 	}
