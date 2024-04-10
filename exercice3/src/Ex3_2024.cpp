@@ -38,7 +38,7 @@ private:
 		if((!write && last>=sampling) || (write && last!=1)) {
 			double Energy = compute_energy(x[0],x[1],x[2],x[3]);
 			*outputFile << t << " " << x[0] << " " << x[1] << " "<< x[2] << " " << x[3] << " " \
-			<< Energy << " " << nsteps << " " << v0 << endl; // write output on file
+			<< Energy << " " << nsteps << " " << endl; // write output on file
 			last = 1;
 		}
 		else {
@@ -48,7 +48,6 @@ private:
 
 	valarray<double> get_f(const valarray<double>& x, double t) {
 		valarray<double> xdot(0.0, 4);
-		//TO DO cheeeeeeck formulae
 		if (nsel_physics == 1) {
 
 			const double prefact = -G * m[1] / pow(x[0]*x[0] + x[1]*x[1], 3.0/2.0);
@@ -107,7 +106,8 @@ private:
 			x0[0] = -r0;
 			x0[1] = 0.0;
 
-			x0[2] = 0.0;		// TODO expression of v0
+			v0 = r1 * sqrt(2.0*G*m[1] * (1.0/r0 - 1.0/r1)/(r1*r1 - r0*r0));
+			x0[2] = 0.0;
 			x0[3] = v0;
 		}
 		else if (nsel_physics==2) {
@@ -143,7 +143,7 @@ private:
 
 public:
 	Exercice3(int argc, char* argv[]) {
-		// const double pi=3.1415926535897932384626433832795028841971e0;
+		const double pi=3.1415926535897932384626433832795028841971e0;
 		string inputPath("configuration.in"); // Fichier d'input par defaut
 		if(argc>1) // Fichier d'input specifie par l'utilisateur ("./Exercice3 config_perso.in")
 			inputPath = argv[1];
@@ -171,14 +171,15 @@ public:
 		alpha = m[1] / mtot;
 		beta = m[0] / mtot;
 
-		//TO DO	cheeeeeeck
-		v0 = r1 * sqrt(2*G*m[1] * (1/r0 - 1/r1)/(r1*r1 - r0*r0));
-		// v0 = 1e4;
 
 		// Ouverture du fichier de sortie
 		outputFile = new ofstream(configFile.get<string>("output").c_str());
 		outputFile->precision(15);
 		//TO DO initialize tFin for nsel_physics=1 and initialize dt for both nsel_physics
+		if (nsel_physics==1){	
+			tFin = 2 * pi * sqrt(pow(a,3.0) / (G * m[1]) ) / 2.0;
+		}
+
 		dt=tFin/nsteps;
 	}
 
