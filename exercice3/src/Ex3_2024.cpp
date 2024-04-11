@@ -209,7 +209,7 @@ public:
 
 		if (!adapt) {
 			//TODO fixed dt scheme
-			while (t < tFin) {
+			while (t < tFin - dt * 0.5) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
 
