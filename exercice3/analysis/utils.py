@@ -21,6 +21,7 @@ rcParams = {
     'scatter.marker': '+',
     'errorbar.capsize': 3,
     'savefig.bbox': 'tight',
+    'axes.formatter.useoffset': False,
 }
 
 # Simulation and paths stuff
