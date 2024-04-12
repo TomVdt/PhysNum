@@ -2,7 +2,7 @@ CXX = clang++
 
 # Executable name (target)
 EXE = ex3
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wuninitialized -O2
 BIN = bin
 SRC = src
 
