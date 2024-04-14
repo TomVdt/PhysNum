@@ -43,7 +43,8 @@ private:
 				<< x[2] << " "
 				<< x[3] << " "
 				<< Energy << " "
-				<< nsteps << "\n";
+				<< nsteps << " "
+				<< dt << "\n";
 			last = 1;
 		}
 		else {
@@ -61,8 +62,6 @@ private:
 			xdot[3] = x[1] * prefact;
 		}
 		else if (nsel_physics == 2) {
-			// TODO same cheeeeeck formulae
-
 			const long double Rs = sqrt(x[1] * x[1] + (x[0] - xs) * (x[0] - xs));
 			const long double Rt = sqrt(x[1] * x[1] + (x[0] - xt) * (x[0] - xt));
 
@@ -77,24 +76,6 @@ private:
 				- c2 * x[1]
 				+ omega * omega * x[1]
 				- 2.0l * omega * x[2];
-
-			// const valarray<long double> rs_vect({ x[0] - xs, x[1] });
-			// const long double rs = norm(rs_vect);
-
-			// const valarray<long double> rt_vect({ x[0] - xt, x[1] });
-			// const long double rt = norm(rt_vect);
-
-			// const long double prefact_s = G * m[0] / (pow(rs, 3));
-			// const long double prefact_t = G * m[1] / (pow(rt, 3));
-
-			// xdot[2] = -prefact_s * (x[0] + alpha * a)
-			// 	- prefact_t * (x[0] - beta * a)
-			// 	+ omega * omega * x[0]
-			// 	+ 2.0 * omega * x[3];
-			// xdot[3] = -prefact_s * x[1]
-			// 	- prefact_t * x[1]
-			// 	+ omega * omega * x[1]
-			// 	- 2.0 * omega * x[2];
 		}
 		else {
 			cerr << "No dynamics corresponds to this index" << endl;
@@ -228,12 +209,11 @@ public:
 	};
 
 	void run() {
-		t = 0.;
+		t = 0.0l;
 		initial_condition();
 		x = x0;
 		last = 0;
 		// *outputFile << "# " << tol << "\n";
-		nsteps = 0;
 		printOut(true);
 		valarray<long double> y1(0.0l, 4);
 		valarray<long double> y2(0.0l, 4);
@@ -244,12 +224,11 @@ public:
 			while (t < tFin - dt * 0.5l) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
-				++nsteps;
 				printOut(false);
 			}
 		}
 		else {
-			//TODO adaptive case, verify algorithm from polycopie
+			nsteps = 0;
 			long double d = 0.0;
 			const long double f(0.99);
 
