@@ -276,17 +276,17 @@ public:
 						// *outputFile << "# d > tol: " << dt << ", d = " << d << "\n";
 					} while (d > tol);
 					x = y2;
+					t += dt;
 				}
 				else {
 					x = y2;
+					t += dt;
 					// Avoid division by 0?
 					if (d != 0.0l) {
 						dt = dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
 					}
 					// *outputFile << "# d <= tol: " << dt << ", d = " << d << "\n";
 				}
-
-				t += dt;
 				printOut(false);
 			}
 		}
