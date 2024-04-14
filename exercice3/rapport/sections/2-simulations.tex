@@ -65,17 +65,17 @@ Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both method
     \label{fig:lagrange_emec_error}
 \end{figure}
 
-Let's analyse the trajectory more closely, specially the behavior near L2. Using the initial configuration given at the beginning of this section, we get the trajectory given in \autoref{fig:lagrange_trajectory}. Because of the initial perturbation, the satelite falls towards Earth and starts orbiting. It gets trapped in the potential field of the Earth, as is clearly shown in \autoref{fig:lagrange_trajectory_potential}.
+Let's analyse the trajectory more closely, specially the behavior near L2. Using the initial configuration given at the beginning of this section, we get the trajectory given in \autoref{fig:lagrange_trajectory}. Because of the initial perturbation, the satelite falls towards Earth and starts orbiting. It gets trapped in the potential field of the Earth, as is clearly shown in \autoref{fig:lagrange_trajectory_potential}. This result is expected because the Lagrange point L2 is unstable, as will be discussed later. The small downwards speed reduces the centrifugal force, which pushed the satelite away from Earth. A lower centrifugal force thus means that the satelite gets pulled towards Earth. If the initial speed was upwards, the satelite would get pushed away! The trajectory in \autoref{fig:lagrange_v0_up} shows this.
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}{0.48\linewidth}
+    \begin{subfigure}{0.46\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/lagrange_trajectory.pdf}
         \caption{Trajectory using adaptative method}
         \label{fig:lagrange_trajectory}
     \end{subfigure}
-    \begin{subfigure}{0.48\linewidth}
+    \begin{subfigure}{0.53\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/potential_L1_L2_zoom_trajectory.png}
         \caption{Trajectory with potential}
@@ -84,11 +84,42 @@ Let's analyse the trajectory more closely, specially the behavior near L2. Using
     \caption{Trajectory of Webb after falling in the potential well of the Earth}
 \end{figure}
 
-It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t\)
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/lagrange_v0_up.pdf}
+    \caption{Trajectory starting from L2 with initial upwards speed \(\dot y' = 0.1\) m/s, using adaptative method with tolerance \(\varepsilon = 10^{-4}\)}
+    \label{fig:lagrange_v0_up}
+\end{figure}
+
+It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t < 2 \cdot 10^7 \textrm{ s} \approx 231 \textrm{ days}\), after which the satelite remains far from L2.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/lagrange_exponential_distance.pdf}
+    \includegraphics[width=0.6\linewidth]{figures/lagrange_exponential_distance.pdf}
     \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
     \label{fig:lagrange_distance_L2}
+\end{figure}
+
+Let's study the potential energy a bit more closely, allowing us to find the stability of the Lagrange point L2 for example. At the scale of the solar system, we can identify a bump in the potential, which could hint at the presence of other Lagrange points. There is a ring where potential increases slightly, as shown in \autoref{fig:lagrange_potential_global}. While the scale of the figure does not show it, there should be saddle points and some wells allowing for other Lagrange points, whose locations are marked approximately on the figure \cite{lagrange}. Around the Earth, it is possible to see that the Lagrange points L1 and L2 are placed on saddle points, meaning they are unstable. \autoref{fig:lagrange_L1_L2}. This is coherent with what was observed in the simulations. Another visualisation of the potential is shown in \autoref{fig:lagrange_potential_3D}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=0.6\linewidth]{figures/potential_global.png}
+        \caption{Potential energy band for a disance around the Sun-Earth distance.}
+        \label{fig:lagrange_potential_global}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=0.6\linewidth]{figures/potential_L1_L2_zoom.png}
+        \caption{Potential energy around Earth}
+        \label{fig:lagrange_L1_L2}
+    \end{subfigure}
+    \caption{Potential energy at different points in the Sun-Earth system}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/potential3D_L1_L2_zoom.png}
+    \caption{3D potential around Earth}
+    \label{fig:lagrange_potential_3D}
 \end{figure}
