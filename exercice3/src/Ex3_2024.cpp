@@ -97,7 +97,8 @@ private:
 			energy_pot = -G * m[1] / norm(x);
 		}
 		else if (nsel_physics == 2) {
-			energy_pot = -1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+			energy_pot = 
+				// - 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
 		}
