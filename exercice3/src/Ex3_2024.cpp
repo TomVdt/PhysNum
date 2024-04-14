@@ -233,6 +233,7 @@ public:
 		x = x0;
 		last = 0;
 		// *outputFile << "# " << tol << "\n";
+		nsteps = 0;
 		printOut(true);
 		valarray<long double> y1(0.0l, 4);
 		valarray<long double> y2(0.0l, 4);
@@ -243,13 +244,12 @@ public:
 			while (t < tFin - dt * 0.5l) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
-
+				++nsteps;
 				printOut(false);
 			}
 		}
 		else {
 			//TODO adaptive case, verify algorithm from polycopie
-			nsteps = 0;
 			long double d = 0.0;
 			const long double f(0.99);
 
