@@ -6,9 +6,9 @@
 
 \subsection{Around Lagrange L2}
 
-We now consider the reduced 3-body problem, like in \ref{sec:3body_reduced}. The simulations are done in the \(\mathcal R'\) reference frame, placing Webb at the Lagrange L2 point given in \ref{sec:lagrange_L2} and giving the satelite an initial downwards speed \(\dot y' = -0.1\) m/s. We will first analyse the convergence of both methods.
+We now consider the reduced 3-body problem, like in \ref{sec:3body_reduced}. The simulations are done in the \(\mathcal R'\) reference frame, placing Webb at the Lagrange L2 point given in \ref{sec:lagrange_L2} and giving the satelite an initial downwards speed \(\dot y' = -0.1\) m/s. The trajectory of the satelite is given in \autoref{fig:lagrange_trajectory} and will be discussed later. We will first analyse the convergence of both methods.
 
-Due to the nature of the adaptative timestep method, the convergence order against \(\frac{1}{n_\textrm{steps}}\) will be analysed. The results wit the initial conditions given above are reported in \autoref{fig:lagrange_conv}. Both methods converge with order 5 
+Due to the nature of the adaptative timestep method, the convergence order against \(\frac{1}{n_\textrm{steps}}\) will be analysed. The results wit the initial conditions given above are reported in \autoref{fig:lagrange_conv}. Both methods converge with order 5 to \(x' \approx 0.999771678\) au and \(y' \approx -0.004537985\) au, which was obtained using a linear fit. While the convergence order is the same, the adaptative method gets close to the final position for a much smaller amount of steps: the rightmost point on \autoref{fig:lagrange_conv_adapt} corresponds to a \(n_\textrm{steps} < 2000\) while being more precise than the rightmost point on \autoref{fig:lagrange_conv_fixed}, which had \(n_\textrm{steps} = 10000\).
 
 \begin{figure}[h]
     \centering
@@ -26,4 +26,69 @@ Due to the nature of the adaptative timestep method, the convergence order again
     \end{subfigure}
     \caption{Final position convergence starting from L2 with initial downwards speed \(\dot y' = -0.1\) m/s for both methods. \(n_\textrm{steps}\) was varied from \(10^4\) to \(10^6\) for the fixed timestep method and the tolerance \(\varepsilon\) was varied from \(10^{-5}\) to \(10^{-1}\) for the adaptative method.}
     \label{fig:lagrange_conv}
+\end{figure}
+
+Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both methods seem to give similar energy levels. Error on conservation of mechanical energy for both methods is also given in \autoref{fig:lagrange_emec_error}. While both methods give a similar error, the initial spread is much smaller for adaptative method than the fixed one. While mechanical energy does not seem to be conserved well for each step, mechanical energy seems to recover after each bump, making it a bit more conserved overall. Analysing the location of the spikes in energy reveals that they occur at the intersection between the trajectory and the Earth-Sun axis (\(x'\) axis). This is shown in \autoref{fig:lagrange_max_mins_energy}. These locations corresponds to brutal changes in speed along the \(y'\) axis.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_emec.pdf}
+        \captionof{figure}{Mechanical energy over time for both methods}
+        \label{fig:lagrange_emec}
+    \end{minipage}
+    \hspace*{1cm}
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_max_mins_energy.pdf}
+        \captionof{figure}{Points on trajectory where mechanical energy is maximal or minimal, using adaptative method}
+        \label{fig:lagrange_max_mins_energy}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_emec_error_fixed.pdf}
+        \caption{Fixed \(\dd t\) method}
+        \label{fig:lagrange_emec_error_fixed}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_emec_error_adapt.pdf}
+        \caption{Adaptative \(\dd t\) method}
+        \label{fig:lagrange_emec_error_adapt}
+    \end{subfigure}
+    \caption{Mechanical energy error starting from L2 with initial downwards speed \(\dot y' = -0.1\) m/s for both methods. \(n_\textrm{steps}\) was varied from \(10^4\) to \(10^6\) for the fixed timestep method and the tolerance \(\varepsilon\) was varied from \(10^{-5}\) to \(10^{-1}\) for the adaptative method.}
+    \label{fig:lagrange_emec_error}
+\end{figure}
+
+Let's analyse the trajectory more closely, specially the behavior near L2. Using the initial configuration given at the beginning of this section, we get the trajectory given in \autoref{fig:lagrange_trajectory}. Because of the initial perturbation, the satelite falls towards Earth and starts orbiting. It gets trapped in the potential field of the Earth, as is clearly shown in \autoref{fig:lagrange_trajectory_potential}.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_trajectory.pdf}
+        \caption{Trajectory using adaptative method}
+        \label{fig:lagrange_trajectory}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/potential_L1_L2_zoom_trajectory.png}
+        \caption{Trajectory with potential}
+        \label{fig:lagrange_trajectory_potential}
+    \end{subfigure}
+    \caption{Trajectory of Webb after falling in the potential well of the Earth}
+\end{figure}
+
+It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t\)
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/lagrange_exponential_distance.pdf}
+    \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
+    \label{fig:lagrange_distance_L2}
 \end{figure}

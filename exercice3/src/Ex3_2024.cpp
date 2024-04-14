@@ -97,7 +97,7 @@ private:
 			energy_pot = -G * m[1] / norm(x);
 		}
 		else if (nsel_physics == 2) {
-			energy_pot = /* - */ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+			energy_pot = -1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
 		}
@@ -213,14 +213,12 @@ public:
 		initial_condition();
 		x = x0;
 		last = 0;
-		// *outputFile << "# " << tol << "\n";
 		printOut(true);
 		valarray<long double> y1(0.0l, 4);
 		valarray<long double> y2(0.0l, 4);
 		valarray<long double> y_tilde(0.0l, 4);
 
 		if (!adapt) {
-			//TODO fixed dt scheme
 			while (t < tFin - dt * 0.5l) {
 				x = RK4_do_onestep(x, t, dt);
 				t += dt;
@@ -251,7 +249,6 @@ public:
 						y2 = RK4_do_onestep(y_tilde, t, dt / 2.0l);
 
 						d = norm(y1 - y2);
-						// *outputFile << "# d > tol: " << dt << ", d = " << d << "\n";
 					} while (d > tol);
 					x = y2;
 					t += dt;
@@ -259,11 +256,10 @@ public:
 				else {
 					x = y2;
 					t += dt;
-					// Avoid division by 0?
-					if (d != 0.0l) {
-						dt = dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
-					}
-					// *outputFile << "# d <= tol: " << dt << ", d = " << d << "\n";
+					dt = dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
+					// Avoid division by 0
+					// if (d != 0.0l) {
+					// }
 				}
 				printOut(false);
 			}

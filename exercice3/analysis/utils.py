@@ -13,7 +13,7 @@ rcParams = {
     "legend.fontsize": 10,
     "xtick.labelsize": 12,
     "ytick.labelsize": 12,
-    "figure.figsize": (6, 5),
+    "figure.figsize": (5, 4),
     "text.latex.preamble": "\n".join([
         r"\usepackage[utf8]{inputenc}",
         r"\usepackage[T1]{fontenc}",
