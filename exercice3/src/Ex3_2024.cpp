@@ -137,9 +137,12 @@ private:
 
 
 	void initial_condition(void) {
-		if (nsel_physics == 1) {
+		if (nsel_physics == 1) {			
 			x0[0] = -r0;
 			x0[1] = 0.0l;
+
+			// To calculate the kinetic energy
+			omega = 0;
 
 			v0 = r1 * sqrt(2.0l * G * m[1] * (1.0l / r0 - 1.0l / r1) / (r1 * r1 - r0 * r0));
 			x0[2] = 0.0;
@@ -212,7 +215,8 @@ public:
 		outputFile->precision(20);
 		//TO DO initialize tFin for nsel_physics=1 and initialize dt for both nsel_physics
 		if (nsel_physics == 1) {
-			tFin = 2 * pi * sqrt(pow(a, 3.0l) / (G * m[1])) / 2.0l;
+			a = (r0 + r1)/2.0l;
+			tFin = 2.0l * pi * sqrt(pow(a, 3.0l) / (G * m[1])) / 2.0l;
 		}
 
 		dt = tFin / nsteps;
@@ -249,7 +253,6 @@ public:
 			long double d = 0.0;
 			const long double f(0.99);
 
-			// TODO verifier cette condition mais je crois ça marche quand même
 			while (t < tFin) {
 				dt = min(dt, tFin - t);
 				++nsteps;
