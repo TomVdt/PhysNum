@@ -245,7 +245,6 @@ public:
 				if (d > tol) {
 					do {
 						dt = f * dt * pow(tol / d, 1.0l / (4.0l + 1.0l));			// TODO: RK4 converge ordre 4
-						++nsteps;
 
 						y1 = RK4_do_onestep(x, t, dt);
 						y_tilde = RK4_do_onestep(x, t, dt / 2.0l);
