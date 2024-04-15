@@ -98,7 +98,7 @@ private:
 		}
 		else if (nsel_physics == 2) {
 			energy_pot = 
-				- 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+				// - 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
 		}
@@ -108,7 +108,8 @@ private:
 	// Function to compute mechanical energy per mass in R'
 	long double compute_energy(const valarray<long double>& x) {
 		return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3])
-			// + omega * (x[3] * x[0] - x[2] * x[1])
+			+ omega * (x[3] * x[0] - x[2] * x[1])
+			+ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 			+ get_Epot(x);
 	}
 
@@ -124,7 +125,7 @@ private:
 			x0[1] = 0.0l;
 
 			// To calculate the kinetic energy
-			// omega = 0;
+			omega = 0;
 
 			v0 = r1 * sqrt(2.0l * G * m[1] * (1.0l / r0 - 1.0l / r1) / (r1 * r1 - r0 * r0));
 			x0[2] = 0.0;
