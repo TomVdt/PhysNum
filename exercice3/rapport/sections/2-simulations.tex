@@ -72,7 +72,7 @@ A final result of this error analysis is that even if the order of convergence i
 
 \subsection{Around Lagrange L2}
 
-We now consider the reduced 3-body problem, like in \ref{sec:3body_reduced}. The simulations are done in the \(\mathcal R'\) reference frame, placing Webb at the Lagrange L2 point given in \ref{sec:lagrange_L2} and giving the satelite an initial downwards speed \(\dot y' = -0.1\) m/s. In this sections, the simulations are done until \(t_\textrm{fin} = 2\) years. The trajectory of the satelite is given in \autoref{fig:lagrange_trajectory} and will be discussed later. We will first analyse the convergence of both methods.
+We now consider the reduced 3-body problem, like in \ref{sec:3body_reduced}. The simulations are done in the \(\mathcal R'\) reference frame, placing Webb at the Lagrange L2 point given in \ref{sec:lagrange_L2} and giving the satellite an initial downwards speed \(\dot y' = -0.1\) m/s. In this sections, the simulations are done until \(t_\textrm{fin} = 2\) years. The trajectory of the satellite is given in \autoref{fig:lagrange_trajectory} and will be discussed later. We will first analyse the convergence of both methods.
 
 Due to the nature of the adaptative timestep method, the convergence order against \(\frac{1}{n_\textrm{steps}}\) will be analysed. The results wit the initial conditions given above are reported in \autoref{fig:lagrange_conv}. Both methods converge with order 5 to \(x' \approx 0.999771678\) au and \(y' \approx -0.004537985\) au, which was obtained using a linear fit. While the convergence order is the same, the adaptative method gets close to the final position for a much smaller amount of steps: the rightmost point on \autoref{fig:lagrange_conv_adapt} corresponds to a \(n_\textrm{steps} < 2000\) while being more precise than the rightmost point on \autoref{fig:lagrange_conv_fixed}, which had \(n_\textrm{steps} = 10000\).
 
@@ -131,7 +131,7 @@ Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both method
     \label{fig:lagrange_emec_error}
 \end{figure}
 
-Let's analyse the trajectory more closely, specially the behavior near L2. Using the initial configuration given at the beginning of this section, we get the trajectory given in \autoref{fig:lagrange_trajectory}. Because of the initial perturbation, the satelite falls towards Earth and starts orbiting. It gets trapped in the potential field of the Earth, as is clearly shown in \autoref{fig:lagrange_trajectory_potential}. This result is expected because the Lagrange point L2 is unstable, as will be discussed later. The small downwards speed reduces the centrifugal force, which pushed the satelite away from Earth. A lower centrifugal force thus means that the satelite gets pulled towards Earth. If the initial speed was upwards, the satelite would get pushed away! The trajectory in \autoref{fig:lagrange_v0_up} shows this.
+Let's analyse the trajectory more closely, specially the behavior near L2. Using the initial configuration given at the beginning of this section, we get the trajectory given in \autoref{fig:lagrange_trajectory}. Because of the initial perturbation, the satellite falls towards Earth and starts orbiting. It gets trapped in the potential field of the Earth, as is clearly shown in \autoref{fig:lagrange_trajectory_potential}. This result is expected because the Lagrange point L2 is unstable, as will be discussed later. The small downwards speed reduces the centrifugal force, which pushed the satellite away from Earth. A lower centrifugal force thus means that the satellite gets pulled towards Earth. If the initial speed was upwards, the satellite would get pushed away! The trajectory in \autoref{fig:lagrange_v0_up} shows this.
 
 \begin{figure}[h]
     \centering
@@ -157,7 +157,7 @@ Let's analyse the trajectory more closely, specially the behavior near L2. Using
     \label{fig:lagrange_v0_up}
 \end{figure}
 
-It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t < 2 \cdot 10^7 \textrm{ s} \approx 231 \textrm{ days}\), after which the satelite remains far from L2.
+It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t < 2 \cdot 10^7 \textrm{ s} \approx 231 \textrm{ days}\), after which the satellite remains far from L2.
 
 \begin{figure}[h]
     \centering
