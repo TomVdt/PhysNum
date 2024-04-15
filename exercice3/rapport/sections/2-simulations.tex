@@ -17,7 +17,7 @@ All the results presented in the following sections were obtained with the imple
 
 \subsection{Transfer orbit}
 The first simulations were about simulating the transfer of Webb from a low Earth orbit ar $r_0$ to the L2 Lagrange point at $r_1$ as defined in \autoref{sec:transfer_anal}. The system was initialised with \(r_0 = 6800\) km and the value of $v0$ calculated using \autoref{eq:v0_final}. Using the third Kepler law the predicted orbit was of duration $t_\mathrm{fin} = 2\pi\sqrt{a^3/Gm_T}$ and the simulation was run up to $t_\mathrm{fin}/2$. The results for the fixed $\Delta t$ scheme with $n_\mathrm{steps} = 5000$ and for an adaptative scheme with tolerance $\varepsilon = 100$ \si{\meter} are shown in \autoref{fig:transfert_traj}. The adaptative scheme obtained the given trajectory in $n_\mathrm{steps} = 65$.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{figures/transfert_comparaison.pdf}
     \caption{Trajectories of a transfer orbit from $r_0 = 6800$ \si{\kilo\meter} to the L2 Lagrange point at $r_1 = 1.5 \cdot 10^6$ \si{\kilo\meter} with varying (adaptative), tolerance $\varepsilon = 100$ \si{\meter}, and constant (non-adaptative) timesteps, $n_\mathrm{steps} = 5000$}
@@ -72,10 +72,17 @@ A final result of this error analysis is that even if the order of convergence i
 
 \subsection{Around Lagrange L2}
 
+\begin{wrapfigure}{R}{0.5\linewidth}
+    \vspace*{-1cm}
+    \centering
+    \includegraphics[width=\linewidth]{figures/lagrange_trajectory.pdf}
+    \caption{Trajectory using adaptative method}
+    \label{fig:lagrange_trajectory}
+    \vspace*{-0.5cm}
+\end{wrapfigure}
 We now consider the reduced 3-body problem, like in \ref{sec:3body_reduced}. The simulations are done in the \(\mathcal R'\) reference frame, placing Webb at the Lagrange L2 point given in \ref{sec:lagrange_L2} and giving the satellite an initial downwards speed \(\dot y' = -0.1\) m/s. In this sections, the simulations are done until \(t_\textrm{fin} = 2\) years. The trajectory of the satellite is given in \autoref{fig:lagrange_trajectory} and will be discussed later. We will first analyse the convergence of both methods.
 
 Due to the nature of the adaptative timestep method, the convergence order against \(\frac{1}{n_\textrm{steps}}\) will be analysed. The results wit the initial conditions given above are reported in \autoref{fig:lagrange_conv}. Both methods converge with order 5 to \(x' \approx 0.999771678\) au and \(y' \approx -0.004537985\) au, which was obtained using a linear fit. While the convergence order is the same, the adaptative method gets close to the final position for a much smaller amount of steps: the rightmost point on \autoref{fig:lagrange_conv_adapt} corresponds to a \(n_\textrm{steps} < 2000\) while being more precise than the rightmost point on \autoref{fig:lagrange_conv_fixed}, which had \(n_\textrm{steps} = 10000\).
-
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.45\linewidth}
@@ -94,25 +101,23 @@ Due to the nature of the adaptative timestep method, the convergence order again
     \label{fig:lagrange_conv}
 \end{figure}
 
-Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both methods seem to give similar energy levels. Error on conservation of mechanical energy for both methods is also given in \autoref{fig:lagrange_emec_error}. While both methods give a similar error, the initial spread is much smaller for adaptative method than the fixed one. While mechanical energy does not seem to be conserved well for each step, mechanical energy seems to recover after each bump, making it a bit more conserved overall. Analysing the location of the spikes in energy reveals that they occur at the intersection between the trajectory and the Earth-Sun axis (\(x'\) axis). This is shown in \autoref{fig:lagrange_max_mins_energy}. These locations corresponds to brutal changes in speed along the \(y'\) axis.
-
-\begin{figure}[h]
+Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both methods seem to give similar energy levels. Analysing the location of the spikes in energy reveals that they occur at the intersection between the trajectory and the Earth-Sun axis (\(x'\) axis). This is shown in \autoref{fig:lagrange_max_mins_energy}. These locations corresponds to rapid changes of speed along both axes. Error on conservation of mechanical energy for both methods is also given in \autoref{fig:lagrange_emec_error}. While both methods give a similar error, the initial spread is much smaller for adaptative method than the fixed one. While mechanical energy does not seem to be conserved well for each step, mechanical energy seems to recover after each bump, making it a bit more conserved overall.
+\begin{figure}[H]
     \centering
-    \begin{minipage}{.45\textwidth}
+    \begin{minipage}{.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/lagrange_emec.pdf}
         \captionof{figure}{Mechanical energy over time for both methods}
         \label{fig:lagrange_emec}
     \end{minipage}
-    \hspace*{1cm}
-    \begin{minipage}{.45\textwidth}
+    \hspace{0.1cm}
+    \begin{minipage}{.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/lagrange_max_mins_energy.pdf}
         \captionof{figure}{Points on trajectory where mechanical energy is maximal or minimal, using adaptative method}
         \label{fig:lagrange_max_mins_energy}
     \end{minipage}
 \end{figure}
-
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.48\linewidth}
@@ -135,58 +140,45 @@ Let's analyse the trajectory more closely, specially the behavior near L2. Using
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}{0.46\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/lagrange_trajectory.pdf}
-        \caption{Trajectory using adaptative method}
-        \label{fig:lagrange_trajectory}
-    \end{subfigure}
     \begin{subfigure}{0.53\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/potential_L1_L2_zoom_trajectory.png}
-        \caption{Trajectory with potential}
+        \caption{Initial speed \(\dot y' = -0.1\) m/s with potential}
         \label{fig:lagrange_trajectory_potential}
     \end{subfigure}
-    \caption{Trajectory of Webb after falling in the potential well of the Earth}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/lagrange_v0_up.pdf}
-    \caption{Trajectory starting from L2 with initial upwards speed \(\dot y' = 0.1\) m/s, using adaptative method with tolerance \(\varepsilon = 10^{-4}\)}
-    \label{fig:lagrange_v0_up}
+    \begin{subfigure}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_v0_up.pdf}
+        \caption{Initial speed \(\dot y' = 0.1\) m/s}
+        \label{fig:lagrange_v0_up}
+    \end{subfigure}
+    \caption{Trajectory of Webb with different initial perturbations after starting from L2, using adaptative method with tolerance \(\varepsilon = 10^{-4}\)}
 \end{figure}
 
 It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t < 2 \cdot 10^7 \textrm{ s} \approx 231 \textrm{ days}\), after which the satellite remains far from L2.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/lagrange_exponential_distance.pdf}
-    \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
-    \label{fig:lagrange_distance_L2}
-\end{figure}
-
-Let's study the potential energy a bit more closely, allowing us to find the stability of the Lagrange point L2 for example. At the scale of the solar system, we can identify a bump in the potential, which could hint at the presence of other Lagrange points. There is a ring where potential increases slightly, as shown in \autoref{fig:lagrange_potential_global}. While the scale of the figure does not show it, there should be saddle points and some wells allowing for other Lagrange points, whose locations are marked approximately on the figure \cite{lagrange}. Around the Earth, it is possible to see that the Lagrange points L1 and L2 are placed on saddle points, meaning they are unstable. \autoref{fig:lagrange_L1_L2}. This is coherent with what was observed in the simulations. Another visualisation of the potential is shown in \autoref{fig:lagrange_potential_3D}.
+Let's study the potential energy a bit more closely, allowing us to find the stability of the Lagrange point L2 for example. At the scale of the solar system, we can identify a bump in the potential, which could hint at the presence of other Lagrange points. There is a ring where potential increases slightly, as shown in \autoref{fig:lagrange_potential_global}. While the scale of the figure does not show it, there should be saddle points and some wells allowing for other Lagrange points, whose locations are marked approximately on the figure \cite{lagrange}. As could be seen in \autoref{fig:lagrange_trajectory_potential}, the Lagrange points L1 and L2 are placed on saddle points, meaning they are unstable. This is coherent with what was observed in the simulations.
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}{0.48\linewidth}
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/lagrange_exponential_distance.pdf}
+        \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
+        \label{fig:lagrange_distance_L2}
+    \end{minipage}
+    \hspace{0.1cm}
+    \begin{minipage}{.52\textwidth}
+        \centering
         \includegraphics[width=\linewidth]{figures/potential_global.png}
         \caption{Potential energy band for a distance around the Sun-Earth distance.}
         \label{fig:lagrange_potential_global}
-    \end{subfigure}
-    \begin{subfigure}{0.48\linewidth}
-        \includegraphics[width=\linewidth]{figures/potential_L1_L2_zoom.png}
-        \vspace*{0.2cm}
-        \caption{Potential energy around Earth}
-        \label{fig:lagrange_L1_L2}
-    \end{subfigure}
-    \caption{Potential energy at different points in the Sun-Earth system}
+    \end{minipage}
 \end{figure}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/potential3D_L1_L2_zoom.png}
-    \caption{3D representation of the potential around Earth}
-    \label{fig:lagrange_potential_3D}
-\end{figure}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.6\linewidth]{figures/potential3D_L1_L2_zoom.png}
+%     \caption{3D representation of the potential around Earth}
+%     \label{fig:lagrange_potential_3D}
+% \end{figure}

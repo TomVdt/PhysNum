@@ -8,12 +8,12 @@ from concurrent.futures import ProcessPoolExecutor, Future
 rcParams = {
     "text.usetex": True,
     "font.family": "serif",
-    "axes.labelsize": 12,
+    "axes.labelsize": 14,
     "font.size": 12,
-    "legend.fontsize": 10,
+    "legend.fontsize": 11,
     "xtick.labelsize": 12,
     "ytick.labelsize": 12,
-    "figure.figsize": (5, 4),
+    "figure.figsize": (4, 3),
     "text.latex.preamble": "\n".join([
         r"\usepackage[utf8]{inputenc}",
         r"\usepackage[T1]{fontenc}",

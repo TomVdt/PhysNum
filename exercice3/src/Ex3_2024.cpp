@@ -141,7 +141,7 @@ private:
 			x0[1] = L2y;
 
 			x0[2] = 0.0l;
-			x0[3] = -0.1l;
+			x0[3] = 0.1l;
 
 		}
 		else {
@@ -245,6 +245,7 @@ public:
 				if (d > tol) {
 					do {
 						dt = f * dt * pow(tol / d, 1.0l / (4.0l + 1.0l));			// TODO: RK4 converge ordre 4
+						++nsteps;
 
 						y1 = RK4_do_onestep(x, t, dt);
 						y_tilde = RK4_do_onestep(x, t, dt / 2.0l);
