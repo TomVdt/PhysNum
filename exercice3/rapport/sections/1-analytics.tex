@@ -1,6 +1,7 @@
 \section{Analytical results}
 
 \subsection{Transfer orbit}
+\label{sec:transfer_anal}
 
 \begin{figure}[h]
     \centering
@@ -98,7 +99,7 @@ where only the positive root was taken because we take the motion to be counter-
 \subsection{Equations of motion in rotating frame of reference}
 \label{sec:3body_reduced}
 
-Let \(\mathcal R'\) be a rotating frame of reference at angular speed \(\Omega\), with a cartesian coordinate system \((x',y')\) centered in \(\mathcal G\). In this frame, the Sun and Earth are motionless. We want to obtain the equations of motion of Webb in this reference frame. Let us take the vector \(\mathbf{y} = (x'(t), y'(t), \dot x'(t), \dot y'(t))\). We are searching for \(\mathbf{f}\) such that:
+Let \(\mathcal R'\) be a rotating frame of reference at angular speed \(\Omega\), with a cartesian coordinate system \((x',y')\) centered in \(\mathcal G\). In this frame, the Sun and Earth are motionless. We want to obtain the equations of motion of Webb in this reference frame assuming that its mass is sufficiently small to not impact the movement of Earth and the Sun (restricted 3 body problem). Let us take the vector \(\mathbf{y} = (x'(t), y'(t), \dot x'(t), \dot y'(t))\). We are searching for \(\mathbf{f}\) such that:
 \begin{equation}
     \frac{\dd \mathbf{y}}{\dd t} = \left(\begin{matrix} \dot x' \\ \dot y' \\ \ddot x' \\ \ddot y' \end{matrix}\right) = \mathbf{f}(\mathbf{y})
 \end{equation}
@@ -117,10 +118,12 @@ We denotate the position of Webb as \(\vec{r}\,' = (x', y', 0)\). The forces act
     \item The Coriolis force:
     \begin{equation}
         -2 m \vec\Omega \times \frac{\dd \vec{r}\,'}{\dd t} = 2 m \left(\begin{matrix} \Omega \dot y' \\ -\Omega \dot x' \\ 0 \end{matrix}\right)
+        \label{eq:coriolis}
     \end{equation}
     \item The centrifugal force:
     \begin{equation}
         -m \vec\Omega \times (\vec\Omega \times \vec{r}\,') = m \Omega^2 \left(\begin{matrix} x' \\ y' \\ 0 \end{matrix}\right)
+        \label{eq:centrifugal}
     \end{equation}
 \end{enumerate}
 The equations of motion along \(x'\) and \(y'\) are then:
@@ -164,12 +167,63 @@ Combining \autoref{eq:kinetic_def} and \autoref{eq:v_change_ref} gives:
 \begin{equation}
     \begin{aligned}
         & T(\mathbf{y}) = \frac{1}{2}m\left((v_x' - \Omega y')^2 + (v_y' + \Omega x')^2\right) \\
-        & \Rightarrow T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + \Omega(x'v_y' - y'v_x') + \underbrace{\Omega^2\frac{x'\,^2 + y'\,^2}{2}}_{(\star)}
+        & \Rightarrow T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + \underbrace{m\Omega^2\frac{x'\,^2 + y'\,^2}{2}}_{(\star)}
     \end{aligned}
+    \label{eq:kinetic_frame_rot}
 \end{equation}
 
-We now want to analyse the potential energy of the satellite. 
+We now want to analyse the potential energy of the satellite and see if the energy is conserved. The only two fictious force at work are Coriolis and centrifugal from \autoref{sec:3body_reduced}. We first show that Coriolis does not produce any work with \autoref{eq:coriolis}:
+\begin{equation}
+    \vec{F}_\mathrm{Coriolis}.\vec{v}\,' = 2m\Omega(v_y'v_x' - v_x'v_y') = 0
+\end{equation}
+so the Coriolis fictious force is orthogonal to the movement and does not produce work. Then the centrifugal force can be derived from a potential, with \autoref{eq:centrifugal} we have:
+\begin{equation}
+    - \vec{\nabla} (-m\Omega^2 \frac{r'\,^2}{2}) = m \Omega^2 \vec{r}\,' = \vec{F}_\mathrm{centrifugal}
+\end{equation}
+thus the fictious forces are conservative. We note that the $(\star)$ of \autoref{eq:kinetic_frame_rot} is minus the potential from the centrifugal force, thus those two terms will cancel out in the final mechanical energy. The other two forces come from gravitational potential that are conservative, the same as in \autoref{sec:transfer_anal}. Therefore all forces doing work are conservative and the total mechanical energy is conserved. The total potential is:
+\begin{equation}
+    U(\mathbf{y}) = - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S} - m\Omega^2 \frac{r'\,^2}{2}
+\end{equation}
+and the total mechanical energy is:
+\begin{equation}
+    E_\mathrm{mech}(\mathbf{y}) = T(\mathbf{y}) + U(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
+\end{equation}
+
+Having considered the restricted 3 body problem with $m$ negligible with respect to $m_T$ and $m_S$ it will be later useful to define the energy per mass. For the potential this gives:
+\begin{equation}
+    U(\mathbf{y}) = - G \frac{m_T}{r_T} - G \frac{m_S}{r_S} - \Omega^2 \frac{r'\,^2}{2}
+    \label{eq:pot_per_mass}
+\end{equation}
+and for the total energy:
+\begin{equation}
+    E_\mathrm{mech}(\mathbf{y}) = \frac{1}{2}v'\,^2 + \Omega(x'v_y' - y'v_x') - G \frac{m_T}{r_T} - G \frac{m_S}{r_S}
+\end{equation}
+
 
 \subsection{Lagrange L2 equilibrium point}
 \label{sec:lagrange_L2}
 
+We are searching for the position of L2. In $\mathcal{R}'$ this corresponds to the point on the $x'$ axis for which $-\vec{\nabla}U(\mathbf{y}) = 0$, $x' > x'_T$ and $y' = 0$. We will be using the potential per mass for simplicity since it does not impact the equations and gives a result valid for any object of negligible mass relative to the Earth and the Sun. Using the projection on $x'$ of the gradient from \autoref{eq:pot_per_mass} we have:
+\begin{equation}
+    - G \frac{m_S(x' - x'_S)}{\left((x' - x'_S)^2 + y'\,^2\right)^\frac{3}{2}} - G \frac{m_T(x' - x'_T)}{\left((x' - x'_T)^2 + y'\,^2\right)^\frac{3}{2}} + \Omega^2 x' = 0
+\end{equation}
+with $y' = 0$ and $x' \neq x_S'$, $x' \neq x_T'$:
+\[
+    \begin{aligned}
+        &-G\frac{m_S}{(x'-x'_S)^2} -G\frac{m_T}{(x'-x'_T)^2} + \Omega^2 x' = 0 \\
+        & \Rightarrow -Gm_S(x'-x'_T)^2 - Gm_T(x'-x'_S)^2 + \Omega^2 x'(x'-x'_S)^2(x'-x'_T)^2 = 0
+    \end{aligned}
+\]
+by developping and factorising the first two terms we obtain:
+\[
+    \Rightarrow -G(m_S+m_T)x'\,^2 + 2G(m_Sx_T' + m_Tx_S')x' - G(m_Sx_T'\,^2 + m_Tx_S'\,^2) + \Omega^2 x'(x'-x'_S)^2(x'-x'_T)^2 = 0
+\]
+by developping the last term and factorising similarly we have:
+\begin{equation}
+    \begin{aligned}
+            &\Omega^2 x'\,^5 - 2\Omega^2(x_S' + x_T')x'\,^4 + \Omega^2\left((x_S' + x_T')^2 + 2x_S'x_T'\right)x'\,^3 \\
+            &- \left(G(m_S+m_T) + 2\Omega^2 x_T'x_S'(x_T' + x_S')\right)x'\,^2 + \left(2G(m_Sx_T' + m_Tx_S') + \Omega^2x_S'\,^2x_T'\,^2\right)x'  \\
+            &- G\left(m_Sx_T'\,^2 + m_Tx_S'\,^2\right) = 0
+    \end{aligned}
+\end{equation}
+which is a polynomial of order 5. This polynomial has only one real root that corresponds to the coordinate $x'$ of the L2 Lagrange point. The roots of this polynomial are found numerically to determine the position of L2.

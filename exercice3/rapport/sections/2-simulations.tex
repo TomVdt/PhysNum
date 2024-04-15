@@ -1,8 +1,34 @@
 \section{Simulations}
 
-\subsection{Implementation notes}
+% \subsection{Implementation notes}
+% For the adaptative time steps scheme a choice had to be made when division by 0 were encountered. Some simulations gave a value of $d=0$ i.e.
+% \begin{verbatim}
+% y1 = RK4_do_onestep(x, t, dt);
+% y_tilde = RK4_do_onestep(x, t, dt / 2.0l);
+% y2 = RK4_do_onestep(y_tilde, t, dt / 2.0l);
+% \end{verbatim}
+% gave the same values for y1 and y2. To avoid a division by 0 in the next step of increasing the dt as such
+% \begin{verbatim}
+% dt = dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
+% \end{verbatim}
+% a condition (d != 0.0l) was added before this calculation. If (d==0) the dt is kept constant.
 
 \subsection{Transfer orbit}
+The first simulations were about simulating the transfer of Webb from a low Earth orbit ar $r_0$ to the L2 Lagrange point at $r_1$ as defined in \autoref{sec:transfer_anal}. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Around Lagrange L2}
 
