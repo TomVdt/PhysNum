@@ -18,7 +18,6 @@ private:
 	long double mtot = 0e0l;
 	long double L2x, L2y;
 	valarray<long double> m = std::valarray<long double>(0.e0l, 2);
-	// int N_excit;
 	int nsteps;
 	int sampling;
 	int last;
@@ -132,7 +131,6 @@ private:
 			x0[3] = v0;
 		}
 		else if (nsel_physics == 2) {
-			// TODO go back through this to check correct initialisation
 			xs = -m[1] * a / mtot;
 			xt = m[0] * a / mtot;
 			omega = sqrt(G * m[0] / (a * a * xt));
@@ -196,7 +194,7 @@ public:
 		// Ouverture du fichier de sortie
 		outputFile = new ofstream(configFile.get<string>("output").c_str());
 		outputFile->precision(20);
-		//TO DO initialize tFin for nsel_physics=1 and initialize dt for both nsel_physics
+
 		if (nsel_physics == 1) {
 			a = (r0 + r1)/2.0l;
 			tFin = 2.0l * pi * sqrt(pow(a, 3.0l) / (G * m[1])) / 2.0l;
@@ -244,8 +242,8 @@ public:
 
 				if (d > tol) {
 					do {
-						dt = f * dt * pow(tol / d, 1.0l / (4.0l + 1.0l));			// TODO: RK4 converge ordre 4
-						++nsteps;
+						dt = f * dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
+						// ++nsteps;
 
 						y1 = RK4_do_onestep(x, t, dt);
 						y_tilde = RK4_do_onestep(x, t, dt / 2.0l);
