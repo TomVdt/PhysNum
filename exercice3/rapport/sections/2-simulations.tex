@@ -1,6 +1,8 @@
 \section{Simulations}
 
-% \subsection{Implementation notes}
+\subsection{Implementation notes}
+All the results presented in the following sections were obtained with the implementation of an RK4 method of integration either with constant or varying timesteps. The constant timesteps method is a straightforward implementation of RK4 with 4 calculations of positions with each step. The varying timesteps method is adaptative and accepts a step only if an RK4 step and two RK4 steps with $\Delta / 2$ are closer than a tolerance $\varepsilon$ in meters. If not it reduces $\Delta t$ until this condition is verified. It can also increase $\Delta t$ to allow for larger steps when only small errors arise.
+
 % For the adaptative time steps scheme a choice had to be made when division by 0 were encountered. Some simulations gave a value of $d=0$ i.e.
 % \begin{verbatim}
 % y1 = RK4_do_onestep(x, t, dt);
@@ -14,13 +16,38 @@
 % a condition (d != 0.0l) was added before this calculation. If (d==0) the dt is kept constant.
 
 \subsection{Transfer orbit}
-The first simulations were about simulating the transfer of Webb from a low Earth orbit ar $r_0$ to the L2 Lagrange point at $r_1$ as defined in \autoref{sec:transfer_anal}. 
+The first simulations were about simulating the transfer of Webb from a low Earth orbit ar $r_0$ to the L2 Lagrange point at $r_1$ as defined in \autoref{sec:transfer_anal}. The system was initialised with \(r_0 = 6800\) km and the value of $v0$ calculated using \autoref{eq:v0_final}. Using the third Kepler law the predicted orbit was of duration $t_\mathrm{fin} = 2\pi\sqrt{a^3/Gm_T}$ and the simulation was run up to $t_\mathrm{fin}/2$. The results for the fixed $\Delta t$ scheme with $n_\mathrm{steps} = 5000$ and for an adaptative scheme with tolerance $\varepsilon = 100$ \si{\meter} are shown in \autoref{fig:transfert_traj}. The adaptative scheme obtained the given trajectory in $n_\mathrm{steps} = 65$.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/transfert_comparaison.pdf}
+    \caption{Trajectories of a transfer orbit from $r_0 = 6800$ \si{\kilo\meter} to the L2 Lagrange point at $r_1 = 1.5 \cdot 10^6$ \si{\kilo\meter} with varying (adaptative), tolerance $\varepsilon = 100$ \si{\meter}, and constant (non-adaptative) timesteps, $n_\mathrm{steps} = 5000$}
+    \label{fig:transfert_traj}
+\end{figure}
 
+The \autoref{fig:transfert_traj} shows clearly that the fixed $\Delta t$ scheme is not adaptated to simulating these orbits with the trajectory not reaching the expected point L2 from the theory by a long distance. We see this method doing multiple orbits during the time it should have taken to complete only one. The adaptative scheme conversely gives exactly the expected behavior with the simulation ending extremely close to the theoretical L2 point representing half of the orbit.
 
+The energies of these two simulations were also analysed and the results are shown in \autoref{fig:transfert_energies}. The \autoref{fig:transfert_2_energies} shows that the energy was highly not conserved for the non-adaptative method with a loss of more than $5\cdot10^6$ \si{\joule}. This corresponds to what was expected from the trajectories in \autoref{fig:transfert_traj} with the energy decreasing with the lowering orbits. Compared to the non-adaptative method, the method with varying $\Delta t$ had a seemingly constant energy. However a more precise plot shows in \autoref{fig:transfert_adapt_energy} that the energy did drop by $\sim 200$ \si{\joule} at the very beginning of the simulation. This corresponds to the point in the orbit where it was closest to the Earth and thus with the most errors. For the rest of the simulation the energy was very well conserved with this method.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.47\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/transfert_all_energy.pdf}
+        \caption{Constant and varying $\Delta t$}
+        \label{fig:transfert_2_energies}
+    \end{subfigure}
+    \begin{subfigure}{0.52\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/transfert_adapt_energy.pdf}
+        \caption{Varying $\Delta t$}
+        \label{fig:transfert_adapt_energy}
+    \end{subfigure}
+    \caption{Energies during the simulation up to $t_\mathrm{fin}/2$ for two numerical methods}
+    \label{fig:transfert_energies}
+\end{figure}
 
+The results of these two simulations indicate clearly that the adaptative RK4 method gives much better results in this simulation of an orbit of transfer than the RK4 method with constant $\Delta t$. The energy was conserved better and the behavior of this adaptative method was as expected for low computation costs, of only 65 timesteps even if those steps require more operations.
 
-
-
+\subsection{Orders of convergence}
 
 
 

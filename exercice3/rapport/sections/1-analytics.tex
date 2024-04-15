@@ -35,6 +35,7 @@ Solving for \(v_1\) and with $r_0 \neq r_1$ we get the following expression:
 Using \autoref{eq:v0_substitution}, we have
 \begin{equation}
     v_0 = r_1 \sqrt{2 G m_T \frac{\frac{1}{r_0}-\frac{1}{r_1}}{r_1^2-r_0^2}}
+    \label{eq:v0_final}
 \end{equation}
 Evaluating these expressions using \(m_T = 5.9736 \cdot 10^{24}\) kg gives us
 \begin{equation}
@@ -167,7 +168,7 @@ Combining \autoref{eq:kinetic_def} and \autoref{eq:v_change_ref} gives:
 \begin{equation}
     \begin{aligned}
         & T(\mathbf{y}) = \frac{1}{2}m\left((v_x' - \Omega y')^2 + (v_y' + \Omega x')^2\right) \\
-        & \Rightarrow T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + \underbrace{m\Omega^2\frac{x'\,^2 + y'\,^2}{2}}_{(\star)}
+        & \Rightarrow T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + \underbrace{m\Omega^2\frac{x'\,^2 + y'\,^2}{2}}_{(\ast)}
     \end{aligned}
     \label{eq:kinetic_frame_rot}
 \end{equation}
@@ -180,7 +181,7 @@ so the Coriolis fictious force is orthogonal to the movement and does not produc
 \begin{equation}
     - \vec{\nabla} (-m\Omega^2 \frac{r'\,^2}{2}) = m \Omega^2 \vec{r}\,' = \vec{F}_\mathrm{centrifugal}
 \end{equation}
-thus the fictious forces are conservative. We note that the $(\star)$ of \autoref{eq:kinetic_frame_rot} is minus the potential from the centrifugal force, thus those two terms will cancel out in the final mechanical energy. The other two forces come from gravitational potential that are conservative, the same as in \autoref{sec:transfer_anal}. Therefore all forces doing work are conservative and the total mechanical energy is conserved. The total potential is:
+thus the fictious forces are conservative. We note that the $(\ast)$ of \autoref{eq:kinetic_frame_rot} is minus the potential from the centrifugal force, thus those two terms will cancel out in the final mechanical energy. The other two forces come from gravitational potential that are conservative, the same as in \autoref{sec:transfer_anal}. Therefore all forces doing work are conservative and the total mechanical energy is conserved. The total potential is:
 \begin{equation}
     U(\mathbf{y}) = - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S} - m\Omega^2 \frac{r'\,^2}{2}
 \end{equation}
