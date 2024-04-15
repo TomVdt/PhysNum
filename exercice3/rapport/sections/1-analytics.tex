@@ -187,7 +187,7 @@ thus the fictious forces are conservative. We note that the $(\ast)$ of \autoref
 \end{equation}
 and the total mechanical energy is:
 \begin{equation}
-    E_\mathrm{mec}(\mathbf{y}) = T(\mathbf{y}) + U(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
+    E_\mathrm{mec}(\mathbf{y}) = T(\mathbf{y}) + U(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + m\Omega^2\frac{x'\,^2 + y'\,^2}{2} - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
 \end{equation}
 
 Having considered the restricted 3 body problem with $m$ negligible with respect to $m_T$ and $m_S$ it will be later useful to define the energy per mass. For the potential this gives:
@@ -209,16 +209,16 @@ We are searching for the position of L2. In $\mathcal{R}'$ this corresponds to t
     - G \frac{m_S(x' - x'_S)}{\left((x' - x'_S)^2 + y'\,^2\right)^\frac{3}{2}} - G \frac{m_T(x' - x'_T)}{\left((x' - x'_T)^2 + y'\,^2\right)^\frac{3}{2}} + \Omega^2 x' = 0
 \end{equation}
 with $y' = 0$ and $x' \neq x_S'$, $x' \neq x_T'$:
-\[
+\begin{equation}
     \begin{aligned}
         &-G\frac{m_S}{(x'-x'_S)^2} -G\frac{m_T}{(x'-x'_T)^2} + \Omega^2 x' = 0 \\
         & \Rightarrow -Gm_S(x'-x'_T)^2 - Gm_T(x'-x'_S)^2 + \Omega^2 x'(x'-x'_S)^2(x'-x'_T)^2 = 0
     \end{aligned}
-\]
+\end{equation}
 by developping and factorising the first two terms we obtain:
-\[
+\begin{equation}
     \Rightarrow -G(m_S+m_T)x'\,^2 + 2G(m_Sx_T' + m_Tx_S')x' - G(m_Sx_T'\,^2 + m_Tx_S'\,^2) + \Omega^2 x'(x'-x'_S)^2(x'-x'_T)^2 = 0
-\]
+\end{equation}
 by developping the last term and factorising similarly we have:
 \begin{equation}
     \begin{aligned}
