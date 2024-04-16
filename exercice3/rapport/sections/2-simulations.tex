@@ -101,32 +101,24 @@ Due to the nature of the adaptative timestep method, the convergence order again
     \label{fig:lagrange_conv}
 \end{figure}
 
-Mechanical energy over time is shown in \autoref{fig:lagrange_emec}. Both methods seem to give similar energy levels. Analysing the location of the spikes in energy reveals that they occur at the intersection between the trajectory and the Earth-Sun axis (\(x'\) axis). This is shown in \autoref{fig:lagrange_max_mins_energy}. These locations corresponds to rapid changes of speed along both axes. Error on conservation of mechanical energy for both methods is also given in \autoref{fig:lagrange_emec_error}. While both methods give a similar error, the initial spread is much smaller for adaptative method than the fixed one. While mechanical energy does not seem to be conserved well for each step, mechanical energy seems to recover after each bump, making it a bit more conserved overall.
+\begin{wrapfigure}{R}{0.45\linewidth}
+    \vspace*{-0.2cm}
+    \centering
+    \includegraphics[width=\linewidth]{figures/lagrange_emec.pdf}
+    \caption{Mechanical energy in \(\mathcal R'\) over time for both methods}
+    \label{fig:lagrange_emec}
+    \vspace*{-0.5cm}
+\end{wrapfigure}
+Mechanical energy in \(\mathcal R'\) over time is shown in \autoref{fig:lagrange_emec}. The adapative method seems to conserve energy a lot better than the fixed method. A spike in energy followed by a bigger drop occurs around \(t \approx 3.9 \cdot 10^7\) s, which corresponds to the second passage of the satelite near Earth. Error on conservation of mechanical energy for both methods is also given in \autoref{fig:lagrange_emec_error}. For both methods, the error tends to 0 for a bigger number of steps. However, the adaptative method manages to have a much smaller error for a much smaller number of steps compared to the fixed method.
 \begin{figure}[H]
     \centering
-    \begin{minipage}{.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/lagrange_emec.pdf}
-        \captionof{figure}{Mechanical energy over time for both methods}
-        \label{fig:lagrange_emec}
-    \end{minipage}
-    \hspace{0.1cm}
-    \begin{minipage}{.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/lagrange_max_mins_energy.pdf}
-        \captionof{figure}{Points on trajectory where mechanical energy is maximal or minimal, using adaptative method}
-        \label{fig:lagrange_max_mins_energy}
-    \end{minipage}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}{0.48\linewidth}
+    \begin{subfigure}{0.46\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/lagrange_emec_error_fixed.pdf}
         \caption{Fixed \(\dd t\) method}
         \label{fig:lagrange_emec_error_fixed}
     \end{subfigure}
-    \begin{subfigure}{0.48\linewidth}
+    \begin{subfigure}{0.52\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/lagrange_emec_error_adapt.pdf}
         \caption{Adaptative \(\dd t\) method}
@@ -155,30 +147,41 @@ Let's analyse the trajectory more closely, specially the behavior near L2. Using
     \caption{Trajectory of Webb with different initial perturbations after starting from L2, using adaptative method with tolerance \(\varepsilon = 10^{-4}\)}
 \end{figure}
 
+\begin{wrapfigure}{R}{0.45\linewidth}
+    \vspace*{-0.4cm}
+    \centering
+    \includegraphics[width=\linewidth]{figures/lagrange_exponential_distance.pdf}
+    \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
+    \label{fig:lagrange_distance_L2}
+    \vspace*{-0.5cm}
+\end{wrapfigure}
 It is interesting to note that the distance to L2 grows exponentially over time, for a given range. Indeed, \autoref{fig:lagrange_distance_L2} shows that this range is for \(t < 2 \cdot 10^7 \textrm{ s} \approx 231 \textrm{ days}\), after which the satellite remains far from L2.
 
 Let's study the potential energy a bit more closely, allowing us to find the stability of the Lagrange point L2 for example. For this study, the potential in the rotating reference \(\mathcal R'\) frame will be used. At the scale of the solar system, we can identify a bump in the potential, which could hint at the presence of other Lagrange points. There is a ring where potential increases slightly, as shown in \autoref{fig:lagrange_potential_global}. While the scale of the figure does not show it, there should be saddle points and some wells allowing for other Lagrange points, whose locations are marked approximately on the figure \cite{lagrange}. As could be seen in \autoref{fig:lagrange_trajectory_potential}, the Lagrange points L1 and L2 are placed on saddle points, meaning they are unstable. This is coherent with what was observed in the simulations.
 
 \begin{figure}[h]
     \centering
-    \begin{minipage}{.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/lagrange_exponential_distance.pdf}
-        \caption{Distance from L2 over time, starting from L2 with initial downwards speed \(\dot y' = -0.1\)}
-        \label{fig:lagrange_distance_L2}
-    \end{minipage}
-    \hspace{0.1cm}
-    \begin{minipage}{.52\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/potential_global.png}
-        \caption{Potential energy band for a distance around the Sun-Earth distance.}
-        \label{fig:lagrange_potential_global}
-    \end{minipage}
+    \includegraphics[width=0.6\linewidth]{figures/potential_global.png}
+    \caption{Potential energy band for a distance around the Sun-Earth distance.}
+    \label{fig:lagrange_potential_global}
 \end{figure}
+
+% figure graveyard
+% please pay your respects here
+% F
 
 % \begin{figure}[h]
 %     \centering
 %     \includegraphics[width=0.6\linewidth]{figures/potential3D_L1_L2_zoom.png}
 %     \caption{3D representation of the potential around Earth}
 %     \label{fig:lagrange_potential_3D}
+% \end{figure}
+
+% Both methods seem to give similar energy levels. Analysing the location of the spikes in energy reveals that they occur at the intersection between the trajectory and the Earth-Sun axis (\(x'\) axis). This is shown in \autoref{fig:lagrange_max_mins_energy}. These locations corresponds to rapid changes of speed along both axes.
+% While both methods give a similar error, the initial spread is much smaller for adaptative method than the fixed one. While mechanical energy does not seem to be conserved well for each step, mechanical energy seems to recover after each bump, making it a bit more conserved overall.
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\linewidth]{figures/lagrange_max_mins_energy.pdf}
+%     \caption{Points on trajectory where mechanical energy is maximal or minimal, using adaptative method}
+%     \label{fig:lagrange_max_mins_energy}
 % \end{figure}
