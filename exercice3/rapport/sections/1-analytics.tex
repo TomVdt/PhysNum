@@ -106,16 +106,14 @@ Let \(\mathcal R'\) be a rotating frame of reference at angular speed \(\Omega\)
 \end{equation}
 We denotate the position of Webb as \(\vec{r}\,' = (x', y', 0)\). The forces acting on the satellite are:
 \begin{enumerate}
-    \item The gravitational pull from the Earth:
+    \item The gravitational pull from the Earth at \(\vec{r_T}' = (x_T', 0, 0)\):
     \begin{equation}
         -G \frac{m m_T}{|\vec{r}\,' - \vec{r_T}'|^3} (\vec{r}\,' - \vec{r_T}')
     \end{equation}
-    where \(\vec{r_T}' = (x_T', 0, 0)\)
-    \item The gravitational pull from the Sun:
+    \item The gravitational pull from the Sun at \(\vec{r_S}' = (x_S', 0, 0)\):
     \begin{equation}
         -G \frac{m m_S}{|\vec{r}\,' - \vec{r_S}'|^3} (\vec{r}\,' - \vec{r_S}')
     \end{equation}
-    where \(\vec{r_S}' = (x_S', 0, 0)\)
     \item The Coriolis force:
     \begin{equation}
         -2 m \vec\Omega \times \frac{\dd \vec{r}\,'}{\dd t} = 2 m \left(\begin{matrix} \Omega \dot y' \\ -\Omega \dot x' \\ 0 \end{matrix}\right)
@@ -231,7 +229,7 @@ and for the total energy in $\mathcal{R}'$:
 \subsection{Lagrange L2 equilibrium point}
 \label{sec:lagrange_L2}
 
-We are searching for the position of L2. In $\mathcal{R}'$ this corresponds to the point on the $x'$ axis for which $-\vec{\nabla}U(\mathbf{y}) = 0$, $x' > x'_T$ and $y' = 0$. We will be using the potential per mass for simplicity since it does not impact the equations and gives a result valid for any object of negligible mass relative to the Earth and the Sun. Using the projection on $x'$ of the gradient from \autoref{eq:pot_per_mass} we have:
+We are searching for the position of L2. In $\mathcal{R}'$ this corresponds to the point on the $x'$ axis for which $-\vec{\nabla}U'(\mathbf{y}) = 0$, $x' > x'_T$ and $y' = 0$, for this point of equilibrium we only consider the conservative, or taken as conservative in the frame, forces. Thus the Coriolis force does not play a role in this equilibrium point and it is coherent with the fact that equilibrium, especially when it is unstable, is respected for $v'=0$. We will be using the potential per mass for simplicity since it does not impact the equations and gives a result valid for any object of negligible mass relative to the Earth and the Sun. Using the projection on $x'$ of the gradient from \autoref{eq:pot_per_mass} we have:
 \begin{equation}
     - G \frac{m_S(x' - x'_S)}{\left((x' - x'_S)^2 + y'\,^2\right)^\frac{3}{2}} - G \frac{m_T(x' - x'_T)}{\left((x' - x'_T)^2 + y'\,^2\right)^\frac{3}{2}} + \Omega^2 x' = 0
 \end{equation}
