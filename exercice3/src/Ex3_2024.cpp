@@ -60,7 +60,7 @@ private:
 			xdot[2] = x[0] * prefact;
 			xdot[3] = x[1] * prefact;
 		}
-		else if (nsel_physics == 2) {
+		else if (nsel_physics == 2 || nsel_physics == 3) {
 			const long double Rs = sqrt(x[1] * x[1] + (x[0] - xs) * (x[0] - xs));
 			const long double Rt = sqrt(x[1] * x[1] + (x[0] - xt) * (x[0] - xt));
 
@@ -96,8 +96,14 @@ private:
 			energy_pot = -G * m[1] / norm(x);
 		}
 		else if (nsel_physics == 2) {
+			// R'
 			energy_pot = 
-				// - 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+				- 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
+				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
+		} else if (nsel_physics == 3) {
+			// R
+			energy_pot = 
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
 		}
@@ -106,10 +112,24 @@ private:
 
 	// Function to compute mechanical energy per mass in R'
 	long double compute_energy(const valarray<long double>& x) {
-		return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3])
-			+ omega * (x[3] * x[0] - x[2] * x[1])
-			+ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
-			+ get_Epot(x);
+		if (nsel_physics == 1) {
+			return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3])
+				+ omega * (x[3] * x[0] - x[2] * x[1])
+				+ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+				+ get_Epot(x);
+		}
+		if (nsel_physics == 2) {
+			// R'
+			return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3]) + get_Epot(x);
+		} else if (nsel_physics == 3) {
+			// R
+			return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3])
+				+ omega * (x[3] * x[0] - x[2] * x[1])
+				+ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
+				+ get_Epot(x);
+		} else {
+			return 0;
+		}
 	}
 
 	// Norm of the position, does not take the velocity
@@ -130,7 +150,7 @@ private:
 			x0[2] = 0.0;
 			x0[3] = v0;
 		}
-		else if (nsel_physics == 2) {
+		else if (nsel_physics == 2 || nsel_physics == 3) {
 			xs = -m[1] * a / mtot;
 			xt = m[0] * a / mtot;
 			omega = sqrt(G * m[0] / (a * a * xt));
