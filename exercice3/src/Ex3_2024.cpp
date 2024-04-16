@@ -96,13 +96,13 @@ private:
 			energy_pot = -G * m[1] / norm(x);
 		}
 		else if (nsel_physics == 2) {
-			// R'
+			// Energy in R' for orbits around L2
 			energy_pot = 
 				- 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
 		} else if (nsel_physics == 3) {
-			// R
+			// Energy in R for orbits around L2
 			energy_pot = 
 				- G * m[0] / sqrt(pow(x[0] - xs, 2) + x[1] * x[1])
 				- G * m[1] / sqrt(pow(x[0] - xt, 2) + x[1] * x[1]);
@@ -110,12 +110,10 @@ private:
 		return energy_pot;
 	}
 
-	// Function to compute mechanical energy per mass in R'
+	// Function to compute mechanical energy per mass
 	long double compute_energy(const valarray<long double>& x) {
 		if (nsel_physics == 1) {
 			return 1.0 / 2.0 * (x[2] * x[2] + x[3] * x[3])
-				+ omega * (x[3] * x[0] - x[2] * x[1])
-				+ 1.0 / 2.0 * omega * omega * (x[0] * x[0] + x[1] * x[1])
 				+ get_Epot(x);
 		}
 		if (nsel_physics == 2) {
@@ -143,9 +141,7 @@ private:
 			x0[0] = -r0;
 			x0[1] = 0.0l;
 
-			// To calculate the kinetic energy
-			omega = 0;
-
+			// initialise speed
 			v0 = r1 * sqrt(2.0l * G * m[1] * (1.0l / r0 - 1.0l / r1) / (r1 * r1 - r0 * r0));
 			x0[2] = 0.0;
 			x0[3] = v0;
@@ -215,6 +211,7 @@ public:
 		outputFile = new ofstream(configFile.get<string>("output").c_str());
 		outputFile->precision(20);
 
+		// initialise tFin to do half of an orbit
 		if (nsel_physics == 1) {
 			a = (r0 + r1)/2.0l;
 			tFin = 2.0l * pi * sqrt(pow(a, 3.0l) / (G * m[1])) / 2.0l;
@@ -263,7 +260,6 @@ public:
 				if (d > tol) {
 					do {
 						dt = f * dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
-						// ++nsteps;
 
 						y1 = RK4_do_onestep(x, t, dt);
 						y_tilde = RK4_do_onestep(x, t, dt / 2.0l);
@@ -278,15 +274,12 @@ public:
 					x = y2;
 					t += dt;
 					dt = dt * pow(tol / d, 1.0l / (4.0l + 1.0l));
-					// Avoid division by 0
-					// if (d != 0.0l) {
-					// }
 				}
 				printOut(false);
 			}
 		}
 
-		printOut(true); // ecrire le dernier pas de temps
+		printOut(true); // write last time step
 	}
 
 };
