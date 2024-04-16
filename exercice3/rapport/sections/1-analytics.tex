@@ -100,7 +100,7 @@ where only the positive root was taken because we take the motion to be counter-
 \subsection{Equations of motion in rotating frame of reference}
 \label{sec:3body_reduced}
 
-Let \(\mathcal R'\) be a rotating frame of reference at angular speed \(\Omega\), with a cartesian coordinate system \((x',y')\) centered in \(\mathcal G\). In this frame, the Sun and Earth are motionless. We want to obtain the equations of motion of Webb in this reference frame assuming that its mass is sufficiently small to not impact the movement of Earth and the Sun (restricted 3 body problem). Let us take the vector \(\mathbf{y} = (x'(t), y'(t), \dot x'(t), \dot y'(t))\). We are searching for \(\mathbf{f}\) such that:
+Let \(\mathcal R'\) be a rotating frame of reference at angular speed \(\Omega\), with a cartesian coordinate system \((x',y')\) centered in \(\mathcal G\). In this frame, the Sun and Earth are motionless. We want to obtain the equations of motion of Webb in this reference frame assuming that its mass is sufficiently small to not impact the movement of Earth and the Sun (restricted 3 body problem). Let us redefine the vector \(\mathbf{y} = (x'(t), y'(t), v_x', v_y')\) with $v_x' = \dot{x}'$ and $v_y' = \dot{y}'$. We are searching for \(\mathbf{f}\) such that:
 \begin{equation}
     \frac{\dd \mathbf{y}}{\dd t} = \left(\begin{matrix} \dot x' \\ \dot y' \\ \ddot x' \\ \ddot y' \end{matrix}\right) = \mathbf{f}(\mathbf{y})
 \end{equation}
@@ -168,36 +168,63 @@ Combining \autoref{eq:kinetic_def} and \autoref{eq:v_change_ref} gives:
 \begin{equation}
     \begin{aligned}
         & T(\mathbf{y}) = \frac{1}{2}m\left((v_x' - \Omega y')^2 + (v_y' + \Omega x')^2\right) \\
-        & \Rightarrow T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + \underbrace{m\Omega^2\frac{x'\,^2 + y'\,^2}{2}}_{(\ast)}
+        \Rightarrow & T(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + m\Omega^2\frac{x'\,^2 + y'\,^2}{2}
     \end{aligned}
     \label{eq:kinetic_frame_rot}
 \end{equation}
 
-We now want to analyse the potential energy of the satellite and see if the energy is conserved. The only two fictious force at work are Coriolis and centrifugal from \autoref{sec:3body_reduced}. We first show that Coriolis does not produce any work with \autoref{eq:coriolis}:
+We now want to analyse the potential energy of the satellite and see if the energy is conserved. In $\mathcal{R}$ the inertial reference frame the only forces come from gravitational potentials that are conservative, the same as in \autoref{sec:transfer_anal}. Therefore all forces doing work are conservative and the total mechanical energy is conserved. The total potential is:
 \begin{equation}
-    \vec{F}_\mathrm{Coriolis}.\vec{v}\,' = 2m\Omega(v_y'v_x' - v_x'v_y') = 0
+    U(\mathbf{y}) = - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
 \end{equation}
-so the Coriolis fictious force is orthogonal to the movement and does not produce work. Then the centrifugal force can be derived from a potential, with \autoref{eq:centrifugal} we have:
-\begin{equation}
-    - \vec{\nabla} (-m\Omega^2 \frac{r'\,^2}{2}) = m \Omega^2 \vec{r}\,' = \vec{F}_\mathrm{centrifugal}
-\end{equation}
-thus the fictious forces are conservative. We note that the $(\ast)$ of \autoref{eq:kinetic_frame_rot} is minus the potential from the centrifugal force, thus those two terms will cancel out in the final mechanical energy. The other two forces come from gravitational potential that are conservative, the same as in \autoref{sec:transfer_anal}. Therefore all forces doing work are conservative and the total mechanical energy is conserved. The total potential is:
-\begin{equation}
-    U(\mathbf{y}) = - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S} - m\Omega^2 \frac{r'\,^2}{2}
-\end{equation}
-and the total mechanical energy is:
+and the total mechanical energy in $\mathcal{R}$ is:
 \begin{equation}
     E_\mathrm{mec}(\mathbf{y}) = T(\mathbf{y}) + U(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + m\Omega^2\frac{x'\,^2 + y'\,^2}{2} - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
 \end{equation}
-
-Having considered the restricted 3 body problem with $m$ negligible with respect to $m_T$ and $m_S$ it will be later useful to define the energy per mass. For the potential this gives:
+and the Lagrangian of the system is:
 \begin{equation}
-    U(\mathbf{y}) = - G \frac{m_T}{r_T} - G \frac{m_S}{r_S} - \Omega^2 \frac{r'\,^2}{2}
+    L(\mathbf{y}) = T(\mathbf{y}) - U(\mathbf{y}) = \frac{1}{2}mv'\,^2 + m\Omega(x'v_y' - y'v_x') + m\Omega^2\frac{x'\,^2 + y'\,^2}{2} + G \frac{mm_T}{r_T} + G \frac{mm_S}{r_S}
+\end{equation}
+
+We now want to pursue our analysis in $\mathcal{R}'$. Using the new coordinates $(x',y')$ we can find the conjugate momenta to $x'$ and $y'$ from:
+\begin{equation}
+    p_{x'} = \frac{\partial L}{\partial v_x'} = -m\Omega y' + mv_x', \quad p_{y'} = \frac{\partial L}{\partial v_y'} = m\Omega x' + mv_y'
+\end{equation}
+which gives with the definition of the hamiltonian:
+\begin{equation}
+    \begin{aligned}
+        H(\mathbf{y}) & = E'(\mathbf{y}) = v_x'p_{x'} + v_y'p_{y'} - L(\mathbf{y}) \\
+        & = \frac{1}{2}mv_x'\,^2 + \frac{1}{2}mv_y'\,^2 - m\Omega^2\frac{x'\,^2 + y'\,^2}{2} - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S} \\
+        & = \frac{1}{2}mv'\,^2 \underbrace{- m\Omega^2\frac{r'\,^2}{2}}_{(\ast)} - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
+        \label{eq:energy_Rprime}
+    \end{aligned}
+\end{equation}
+which defines a new energy $E'$ for the system as the value of the hamiltonian in $\mathcal{R}'$. A few important characteristics of this system in $\mathcal{R}'$ can still be underlined. Indeed, the only two fictious force at work are Coriolis and centrifugal from \autoref{sec:3body_reduced}. We first show that Coriolis does not produce any work with \autoref{eq:coriolis}:
+\begin{equation}
+    \vec{F}_\mathrm{Coriolis}.\vec{v}\,' = 2m\Omega(v_y'v_x' - v_x'v_y') = 0
+\end{equation}
+so the Coriolis fictious force is orthogonal to the movement and does not produce work. Then the centrifugal force can be derived from a potential, with \autoref{eq:centrifugal} we do find:
+\begin{equation}
+    - \vec{\nabla} (-m\Omega^2 \frac{r'\,^2}{2}) = m \Omega^2 \vec{r}\,' = \vec{F}_\mathrm{centrifugal}
+\end{equation}
+and the obtained potential is the same as the term $(\ast)$ in \autoref{eq:energy_Rprime} which allows to redefine an effective potential and kinetic energy in $\mathcal{R}'$:
+\begin{equation}
+    U'(\mathbf{y}) = - m\Omega^2\frac{r'\,^2}{2} - G \frac{mm_T}{r_T} - G \frac{mm_S}{r_S}
+\end{equation}
+\begin{equation}
+    T'(\mathbf{y}) = \frac{1}{2}mv'\,^2
+\end{equation}
+the system will thus act in $\mathcal{R}'$ as a system in an inertial frame with potential $U'$ and a non-working force $\vec{F}_\mathrm{Coriolis}$.
+
+
+Having considered the restricted 3 body problem with $m$ negligible with respect to $m_T$ and $m_S$ it will be later useful to define the energy per mass. For the potential in $\mathcal{R}'$ this gives:
+\begin{equation}
+    U(\mathbf{y}) = - \Omega^2 \frac{r'\,^2}{2} - G \frac{m_T}{r_T} - G \frac{m_S}{r_S}
     \label{eq:pot_per_mass}
 \end{equation}
-and for the total energy:
+and for the total energy in $\mathcal{R}'$:
 \begin{equation}
-    E_\mathrm{mec}(\mathbf{y}) = \frac{1}{2}v'\,^2 + \Omega(x'v_y' - y'v_x') - G \frac{m_T}{r_T} - G \frac{m_S}{r_S}
+    E_\mathrm{mec}(\mathbf{y}) = \frac{1}{2}v'\,^2 - \Omega^2\frac{r'\,^2}{2} - G \frac{m_T}{r_T} - G \frac{m_S}{r_S}
 \end{equation}
 
 
