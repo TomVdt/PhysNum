@@ -71,8 +71,9 @@ def run_with_params(config_name: str, all_params: list[dict[str, Any]]) -> list[
 
     dataset = []
     for file, params in zip(outputs, all_params):
-        data = np.loadtxt(path + file)
-        dataset.append((params, data))
+        data_temp = np.loadtxt(path + file)
+        data_heat = np.loadtxt(path + file + "_heat.out")
+        dataset.append((params, data_temp, data_heat))
     return dataset
 
 def load_conf(config_name: str) -> dict[str, Any]:
