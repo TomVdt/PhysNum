@@ -86,13 +86,7 @@ int main(int argc, char* argv[]) {
     // TODO: verify
     vector<double> r(pointCount);
     for (size_t i = 0; i < N + 1; ++i) {
-        if (alpha == 1) {
-            r[i] = i / N * R;
-        } else if (alpha == 2) {
-            r[i] = sqrt(i / N) * R;
-        } else {
-            throw std::runtime_error("wtf bro, check yo alpha");
-        }
+        r[i] = pow(i / N, 1.0 / alpha) * R;
     }
 
     // Distance between elements @TODO code h[i]
@@ -115,7 +109,7 @@ int main(int argc, char* argv[]) {
         constexpr double p = 0.0;
         const double r_half = (r.at(k) + r.at(k+1)) / 2.0;
         const double kappa_integral = (
-            // p * ((kappa(r.at(k), kappa0, kappaR, R) + kappa(r.at(k+1), kappa0, kappaR, R)) / 2.0)
+            p * ((kappa(r.at(k), kappa0, kappaR, R) * r.at(k) + kappa(r.at(k+1), kappa0, kappaR, R) * r.at(k)) / 2.0)
             + (1.0 - p) * kappa(r_half, kappa0, kappaR, R) * r_half
         ) / h.at(k);
 
@@ -124,13 +118,14 @@ int main(int argc, char* argv[]) {
         diagonal[k]     += kappa_integral; 
         diagonal[k + 1] += kappa_integral;
         // * h[k] ommited because division by h[k] anyways
-        double source_integral1 = (
-            p * (source(r.at(k), r0, sigma, S0) / 2.0) * r.at(k)
-            + (1 - p) * source(r_half, r0, sigma, S0) * r_half
+        // TODO: revoir ca, normalement c'est bon
+        const double source_integral1 = (
+            p * source(r.at(k), r0, sigma, S0) * r.at(k) / 2.0
+            + (1 - p) * source(r_half, r0, sigma, S0) * r_half / 2.0
         ) * h.at(k);
-        double source_integral2 = (
+        const double source_integral2 = (
             p * (source(r.at(k+1), r0, sigma, S0) / 2.0) * r.at(k+1)
-            + (1 - p) * source(r_half, r0, sigma, S0) * r_half
+            + (1 - p) * source(r_half, r0, sigma, S0) * r_half / 2.0
         ) * h.at(k);
         rhs[k]     += source_integral1; 
         rhs[k + 1] += source_integral2;
