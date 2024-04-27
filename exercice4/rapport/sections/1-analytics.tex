@@ -1,10 +1,82 @@
 \section{Analytical results}
 
-\subsection{Physical situation}
+%TODO: add fig%
+The volume $\Omega$ is a cylinder of radius $R$ and length $L$. It is made of inhomogeneous matter with thermal conductivity $\kappa(\vec{x})$ and has a heat source $S(\vec{x})$. It is placed in a thermal bath at $T_R$. We consider the temperature profile $T(\vec{x})$ at the stationary state. 
 
-\subsection{result 1}
+\subsection{Differential Equation}
+\underline{Question (a)}
+We are searching for the differential equation of $T(\vec{x})$. We first give the continuity equation for the transfer of heat:
+\begin{equation}
+    \vec{\nabla} \cdot \vec{\jmath}_Q(\vec{x}) = S(\vec{x})
+    \label{eq:continuity}
+\end{equation}
+where $\vec{\jmath}_Q$ is the heat flux. It is given by the diffusion:
+\begin{equation}
+    \vec{\jmath}_Q(\vec{x}) = -\kappa (\vec{x}) \vec{\nabla}T(\vec{x})
+    \label{eq:heat_flux}
+\end{equation}
+Plugging \autoref{eq:heat_flux} into \autoref{eq:continuity} gives the equation:
+\begin{equation}
+    \vec{\nabla} \cdot (-\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = S(\vec{x})
+    \label{eq:true_equa_diff}
+\end{equation}
+which can be developped to give:
+\begin{equation}
+    \vec{\nabla}^2(T(\vec{x})) + \frac{1}{\kappa(\vec{x})} \vec{\nabla}(\kappa(\vec{x})) \cdot \vec{\nabla}(T(\vec{x})) + \frac{S(\vec{x})}{\kappa(\vec{x})} = 0
+    \label{eq:equa_diff_T}
+\end{equation}
+the differential equation according to positions for $T(\vec{x})$.
 
-...
+\subsection{Weak formulation}
+We work towards the weak formulation of \autoref{eq:true_equa_diff} using $\eta \in \mathrm{C}^1(\Omega), \, \eta(\vec{x}) = 0 \,\forall \vec{x} \in \partial\Omega$:
+\begin{equation}
+    \begin{aligned}
+        & -\vec{\nabla} \cdot (\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = S(\vec{x}) \\
+        & \Rightarrow -\eta(\vec{x}) \vec{\nabla} \cdot (\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \eta(\vec{x}) S(\vec{x})
+    \end{aligned}
+    \label{eq:weak_formulation}
+\end{equation}
 
-\subsection{Equa diff}
+We then use:
+\begin{equation}
+    -\eta(\vec{x})\vec{\nabla}\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) - \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x}))
+\end{equation}
+to have \autoref{eq:weak_formulation} as:
+\begin{equation}
+    \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) - \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \eta(\vec{x})S(\vec{x})
+\end{equation}
+
+This expression is then integrated over the whole cylinder $\Omega$ to have the weak formulation of the equation for $T$ and using the divergence theorem we find:
+\begin{equation}
+    \begin{aligned}
+        & \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \iiint_\Omega \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega \\
+        & \Rightarrow \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \varoiint_{\partial\Omega} \eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x}) \cdot \mathrm{d}\vec{\sigma} = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
+    \end{aligned}
+    \label{eq:integrals}
+\end{equation}
+with the $\mathrm{d}\vec{\sigma}$ being the surface element vector. We have that $\eta(\vec{x}) = 0, \, \forall \vec{x} \in \partial\Omega$ so the closed integral in \autoref{eq:integrals} is 0 and:
+
+\begin{equation}
+    \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
+\end{equation}
+is the final weak formulation.
+
+\subsection{Cylindrical coordinates}
+We now introduce cylindrical symmetry in the problem to have that:
+\begin{equation}
+    \frac{\partial}{\partial \varphi} = 0 \, ,\quad \frac{\partial}{\partial z} = 0
+\end{equation}
+and
+\begin{equation}
+    T(\vec{x}) = T(r) \, , \quad S(\vec{x}) = S(r) \, , \quad \kappa(\vec{x}) = \kappa(r) \, , \quad \eta(\vec{x}) = \eta(r)
+\end{equation}
+taking only functions $\eta$ that satisfy this condition.
+This also allows to simplify the gradient in cylindrical coordinates:
+\begin{equation}
+    \vec{\nabla} = \left(\frac{\partial}{\partial r}, \frac{1}{r}\frac{\partial}{\partial \varphi}, \frac{\partial}{\partial z}\right) = \left(\frac{\partial}{\partial r}, 0, 0\right)
+\end{equation}
+
+
+
+\subsection{Analytical solution for homogeneous case}
 \label{sec:solution_anal}
