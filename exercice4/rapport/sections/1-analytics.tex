@@ -1,7 +1,7 @@
 \section{Analytical results}
 
 %TODO: add fig%
-The volume $\Omega$ is a cylinder of radius $R$ and length $L$. It is made of inhomogeneous matter with thermal conductivity $\kappa(\vec{x})$ and has a heat source $S(\vec{x})$. It is placed in a thermal bath at $T_R$. We consider the temperature profile $T(\vec{x})$ at the stationary state. 
+The volume $\Omega$ is a cylinder of radius $R$ and length $L$. It is made of inhomogeneous matter with thermal conductivity $\kappa(\vec{x})$ and has a heat source $S(\vec{x})$. It is placed in a thermal bath at $T_R$. We consider the temperature profile $T(\vec{x})$ at the stationary state.
 
 \subsection{Differential Equation}
 \underline{Question (a)}
@@ -34,14 +34,14 @@ We work towards the weak formulation of \autoref{eq:true_equa_diff} using $\eta 
         & -\vec{\nabla} \cdot (\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = S(\vec{x}) \\
         & \Rightarrow -\eta(\vec{x}) \vec{\nabla} \cdot (\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \eta(\vec{x}) S(\vec{x})
     \end{aligned}
-    \label{eq:weak_formulation}
+    \label{eq:weak_formulation_local}
 \end{equation}
 
 We then use:
 \begin{equation}
     -\eta(\vec{x})\vec{\nabla}\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) - \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x}))
 \end{equation}
-to have \autoref{eq:weak_formulation} as:
+to have \autoref{eq:weak_formulation_local} as:
 \begin{equation}
     \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) - \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = \eta(\vec{x})S(\vec{x})
 \end{equation}
@@ -58,7 +58,9 @@ with the $\mathrm{d}\vec{\sigma}$ being the surface element vector. We have that
 
 \begin{equation}
     \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
+    \label{eq:weak_formulation}
 \end{equation}
+
 is the final weak formulation.
 
 \subsection{Cylindrical coordinates}
@@ -70,12 +72,30 @@ and
 \begin{equation}
     T(\vec{x}) = T(r) \, , \quad S(\vec{x}) = S(r) \, , \quad \kappa(\vec{x}) = \kappa(r) \, , \quad \eta(\vec{x}) = \eta(r)
 \end{equation}
-taking only functions $\eta$ that satisfy this condition.
-This also allows to simplify the gradient in cylindrical coordinates:
+from the derivatives along $\varphi$ and $z$ being 0. This also allows to simplify the gradient in cylindrical coordinates:
 \begin{equation}
     \vec{\nabla} = \left(\frac{\partial}{\partial r}, \frac{1}{r}\frac{\partial}{\partial \varphi}, \frac{\partial}{\partial z}\right) = \left(\frac{\partial}{\partial r}, 0, 0\right)
 \end{equation}
+Thus the weak formulation of \autoref{eq:weak_formulation} becomes:
+\begin{equation}
+    \iiint_\Omega \frac{\partial \eta (r)}{\partial r} \kappa(r) \frac{\partial T(r)}{\partial r} \mathrm{d}\Omega = \iiint_\Omega \eta(r)S(r) \mathrm{d}\Omega
+\end{equation}
+Still using cylindrical symmetry we also have $\frac{\partial}{\partial r} = \frac{\mathrm{d}}{\mathrm{d}r}$ as well as $\iiint_\Omega \mathrm{d}\Omega = 2\pi L \int_0^R r \mathrm{d}r$. This gives by simplifying the $2\pi L$ term on both sides:
 
+\begin{equation}
+    \int_0^R \frac{\mathrm{d} \eta (r)}{\mathrm{d} r} \kappa(r) \frac{\mathrm{d} T(r)}{\mathrm{d} r} r \mathrm{d}r = \int_0^R \eta(r)S(r) r \mathrm{d}r
+\end{equation}
+
+the weak formulation in cylindrical coordinates assuming cylindrical symmetry.
+
+\subsection{Finite elements}
+We now want to apply $N$ finite linear elements $\{\Lambda_i(r)\}_{i=1,\ldots,N}$ defined for any mesh $\{r_i\}_{i=1,\ldots,N}$. For any $i \in \{2,\ldots,N-1\}$ the function $\Lambda_i(r)$ is defined on $[r_{i-1}, r_{i+1}]$ as:
+\begin{equation}
+    \Lambda_i(r) = \begin{cases}
+        1/(r_i - r_{i-1})(r - r_{i-1}) \quad , r\in[r_{i-1}, r_i] \\
+        1/(r_{i+1} - r_i)(r_{i+1} - r) \quad , r\in]r_i, r_{i+1}]
+    \end{cases}
+\end{equation}
 
 
 \subsection{Analytical solution for homogeneous case}
