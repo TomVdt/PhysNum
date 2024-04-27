@@ -19,12 +19,14 @@ rcParams = {
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[detect-all,locale=FR]{siunitx}",
     ]),
-    'lines.markersize': 10,
+    'lines.markersize': 8,
     'lines.color': 'grey',
     'scatter.marker': '+',
     'errorbar.capsize': 3,
     'savefig.bbox': 'tight',
     'axes.formatter.useoffset': False,
+    'axes.spines.right': False,
+    'axes.spines.top': False,
 }
 
 # Simulation and paths stuff

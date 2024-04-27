@@ -76,6 +76,7 @@ int main(int argc, char* argv[]) {
     const double alpha  = configFile.get<double>("alpha");  // parameter that allows to switch from equidistant in r to equidistant in r^2
     const double TR     = configFile.get<double>("TR");     // Temperature boundary condition
     const double N      = configFile.get<int>("N");         // Number of finite element intervals
+    const double p      = configFile.get<double>("p");         // Adjustable integration method
     string fichier_T    = configFile.get<string>("output");
     string fichier_heat = fichier_T+"_heat.out";
 
@@ -106,10 +107,10 @@ int main(int argc, char* argv[]) {
     for (size_t k = 0; k < N; ++k) {
         // Matrix  and right-hand-side 
         // @TODO insert contributions from interval k 
-        constexpr double p = 0.0;
+        // constexpr double p = 0.0;
         const double r_half = (r.at(k) + r.at(k+1)) / 2.0;
         const double kappa_integral = (
-            p * ((kappa(r.at(k), kappa0, kappaR, R) * r.at(k) + kappa(r.at(k+1), kappa0, kappaR, R) * r.at(k)) / 2.0)
+            p * ((kappa(r.at(k), kappa0, kappaR, R) * r.at(k) + kappa(r.at(k+1), kappa0, kappaR, R) * r.at(k+1)) / 2.0)
             + (1.0 - p) * kappa(r_half, kappa0, kappaR, R) * r_half
         ) / h.at(k);
 
@@ -162,7 +163,6 @@ int main(int argc, char* argv[]) {
         // Temperature
         ofstream ofs(fichier_T);
         ofs.precision(15);
-
         if (r.size() != temperature.size())
             throw std::runtime_error("error when writing temperature: r and "
                                      "temperature does not have size");
