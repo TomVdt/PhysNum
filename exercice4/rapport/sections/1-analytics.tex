@@ -84,19 +84,43 @@ Still using cylindrical symmetry we also have $\frac{\partial}{\partial r} = \fr
 
 \begin{equation}
     \int_0^R \frac{\mathrm{d} \eta (r)}{\mathrm{d} r} \kappa(r) \frac{\mathrm{d} T(r)}{\mathrm{d} r} r \mathrm{d}r = \int_0^R \eta(r)S(r) r \mathrm{d}r
+    \label{eq:formulation_cylindrical}
 \end{equation}
 
 the weak formulation in cylindrical coordinates assuming cylindrical symmetry.
 
 \subsection{Finite elements}
-We now want to apply $N$ finite linear elements $\{\Lambda_i(r)\}_{i=1,\ldots,N}$ defined for any mesh $\{r_i\}_{i=1,\ldots,N}$. For any $i \in \{2,\ldots,N-1\}$ the function $\Lambda_i(r)$ is defined on $[r_{i-1}, r_{i+1}]$ as:
+We now want to apply $N$ finite linear elements $\{\Lambda_i(r)\}_{i=1,\ldots,N}$ defined for any mesh $\{r_i\}_{i=1,\ldots,N}$ representing the entire radius of the cylinder. For any $i \in \{2,\ldots,N-1\}$ the function $\Lambda_i(r)$ is defined on $[r_{i-1}, r_{i+1}]$ as:
 \begin{equation}
     \Lambda_i(r) = \begin{cases}
-        1/(r_i - r_{i-1})(r - r_{i-1}) \quad , r\in[r_{i-1}, r_i] \\
-        1/(r_{i+1} - r_i)(r_{i+1} - r) \quad , r\in]r_i, r_{i+1}]
+        \frac{1}{r_i - r_{i-1}}(r - r_{i-1}) \quad , r \in [r_{i-1}, r_i] \\
+        \frac{1}{r_{i+1} - r_i}(r_{i+1} - r) \quad , r \in \,\, ]r_i, r_{i+1}]
     \end{cases}
 \end{equation}
+with similar cases for $i=0$ and $i=N$ with only half of the domain.
 
+We take $\{\eta_i\}_{i=1,\ldots,N}$ and $\{T_j\}_{j=1,\ldots,N}$ such that:
+\begin{equation}
+    \begin{aligned}
+        & \eta(r) \approx \sum_{i=1}^N \eta_i \Lambda_i(r) \\
+        & T(r) \approx \sum_{j=1}^N T_j \Lambda_j(r)
+    \end{aligned}
+\end{equation}
+
+We have a freedom of choice for $\eta$ so any $\{\eta_i\}$ is viable as long as $\eta_N = \eta(r_N) = \eta(R) = 0$.
+\autoref{eq:formulation_cylindrical} now becomes:
+\begin{equation}
+    \sum_{i=1}^{N} \sum_{j=1}^{N} \eta_i T_j \underbrace{\int_0^R \frac{\mathrm{d} \Lambda_i(r)}{\mathrm{d} r} \frac{\mathrm{d} \Lambda_j(r)}{\mathrm{d} r} \kappa(r)  r \mathrm{d}r}_{A_{ij}}  = \sum_{i=1}^{N} \eta_i \underbrace{\int_0^R \Lambda_i(r) S(r) r \mathrm{d}r}_{b_i}
+\end{equation}
+with $\mathbf{A}$ an $N\times N$ matrix and $\vec{b}$ an $N$-dimensional vector. We thus have:
+\begin{equation}
+    \begin{aligned}
+        & \sum_{i=1}^{N} \sum_{j=1}^{N} \eta_i T_j A_{ij}  = \sum_{i=1}^{N} \eta_i b_i \quad , \forall \{\eta_i\}, \eta_N = 0 \\
+        & \Rightarrow \sum_{j=1}^{N} T_j A_{ij} = b_i \\
+        & \Rightarrow \vec{T} \mathbf{A} = \vec{b}
+    \end{aligned}
+\end{equation}
+with $\vec{T}$ the vector corresponding to the set $\{T_j\}_{j=1,\ldots,N}$.
 
 \subsection{Analytical solution for homogeneous case}
 \label{sec:solution_anal}
