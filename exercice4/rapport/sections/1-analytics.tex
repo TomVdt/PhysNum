@@ -111,6 +111,7 @@ We have a freedom of choice for $\eta$ so any $\{\eta_i\}$ is viable as long as 
 \autoref{eq:formulation_cylindrical} now becomes:
 \begin{equation}
     \sum_{i=1}^{N} \sum_{j=1}^{N} \eta_i T_j \underbrace{\int_0^R \frac{\mathrm{d} \Lambda_i(r)}{\mathrm{d} r} \frac{\mathrm{d} \Lambda_j(r)}{\mathrm{d} r} \kappa(r)  r \mathrm{d}r}_{A_{ij}}  = \sum_{i=1}^{N} \eta_i \underbrace{\int_0^R \Lambda_i(r) S(r) r \mathrm{d}r}_{b_i}
+    \label{eq:matrix_defs}
 \end{equation}
 with $\mathbf{A}$ an $N\times N$ matrix and $\vec{b}$ an $N$-dimensional vector. We thus have:
 \begin{equation}
@@ -119,8 +120,37 @@ with $\mathbf{A}$ an $N\times N$ matrix and $\vec{b}$ an $N$-dimensional vector.
         & \Rightarrow \sum_{j=1}^{N} T_j A_{ij} = b_i \\
         & \Rightarrow \vec{T} \mathbf{A} = \vec{b}
     \end{aligned}
+    \label{eq:system_of_equations}
 \end{equation}
 with $\vec{T}$ the vector corresponding to the set $\{T_j\}_{j=1,\ldots,N}$.
+
+From \autoref{eq:matrix_defs} we can calculate \(\mathbf{A}\) using a loop over the intervals \(h_k = r_{k+1} - r_k\), \(k = 1, \dots, n\). Then we have
+\begin{equation}
+    A_{ij}
+    = \int_0^R \frac{\dd \Lambda_i(r)}{\dd r} \frac{\dd \Lambda_j(r)}{\dd r} \kappa(r) r \dd r
+    = \sum_{k=1}^n \underbrace{\int_{r_k}^{r_{k+1}} \frac{\dd \Lambda_i(r)}{\dd r} \frac{\dd \Lambda_j(r)}{\dd r} \kappa(r) r \dd r}_{C_{ij}^{(k)}}
+\end{equation}
+Because \(\frac{\dd \Lambda_i(r)}{\dd r} = 0\) outside of \([r_{i-1}, r_{i+1}]\), \(C^{(k)}_{ij}\) is nonzero if \((i,j) \in \{(k,k), (k+1,k), (k,k+1), (k+1,k+1)\}\). We then get
+\begin{align*}
+    C^{(k)}_{kk} &= \int_{r_{k}}^{r_{k+1}} \frac{\dd \Lambda_{k}(r)}{\dd r} \frac{\dd \Lambda_{k}(r)}{\dd r} \kappa(r) r \dd r = \int_{r_{k}}^{r_{k+1}} \frac{-1}{h_k} \frac{-1}{h_k} \kappa(r) r \dd r \\
+    C^{(k)}_{(k+1)k} &= \int_{r_{k}}^{r_{k+1}} \frac{\dd \Lambda_{k+1}(r)}{\dd r} \frac{\dd \Lambda_{k}(r)}{\dd r} \kappa(r) r \dd r = \int_{r_{k}}^{r_{k+1}} \frac{1}{h_k} \frac{-1}{h_k} \kappa(r) r \dd r \\
+    C^{(k)}_{k(k+1)} &= \int_{r_{k}}^{r_{k+1}} \frac{\dd \Lambda_{k}(r)}{\dd r} \frac{\dd \Lambda_{k+1}(r)}{\dd r} \kappa(r) r \dd r = \int_{r_{k}}^{r_{k+1}} \frac{-1}{h_k} \frac{1}{h_k} \kappa(r) r \dd r \\
+    C^{(k)}_{(k+1)(k+1)} &= \int_{r_{k}}^{r_{k+1}} \frac{\dd \Lambda_{k+1}(r)}{\dd r} \frac{\dd \Lambda_{k+1}(r)}{\dd r} \kappa(r) r \dd r = \int_{r_{k}}^{r_{k+1}} \frac{1}{h_k} \frac{1}{h_k} \kappa(r) r \dd r \\
+    C^{(k)}_{ij} &= 0 \textrm{ if } (i,j) \notin \{(k,k), (k+1,k), (k,k+1), (k+1,k+1)\}
+\end{align*}
+We can see from this that \(\mathbf{A} = \sum_{k=1}^{n} \mathbf{C}^{(k)}\) is tridiagonal. We follow the same process for \(\vec{b}\):
+\begin{equation}
+    b_i = \int_0^R \Lambda_i(r) S(r) r \dd r = \sum_{k=1}^{n} \underbrace{\int_{x_k}^{x_{k+1}} \Lambda_i(r) S(r) r \dd r}_{d^{(k)}_i}
+\end{equation}
+Because \(\Lambda_i(r) = 0\) outside of \([r_{i-1}, r_{i+1}]\), \(d^{(k)}_i\) is nonzero \(i \in \{k, k+1\}\)
+\begin{align*}
+    d^{(k)}_k = \int_{x_k}^{x_{k+1}} \Lambda_k(r) S(r) r \dd r \\
+    d^{(k)}_{k+1} = \int_{x_k}^{x_{k+1}} \Lambda_{k+1}(r) S(r) r \dd r
+\end{align*}
+And finally \(\vec{b} = \sum_{k=1}^{n} \overrightarrow{d^{(k)}}\). In order to apply the border conditions \(T(R) = T_R\), we need to change the last row of our system of equations shown in \autoref{eq:system_of_equations} such that \(T_n = T_R\). This means that we need to impose
+\begin{equation}
+    A_{nn} = 1, \quad A_{n(n-1)} = 0, \quad b_n = T_R
+\end{equation}
 
 \subsection{Analytical solution for homogeneous case}
 \label{sec:solution_anal}
