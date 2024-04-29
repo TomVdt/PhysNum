@@ -152,7 +152,7 @@ We can see from this that \(\mathbf{A} = \sum_{k=1}^{n} \mathbf{C}^{(k)}\) is tr
 \begin{equation}
     b_i = \int_0^R \Lambda_i(r) S(r) r \dd r = \sum_{k=1}^{n} \underbrace{\int_{x_k}^{x_{k+1}} \Lambda_i(r) S(r) r \dd r}_{d^{(k)}_i}
 \end{equation}
-Because \(\Lambda_i(r) = 0\) outside of \([r_{i-1}, r_{i+1}]\), \(d^{(k)}_i\) is nonzero \(i \in \{k, k+1\}\)
+Because \(\Lambda_i(r) = 0\) outside of \([r_{i-1}, r_{i+1}]\), \(d^{(k)}_i\) is nonzero if \(i \in \{k, k+1\}\)
 \begin{align*}
     d^{(k)}_k = \int_{x_k}^{x_{k+1}} \Lambda_k(r) S(r) r \dd r \\
     d^{(k)}_{k+1} = \int_{x_k}^{x_{k+1}} \Lambda_{k+1}(r) S(r) r \dd r

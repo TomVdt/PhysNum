@@ -83,15 +83,13 @@ int main(int argc, char* argv[]) {
     // Create our finite elements
     const int pointCount =  N + 1; // Number of grid points
 
-    // Position of elements @TODO code r[i]
-    // TODO: verify
+    // Position of elements @DONE code r[i]
     vector<double> r(pointCount);
     for (size_t i = 0; i < N + 1; ++i) {
         r[i] = pow(i / N, 1.0 / alpha) * R;
     }
 
-    // Distance between elements @TODO code h[i]
-    // TODO: verify
+    // Distance between elements @DONE code h[i]
     vector<double> h(pointCount - 1);
     for (size_t i = 0; i < h.size(); ++i) {
         // do bounds checking just in case
@@ -106,8 +104,7 @@ int main(int argc, char* argv[]) {
     
     for (size_t k = 0; k < N; ++k) {
         // Matrix  and right-hand-side 
-        // @TODO insert contributions from interval k 
-        // constexpr double p = 0.0;
+        // @DONE insert contributions from interval k 
         const double r_half = (r.at(k) + r.at(k+1)) / 2.0;
         const double kappa_integral = (
             p * ((kappa(r.at(k), kappa0, kappaR, R) * r.at(k) + kappa(r.at(k+1), kappa0, kappaR, R) * r.at(k+1)) / 2.0)
@@ -118,8 +115,6 @@ int main(int argc, char* argv[]) {
         lower[k]        += -kappa_integral;
         diagonal[k]     += kappa_integral; 
         diagonal[k + 1] += kappa_integral;
-        // * h[k] ommited because division by h[k] anyways
-        // TODO: revoir ca, normalement c'est bon
         const double source_integral1 = (
             p * source(r.at(k), r0, sigma, S0) * r.at(k) / 2.0
             + (1 - p) * source(r_half, r0, sigma, S0) * r_half / 2.0
@@ -132,8 +127,7 @@ int main(int argc, char* argv[]) {
         rhs[k + 1] += source_integral2;
     }
 
-    // Boundary conditions @TODO insert boundary conditions
-    // TODO: verify
+    // Boundary conditions @DONE insert boundary conditions
     diagonal.back() = 1.0;
     lower.back() = 0.0;
     rhs.back() = TR;
@@ -145,17 +139,10 @@ int main(int argc, char* argv[]) {
     // Calculate heat flux
     vector<double> heatFlux(temperature.size() - 1, 0);
     for (size_t i = 0; i < heatFlux.size(); ++i) {
-        //@TODO compute heat flux at mid intervals, use finite element representation
+        // @DONE compute heat flux at mid intervals, use finite element representation
         const double mid = (r.at(i) + r.at(i + 1)) / 2.0;
         const double dTdr = (temperature.at(i + 1) - temperature.at(i)) / h.at(i);
         heatFlux[i] = -kappa(mid, kappa0, kappaR, R) * dTdr;
-        
-        // Integrate from 0 to R: S(r) 2pi r dr
-        // 3.3.1 poly
-        // heatFlux[i] = h.at(i) * (
-        //     p * ((source(r.at(i), r0, sigma, S0) + source(r.at(i+1), r0, sigma, S0)) / 2.0)
-        //     + (1 - p) * source((r.at(i) + r.at(i+1)) / 2.0, r0, sigma, S0)
-        // );
     }
 
     // Export data
