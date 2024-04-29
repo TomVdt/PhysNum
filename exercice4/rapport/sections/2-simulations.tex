@@ -126,15 +126,40 @@ Similarly as in the previous part we take an equidistant mesh and a non-uniform 
 
 \autoref{fig:var_T} shows that the non-uniform mesh gives results significanly closer to the physical result (of $N=1000$). This better performance is also slightly visible in \autoref{fig:var_j} with curve for $r^2$ being closer to the physical one however this is much less significant. Overall both meshs give the right behavior with a constant temperature almost up to $r_0$ corresponding to the peak of the heat source. The peak of the heat source also seems to be the point where the convexity of $j_Q(r)$ changes in \autoref{fig:var_j}. This two indicators correspond to our intuition that the circular peak of heat source around the cylinder will have inside of it a temperature maintained constant by an equilibrium of heat produced and heat diffused away when outside of this peak source we should get closer to the outside temperature. It is of course logical that the temperature is greater inside the cylinder at equilibrium since it produces energy. The change of convexity in $j_Q(r)$ also can be explained by the fact that beyond the peak of the source the section of the cylinder increasing in $r^2$ will reduce the contribution of the source.
 
-The value of $P_\mathrm{tot}$ for this simulation and these conditions is $P_\mathrm{tot} = 1.67$ \si{\watt}.
+The values of $P_\mathrm{tot}$ and $\Gamma_Q(R)$ for the uniform and non-uniform mesh in this case of a non-homogeneous cylinder are given in \autoref{tab:error_power_var} with their difference and the relative deviation. We find that both methods are quite precise here giving sligghtly smaller errors than in the previous part and with the non-uniform equidistant in $r^2$ mesh still being the most precise of the two.
+\begin{table}[h]
+    \centering
+    \begin{tabulary}{\linewidth}{C|C C C C}
+        \toprule
+        & \(P_\textrm{tot}\) [\si{\watt}] & \(\Gamma_Q(R)\) [\si{\watt}] & Difference to \(P_\textrm{tot}(R)\) [\si{\watt}] & Relative deviation [\%] \\
+        \midrule
+        Uniform & 1.67 & 1.76 & 0.09 & 5.3 \% \\
+        Non-uniform & 1.67 & 1.71 & 0.03 & 2.1 \% \\
+        \bottomrule
+    \end{tabulary}
+    \caption{Error on global power balance for uniform and non-uniform mesh in non-homogeneous cylinder}
+    \label{tab:error_power_var}
+\end{table}
 
-The value of the total heat flux on the border for the uniform mesh is found numerically to be $\Gamma_{Q, \mathrm{unif}}(R) = 1.76$ \si{\watt} which gives a difference of $|P_\mathrm{tot} - \Gamma_{Q, \mathrm{unif}}(R)| = 0.09$ \si{\watt}. Similarly $\Gamma_{Q, \mathrm{nonunif}}(R) = 1.71$ \si{\watt} for the non-uniform mesh which gives $|P_\mathrm{tot} - \Gamma_{Q, \mathrm{nonunif}}(R)| = 0.03$ \si{\watt}. We do see once again that the non-uniform mesh equidistant in $r^2$ gives a better result, this time for conservation of energy from the heat flux. However both results are satisfactory with 
 
 
-
-
-
-
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/var_conv_T.png}
+        \caption{Convergence of temperature}
+        \label{fig:var_conv_T}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/var_conv_j.png}
+        \caption{Convergence of heat flux}
+        \label{fig:var_conv_j}
+    \end{subfigure}
+    \caption{Convergence analysis of the temperature and heat flux according to the number $N$ of intervals in the mesh}
+    \label{fig:var_convergence}
+\end{figure}
 
 
 \subsection{Changing integration method}
