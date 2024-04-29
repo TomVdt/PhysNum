@@ -1,11 +1,33 @@
 \section{Simulations}
 
-For all the simulations only a unit length $L = 1$ \si{\meter} of the cylinder was considered. Assuming that this is only one part of a longer cylinder with $L_\mathrm{total} \gg R$ also justifies the cylindrical symmetry assumption done previously.
+For all the simulations only a unit length $L_z = 1$ \si{\meter} of the cylinder was considered. Assuming that this is only one part of a longer cylinder with $L_\mathrm{total} \gg R$ also justifies the cylindrical symmetry assumption done previously.
+
+The scalar fields of $\kappa$ and $S$ are determined by the equations:
+\begin{equation}
+    \kappa(r) = \kappa_0 + (\kappa_R - \kappa_0)\left(\frac{r}{R}\right)^2
+    \label{eq:kappa_field}
+\end{equation}
+\begin{equation}
+    S(r) = S_0\exp\left(-\frac{(r-r_0)^2}{\sigma^2}\right)
+    \label{eq:S_field}
+\end{equation}
+
+Two values of interest throughout the simulations will be the total power from the heat source:
+\begin{equation}
+    P_\mathrm{tot} = \int_0^R S(r)2\pi r \mathrm{d}r
+    \label{eq:ptot_source}
+\end{equation}
+that will be calculated nearly exactly using the python function \texttt{scipy.integrate.quad} and \autoref{eq:S_field}. The other value it will be compared to is the heat flux on the border of the cylinder:
+\begin{equation}
+    \Gamma_Q(R) = 2\pi Rj_Q(R)
+    \label{eq:flux_border}
+\end{equation}
+calculated from the numerical value of $j_Q$.
 
 \subsection{Constant heat source and thermal conductivity}
 \label{sec:simu_constant}
 
-The first set of simulations will be done considering an ideal case, as in \autoref{sec:solution_anal}. The heat source was chosen to be \(S(r) \equiv S_0 = 1000\) \si{\watt\per\cubic\meter} and the conductivity of the cylinder \(\kappa(r) \equiv \kappa_0 = 10^{-3}\) \si{\watt\per\meter\per\kelvin}. Taking \(\sigma = 10^{10}\) enlarges the spreak of \(\kappa\), allowing us to consider it constant between \(r=0\) and \(r=R\).
+The first set of simulations will be done considering an ideal case, as in \autoref{sec:solution_anal}. The heat source was chosen to be \(S(r) \equiv S_0 = 1000\) \si{\watt\per\cubic\meter} and the conductivity of the cylinder \(\kappa(r) \equiv \kappa_0 = 10^{-3}\) \si{\watt\per\meter\per\kelvin}. Taking \(\sigma = 10^{10}\) enlarges the spread of \(S\), allowing us to consider it constant between \(r=0\) and \(r=R\).
 
 Using a small amount of mesh intervals (\(N=10\)), the temperature and heat flux were obtained, as shown in \autoref{fig:temperature_constant} and \autoref{fig:heat_constant} respectively. The analytical solution is plotted alongside the simulation data. We can see that the temperature gradient is higher at the edge of the cylinder than close to its center, as expected. The heat flux also remains very linear with respect to \(r\), except when close to the center. This will be discussed later. Close to the border of the cylinder (\(r=R\)), the simulations match the analytical solution quite closely. Closer to the center however, the uniform (equidistant in \(r\)) mesh remains a lot closer to the analytical solution, while the non-uniform mesh (equidistant in \(r^2\)) seems to become linear. This could be explained by the sparcity of mesh nodes close to the center, the first one being at \(r=0\) \si{\centi\meter} and the second one at \(r \approx 1.5\) \si{\centi\meter}, alongside the piecewise linear interpolating functions \(\Lambda_i\). A similar phenomenon can be seen in the heat flux, where the heat flux was calculated at the center of each interval.
 
@@ -82,7 +104,22 @@ The convergence of the heat flux at the border of the cylinder \(j_Q(R)\) was al
 
 \subsection{Varying heat source and thermal conductivity}
 
-...
+
+sigma = 0.005
+S0 = 1000
+r0 = 0.03
+kappaR = 1e-5
+kappa0 = 1e-3
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Changing integration method}
 
