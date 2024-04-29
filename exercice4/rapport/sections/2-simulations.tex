@@ -22,7 +22,7 @@ that will be calculated nearly exactly using the python function \texttt{scipy.i
     \Gamma_Q(R) = 2\pi Rj_Q(R)
     \label{eq:flux_border}
 \end{equation}
-calculated from the numerical value of $j_Q$.
+calculated from the numerical value of $j_Q$. It should also be multiplied by the length to give watts but we are considering units of length so this is 1.
 
 \subsection{Constant heat source and thermal conductivity}
 \label{sec:simu_constant}
@@ -103,16 +103,32 @@ The convergence of the heat flux at the border of the cylinder \(j_Q(R)\) was al
 \end{figure}
 
 \subsection{Varying heat source and thermal conductivity}
+We now keep $S_0 = 1000$ \si{\watt\per\cubic\meter} but take $r_0 = 0.03$ \si{\meter}, $\sigma = 0.005$ \si{\meter}, $\kappa_0 = 10^{-3}$ \si{\watt\per\meter\per\kelvin} and $\kappa_R = 10^{-5}$ \si{\watt\per\meter\per\kelvin}. This gives the conditions for our simulation using \autoref{eq:kappa_field} and \autoref{eq:S_field}. 
 
+Similarly as in the previous part we take an equidistant mesh and a non-uniform one (but equidistant in $r^2$) and apply finite element analysis to find the values of $T$ and $j_Q$ at different points in the cylinder. The \autoref{fig:var_behavior} shows the results of this analysis for $N=10$ intervals as well as the result for a much larger $N=1000$ that is considered close enough to the physical result to be a point of comparison.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/var_T.pdf}
+        \caption{Temperature in the cylinder}
+        \label{fig:var_T}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/var_j.pdf}
+        \caption{Heat flux in the cylinder}
+        \label{fig:var_j}
+    \end{subfigure}
+    \caption{Finite element analysis of a cylinder with heat source for $N = 10$ elements and $N=1000$ as a comparison}
+    \label{fig:var_behavior}
+\end{figure}
 
-sigma = 0.005
-S0 = 1000
-r0 = 0.03
-kappaR = 1e-5
-kappa0 = 1e-3
+\autoref{fig:var_T} shows that the non-uniform mesh gives results significanly closer to the physical result (of $N=1000$). This better performance is also slightly visible in \autoref{fig:var_j} with curve for $r^2$ being closer to the physical one however this is much less significant. Overall both meshs give the right behavior with a constant temperature almost up to $r_0$ corresponding to the peak of the heat source. The peak of the heat source also seems to be the point where the convexity of $j_Q(r)$ changes in \autoref{fig:var_j}. This two indicators correspond to our intuition that the circular peak of heat source around the cylinder will have inside of it a temperature maintained constant by an equilibrium of heat produced and heat diffused away when outside of this peak source we should get closer to the outside temperature. It is of course logical that the temperature is greater inside the cylinder at equilibrium since it produces energy. The change of convexity in $j_Q(r)$ also can be explained by the fact that beyond the peak of the source the section of the cylinder increasing in $r^2$ will reduce the contribution of the source.
 
+The value of $P_\mathrm{tot}$ for this simulation and these conditions is $P_\mathrm{tot} = 1.67$ \si{\watt}.
 
-
+The value of the total heat flux on the border for the uniform mesh is found numerically to be $\Gamma_{Q, \mathrm{unif}}(R) = 1.76$ \si{\watt} which gives a difference of $|P_\mathrm{tot} - \Gamma_{Q, \mathrm{unif}}(R)| = 0.09$ \si{\watt}. Similarly $\Gamma_{Q, \mathrm{nonunif}}(R) = 1.71$ \si{\watt} for the non-uniform mesh which gives $|P_\mathrm{tot} - \Gamma_{Q, \mathrm{nonunif}}(R)| = 0.03$ \si{\watt}. We do see once again that the non-uniform mesh equidistant in $r^2$ gives a better result, this time for conservation of energy from the heat flux. However both results are satisfactory with 
 
 
 
