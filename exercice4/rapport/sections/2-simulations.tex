@@ -12,7 +12,7 @@ The scalar fields of $\kappa$ and $S$ are determined by the equations:
     \label{eq:S_field}
 \end{equation}
 
-Two values of interest throughout the simulations will be the total power from the heat source:
+There will be two other values of interest throughout the simulations. The first one is the total power from the heat source:
 \begin{equation}
     P_\mathrm{tot} = \int_0^R S(r)2\pi r \mathrm{d}r
     \label{eq:ptot_source}
@@ -22,7 +22,7 @@ that will be calculated nearly exactly using the python function \texttt{scipy.i
     \Gamma_Q(R) = 2\pi Rj_Q(R)
     \label{eq:flux_border}
 \end{equation}
-calculated from the numerical value of $j_Q$. It should also be multiplied by the length to give watts but we are considering units of length so this is 1.
+calculated from the numerical value of $j_Q$. Both should also be multiplied by the length $L_z$ to give watts instead of watts per meter but we are considering units of length so this is \mbox{$L_z = 1$ \si{\meter}} and thus ignored.
 
 \subsection{Constant heat source and thermal conductivity}
 \label{sec:simu_constant}

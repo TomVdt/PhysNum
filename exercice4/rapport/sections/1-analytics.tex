@@ -8,7 +8,7 @@
     \label{fig:gros_cylindre_uwu}
     \vspace*{1cm}
 \end{wrapfigure}
-The volume $\Omega$ is a cylinder of radius $R$ and length $L$ along the $\hat{z}$ axis, as shown in \autoref{fig:gros_cylindre_uwu}. It is made of inhomogeneous matter with thermal conductivity $\kappa(\vec{x})$ and has a heat source $S(\vec{x})$. It is placed in a thermal bath at $T_R$. We consider the temperature profile $T(\vec{x})$ at the stationary state.
+The volume $\Omega$ is a cylinder of radius $R$ and length $L$ along the $\hat{z}$ axis, as shown in \autoref{fig:gros_cylindre_uwu}. It is made of inhomogeneous matter with thermal conductivity $\kappa(\vec{x})$ and has a heat source $S(\vec{x})$. It is placed in a thermal bath at $T_R$. We consider the temperature profile $T(\vec{x})$ in the stationary state.
 
 \subsection{Differential Equation}
 \underline{Question (a)}
@@ -32,11 +32,11 @@ which can be developped to give:
     \vec{\nabla}^2(T(\vec{x})) + \frac{1}{\kappa(\vec{x})} \vec{\nabla}(\kappa(\vec{x})) \cdot \vec{\nabla}(T(\vec{x})) + \frac{S(\vec{x})}{\kappa(\vec{x})} = 0
     \label{eq:equa_diff_T}
 \end{equation}
-the differential equation according to positions for $T(\vec{x})$.
+the differential equation according to position for $T(\vec{x})$.
 
 \subsection{Weak formulation}
 \underline{Question (b)}
-We work towards the weak formulation of \autoref{eq:true_equa_diff} using $\eta \in \mathrm{C}^1(\Omega), \, \eta(\vec{x}) = 0 \,\forall \vec{x} \in \partial\Omega$:
+We work towards the weak formulation of \autoref{eq:true_equa_diff} using \mbox{$\eta \in \mathrm{C}^1(\Omega), \, \eta(\vec{x}) = 0 \,\forall \vec{x} \in \partial\Omega$}:
 \begin{equation}
     \begin{aligned}
         & -\vec{\nabla} \cdot (\kappa(\vec{x})\vec{\nabla}T(\vec{x})) = S(\vec{x}) \\
@@ -57,15 +57,15 @@ to have \autoref{eq:weak_formulation_local} as:
 This expression is then integrated over the whole cylinder $\Omega$ to have the weak formulation of the equation for $T$ and using the divergence theorem we find:
 \begin{equation}
     \begin{aligned}
-        & \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \iiint_\Omega \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega \\
-        & \Rightarrow \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \varoiint_{\partial\Omega} \eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x}) \cdot \mathrm{d}\vec{\sigma} = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
+        & \int_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \int_\Omega \vec{\nabla}\cdot(\eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \int_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega \\
+        & \Rightarrow \int_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega - \varoiint_{\partial\Omega} \eta(\vec{x})\kappa(\vec{x})\vec{\nabla}T(\vec{x}) \cdot \mathrm{d}\vec{\sigma} = \int_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
     \end{aligned}
     \label{eq:integrals}
 \end{equation}
 with the $\mathrm{d}\vec{\sigma}$ being the surface element vector. We have that $\eta(\vec{x}) = 0, \, \forall \vec{x} \in \partial\Omega$ so the closed integral in \autoref{eq:integrals} is 0 and:
 
 \begin{equation}
-    \iiint_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \iiint_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
+    \int_\Omega \vec{\nabla}(\eta(\vec{x}))\cdot(\kappa(\vec{x})\vec{\nabla}T(\vec{x})) \mathrm{d}\Omega = \int_\Omega \eta(\vec{x})S(\vec{x}) \mathrm{d}\Omega
     \label{eq:weak_formulation}
 \end{equation}
 
@@ -73,7 +73,7 @@ is the final weak formulation.
 
 \subsection{Cylindrical coordinates}
 \underline{Question (c)}
-We now introduce cylindrical symmetry in the problem to have that:
+We now introduce the cylindrical coordinates $(r, \varphi, z)$ and cylindrical symmetry in the problem to have that:
 \begin{equation}
     \frac{\partial}{\partial \varphi} = 0 \, ,\quad \frac{\partial}{\partial z} = 0
 \end{equation}
@@ -87,16 +87,16 @@ from the derivatives along $\varphi$ and $z$ being 0. This also allows to simpli
 \end{equation}
 Thus the weak formulation of \autoref{eq:weak_formulation} becomes:
 \begin{equation}
-    \iiint_\Omega \frac{\partial \eta (r)}{\partial r} \kappa(r) \frac{\partial T(r)}{\partial r} \mathrm{d}\Omega = \iiint_\Omega \eta(r)S(r) \mathrm{d}\Omega
+    \int_\Omega \frac{\partial \eta (r)}{\partial r} \kappa(r) \frac{\partial T(r)}{\partial r} \mathrm{d}\Omega = \int_\Omega \eta(r)S(r) \mathrm{d}\Omega
 \end{equation}
-Still using cylindrical symmetry we also have $\frac{\partial}{\partial r} = \frac{\mathrm{d}}{\mathrm{d}r}$ as well as $\iiint_\Omega \mathrm{d}\Omega = 2\pi L \int_0^R r \mathrm{d}r$. This gives by simplifying the $2\pi L$ term on both sides:
+Still using cylindrical symmetry we also have $\frac{\partial}{\partial r} = \frac{\mathrm{d}}{\mathrm{d}r}$ as well as $\int_\Omega \mathrm{d}\Omega = 2\pi L \int_0^R r \mathrm{d}r$. This gives by simplifying the $2\pi L$ term on both sides:
 
 \begin{equation}
     \int_0^R \frac{\mathrm{d} \eta (r)}{\mathrm{d} r} \kappa(r) \frac{\mathrm{d} T(r)}{\mathrm{d} r} r \mathrm{d}r = \int_0^R \eta(r)S(r) r \mathrm{d}r
     \label{eq:formulation_cylindrical}
 \end{equation}
 
-the weak formulation in cylindrical coordinates assuming cylindrical symmetry.
+the weak formulation of this problem in cylindrical coordinates assuming cylindrical symmetry.
 
 \subsection{Finite elements}
 \underline{Question (d)}
@@ -126,15 +126,15 @@ We have a freedom of choice for $\eta$ so any $\{\eta_i\}$ is viable as long as 
 with $\mathbf{A}$ an $N\times N$ matrix and $\vec{b}$ an $N$-dimensional vector. We thus have:
 \begin{equation}
     \begin{aligned}
-        & \sum_{i=1}^{N} \sum_{j=1}^{N} \eta_i T_j A_{ij}  = \sum_{i=1}^{N} \eta_i b_i \quad , \forall \{\eta_i\}, \eta_N = 0 \\
-        & \Rightarrow \sum_{j=1}^{N} T_j A_{ij} = b_i \\
-        & \Rightarrow \vec{T} \mathbf{A} = \vec{b}
+        & \sum_{i=1}^{N} \sum_{j=1}^{N} \eta_i T_j A_{ij}  = \sum_{i=1}^{N} \eta_i b_i \quad , \forall \{\eta_i\} \\
+        & \Rightarrow \sum_{j=1}^{N} T_j A_{ij} = b_i \quad , \forall i \\
+        & \Rightarrow \mathbf{A} \vec{T} = \vec{b}
     \end{aligned}
     \label{eq:system_of_equations}
 \end{equation}
 with $\vec{T}$ the vector corresponding to the set $\{T_j\}_{j=1,\ldots,N}$.
 
-From \autoref{eq:matrix_defs} we can calculate \(\mathbf{A}\) using a loop over the intervals \(h_k = r_{k+1} - r_k\), \(k = 1, \dots, n\). Then we have
+We have the number of intervals $n = N-1$ and from \autoref{eq:matrix_defs} we can calculate \(\mathbf{A}\) using a loop over the intervals \(h_k = r_{k+1} - r_k\), \(k = 1, \dots, n\). Then we have
 \begin{equation}
     A_{ij}
     = \int_0^R \frac{\dd \Lambda_i(r)}{\dd r} \frac{\dd \Lambda_j(r)}{\dd r} \kappa(r) r \dd r
@@ -150,12 +150,12 @@ Because \(\frac{\dd \Lambda_i(r)}{\dd r} = 0\) outside of \([r_{i-1}, r_{i+1}]\)
 \end{align*}
 We can see from this that \(\mathbf{A} = \sum_{k=1}^{n} \mathbf{C}^{(k)}\) is tridiagonal. We follow the same process for \(\vec{b}\):
 \begin{equation}
-    b_i = \int_0^R \Lambda_i(r) S(r) r \dd r = \sum_{k=1}^{n} \underbrace{\int_{x_k}^{x_{k+1}} \Lambda_i(r) S(r) r \dd r}_{d^{(k)}_i}
+    b_i = \int_0^R \Lambda_i(r) S(r) r \dd r = \sum_{k=1}^{n} \underbrace{\int_{r_k}^{r_{k+1}} \Lambda_i(r) S(r) r \dd r}_{d^{(k)}_i}
 \end{equation}
 Because \(\Lambda_i(r) = 0\) outside of \([r_{i-1}, r_{i+1}]\), \(d^{(k)}_i\) is nonzero if \(i \in \{k, k+1\}\)
 \begin{align*}
-    d^{(k)}_k = \int_{x_k}^{x_{k+1}} \Lambda_k(r) S(r) r \dd r \\
-    d^{(k)}_{k+1} = \int_{x_k}^{x_{k+1}} \Lambda_{k+1}(r) S(r) r \dd r
+    d^{(k)}_k = \int_{r_k}^{r_{k+1}} \Lambda_k(r) S(r) r \dd r \\
+    d^{(k)}_{k+1} = \int_{r_k}^{r_{k+1}} \Lambda_{k+1}(r) S(r) r \dd r
 \end{align*}
 And finally \(\vec{b} = \sum_{k=1}^{n} \overrightarrow{d^{(k)}}\). In order to apply the border conditions \(T(R) = T_R\), we need to change the last row of our system of equations shown in \autoref{eq:system_of_equations} such that \(T_n = T_R\). This means that we need to impose
 \begin{equation}
@@ -172,7 +172,7 @@ From \autoref{eq:true_equa_diff} and cylindrical symmetry we have:
         & \Rightarrow -\frac{1}{r}\frac{\mathrm{d}}{\mathrm{d} r}\left(r \kappa(r) \frac{\mathrm{d}T}{\mathrm{d}r}(r)\right) = S(r)
     \end{aligned}
 \end{equation}
-which is the second order differential equation we want the analytical solution for. We have the conditions $S(r) = S_0$ and $\kappa(r) = \kappa_0$ which implies:
+which is the second order differential equation we want the analytical solution for. We have the conditions $S(r) \equiv S_0$ and $\kappa(r) \equiv \kappa_0$ which implies:
 \begin{equation}
     \begin{aligned}
         & -\frac{\kappa_0}{r}\frac{\mathrm{d}}{\mathrm{d}r}\left(r\frac{\mathrm{d}T}{\mathrm{d}r}(r)\right) = S_0 \\
@@ -193,7 +193,7 @@ We also find the particular solution from intuition:
 \begin{equation}
     \begin{aligned}
         \Pi_p(r) = \frac{-S_0}{2\kappa_0}r
-        \Rightarrow \Pi_p + r\frac{\mathrm{d}\Pi_p}{\mathrm{d}r} = \frac{-S_0}{2\kappa_0}r + r\frac{-S_0}{2\kappa_0} = -\frac{rS_0}{\kappa_0}
+        \Rightarrow \Pi_p + r\frac{\mathrm{d}\Pi_p}{\mathrm{d}r} = \frac{-S_0}{2\kappa_0}r + r\frac{-S_0}{2\kappa_0} = -\frac{S_0 r}{\kappa_0}
     \end{aligned}
 \end{equation}
 Thus the general solution of \autoref{eq:first_order_ode} is:
