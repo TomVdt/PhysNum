@@ -38,13 +38,11 @@ vector<T> solve(
     return solution;
 }
 
-//@TODO code kappa
-// TODO: verify
+
 double kappa(double r, double kappa0, double kappaR, double R) {
     return kappa0 + (kappaR - kappa0) * pow(r / R, 2);
 }
 
-//@TODO code source
 double source(double r, double r0, double sigma, double S0) {
     return S0 * exp(-pow(r - r0, 2) / (sigma * sigma));
 }
@@ -92,7 +90,6 @@ int main(int argc, char* argv[]) {
     // Distance between elements @DONE code h[i]
     vector<double> h(pointCount - 1);
     for (size_t i = 0; i < h.size(); ++i) {
-        // do bounds checking just in case
         h[i] = r.at(i + 1) - r.at(i);
     }
 
