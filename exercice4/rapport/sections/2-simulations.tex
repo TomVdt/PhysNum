@@ -179,8 +179,6 @@ The integration method for initialising the matrix elements can also be changed.
 \begin{equation}
     \int_{x_k}^{x_{k+1}} f(x) \dd x \approx h_k \left[ p \frac{f(x_k) + f(x_{k+1})}{2} + (1-p) f \left( \frac{x_k + x_{k+1}}{2} \right) \right]
 \end{equation}
-Using the same configuration as in \autoref{sec:simu_constant}, we obtain a temperature and heat flux as shown in \autoref{fig:temperature_exact} and \autoref{fig:heat_exact}. A very interesting phenomenon occured: in both cases, the simulations match the analytical solution exactly at the mesh nodes, while only differing in between nodes due to the linear interpolation! This is because \textbf{FEUR MARTIN OSKOUR}.
-
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.5\linewidth}
@@ -197,3 +195,18 @@ Using the same configuration as in \autoref{sec:simu_constant}, we obtain a temp
     \end{subfigure}
     \caption{Temperature and heat flux for \(N = 10\) mesh intervals, constant heat source \(S_0 = 1000\) \si{\watt\per\meter\cubed} and constant thermal conductivity \(\kappa = 10^{-3}\) \si{\watt\per\meter\per\kelvin}}
 \end{figure}
+Using the same configuration as in \autoref{sec:simu_constant}, we obtain a temperature and heat flux as shown in \autoref{fig:temperature_exact} and \autoref{fig:heat_exact}. A very interesting phenomenon occured: in both cases, the simulations match the analytical solution exactly at the mesh nodes, while only differing in between nodes due to the linear interpolation! A possible explanation for this phenomenon is the following: because the analytical solution is a downwards parabola, the trapezoidal method underestimates the actual solution, while the midpoint method, which uses a rectangle with height given by the evaluation of the function at mid-interval, overshoots the solution, which is what was observed in the previous simulations. The mixing factor \(p=0.5\) happens to make the equations work out to the exact solution.
+
+% \begin{equation}
+%     C^{(k-1)}_{(k+1)k} T_{k-1}+ \left( C^{(k-1)}_{(k+1)(k+1)} + C^{(k)}_{kk} \right) T_{k} + C^{(k)}_{k(k+1)} T_{k+1} = d_{k-1} + d_{k}
+% \end{equation}
+% By applying the integration formula and after some (tedious) calculations we obtain:
+% \begin{equation}
+%     \begin{aligned}
+%         &-\frac{\kappa_0}{h_{k-1}} \frac{x_{k-1} + x_{k}}{2} T_{k-1} \\
+%         &+ \left( \frac{\kappa_0}{h_{k-1}} \frac{x_{k-1} + x_{k}}{2} + \frac{\kappa_0}{h_k} \frac{x_k + x_{k+1}}{2} \right) T_k \\
+%         &- \frac{\kappa_0}{h_{k}} \frac{x_{k} + x_{k+1}}{2} T_{k+1} \\
+%         &= \frac{1}{4} \left( S_0 r_{k} + S_0 \frac{x_{k-1} + x_{k}}{2} \right) h_{k-1} + \frac{1}{4} \left( S_0 r_{k} + S_0 \frac{x_k + x_{k+1}}{2} \right) h_k
+%     \end{aligned}
+% \end{equation}
+
