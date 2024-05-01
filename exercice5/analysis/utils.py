@@ -65,7 +65,7 @@ def run_with_params(config_name: str, all_params: list[dict[str, Any]]) -> list[
     with ProcessPoolExecutor(max_workers=8) as p:
         for params in all_params:
             options = stringify_dict(params)
-            output_file = f"{data_path}{config_name},{options}.out"
+            output_file = f"{data_path}{config_name}{',' if options else ''}{options}"
             outputs.append(output_file)
             future = p.submit(run, f'{config_path}{config_name}{config_ext}', output_file, params)
             future.add_done_callback(done)
@@ -73,9 +73,9 @@ def run_with_params(config_name: str, all_params: list[dict[str, Any]]) -> list[
 
     dataset = []
     for file, params in zip(outputs, all_params):
-        data_x = np.loadtxt(path + file + "_x")
-        data_v = np.loadtxt(path + file + "_v")
-        data_f = np.loadtxt(path + file + "_f")
+        data_x = np.loadtxt(path + file + "_x.log")
+        data_v = np.loadtxt(path + file + "_v.log")
+        data_f = np.loadtxt(path + file + "_f.log")
         dataset.append((params, data_x, data_v, data_f))
     return dataset
 

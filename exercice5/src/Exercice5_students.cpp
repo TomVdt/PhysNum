@@ -60,16 +60,16 @@ void boundary_condition(vector<double>& fnext, vector<double>& fnow,
 	}
 }
 
-double finit(double x, double A, double xL, double n_init, double xR, double u2, Initialisation init) {
+double finit(double x, double A, double x1, double x2, double xL, double n_init, double xR, double u2, Initialisation init) {
 	double finit_(0.0);
 	if (init == DEFAULT) {
 		// TODO verify
-		if (x <= xL) {
+		if (x <= x1) {
 			finit_ = 0.0;
-		} else if (x >= xR) {
+		} else if (x >= x2) {
 			finit_ = 0.0;
 		} else {
-			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - xL) / (xR - xL)));
+			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - x1) / (x2 - x1)));
 		}
 	} else if (init == MODE) {
 		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * sqrt(u2) * (x - xL));
@@ -251,13 +251,13 @@ int main(int argc, char* argv[]) {
 	// Fichiers de sortie :
 	string output = configFile.get<string>("output");
 
-	ofstream fichier_x((output + "_x").c_str());
+	ofstream fichier_x((output + "_x.out").c_str());
 	fichier_x.precision(15);
 
-	ofstream fichier_v((output + "_v").c_str());
+	ofstream fichier_v((output + "_v.out").c_str());
 	fichier_v.precision(15);
 
-	ofstream fichier_f((output + "_f").c_str());
+	ofstream fichier_f((output + "_f.out").c_str());
 	fichier_f.precision(15);
 
 
@@ -267,14 +267,14 @@ int main(int argc, char* argv[]) {
 	for (size_t i(0); i < N; ++i)
 	{
 		// fpast.at(i) = 0.;
-		fnow.at(i) = finit(x.at(i), A, xL, n_init, xR, vel2.at(i), initialisation);
+		fnow.at(i) = finit(x.at(i), A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation);
 		beta2.at(i) = vel2.at(i) * dt*dt / (dx*dx);
 
 		// TODO initialize beta2, fnow and fpast according to the requests
 		// TODO verify
 		switch (initial_state) {
-			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, xL, n_init, xR, vel2.at(i), initialisation); break;
-			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, xL, n_init, xR, vel2.at(i), initialisation); break;
+			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation); break;
+			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation); break;
 			case NONE: fpast.at(i) = fnow.at(i); break;
 		}
 	}
