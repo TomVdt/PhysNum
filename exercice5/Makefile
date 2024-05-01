@@ -16,4 +16,4 @@ dir:
 
 clean:
 	@rm $(BIN)/$(EXE) || true
-	@rm -r data/*.out || true
+	@rm -r data || true

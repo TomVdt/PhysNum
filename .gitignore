@@ -7,7 +7,7 @@
 
 !Makefile
 .vscode
-data/*.log
+data/*.*
 
 # Eviter les conflits, normalement les rapports ca se recompile sans problème
 rapport.pdf

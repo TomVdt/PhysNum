@@ -85,7 +85,7 @@ def load_conf(config_name: str) -> dict[str, Any]:
         lines = f.read().split('\n')
 
     for line in lines:
-        if not line or line.startswith(('%', '#', '//')):
+        if not line or line.startswith(('%', '#', '//')) or not line.strip():
             continue
         name, _, val, *_ = line.split(' ')
         name = name.strip()

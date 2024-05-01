@@ -8,17 +8,72 @@
 #include <algorithm>
 
 using namespace std;
+constexpr double PI = 3.1415926535897932384626433832795028841971e0;
+constexpr double g = 9.81;
 
-void boundary_condition(vector<double>& fnext, vector<double>& fnow, double const& A,
-	double const& t, double const& dt,
-	vector<double>& beta2, string& bc_l, string& bc_r, int& N) {
+enum Boundary {
+	FIXED, FREE, EXIT
+};
+enum Direction {
+	LEFT, RIGHT, NONE
+};
+enum Equation {
+	EQ1, EQ2
+};
+enum Initialisation {
+	MODE, DEFAULT
+};
+
+void boundary_condition(vector<double>& fnext, vector<double>& fnow,
+	double t, double dt,
+	const vector<double>& beta2,
+	double A, Boundary bc_l, Boundary bc_r, size_t N)
+{
+	(void)t; (void)dt; (void)A;
 	// TODO: Insert boundary conditions
+	// TODO: verify
+	if (bc_l == FIXED) {
+		fnext.at(0) = fnow.at(0);
+	}
+	if (bc_r == FIXED) {
+		fnext.at(N - 1) = fnow.at(N - 1);
+	}
+
+	if (bc_l == FREE) {
+		fnext.at(0) = fnext.at(1);
+	}
+	if (bc_r == FREE) {
+		fnext.at(N - 1) = fnext.at(N - 2);
+	}
+
+	if (bc_l == EXIT) {
+		fnext.at(0) = (
+			fnow.at(0)
+			+ sqrt(beta2.at(0)) * (fnow.at(1) - fnow.at(0))
+		);
+	}
+	if (bc_r == EXIT) {
+		fnext.at(N - 1) = (
+			fnow.at(N - 1)
+			- sqrt(beta2.at(N - 1)) * (fnow.at(N - 1) - fnow.at(N - 2))
+		);
+	}
 }
 
-double finit(double x, double xL, double n_init, double xR) {
-	double finit_(0.);
-	const double PI = 3.1415926535897932384626433832795028841971e0;
-	// TODO initialiser un mode propre
+double finit(double x, double A, double xL, double n_init, double xR, double u2, Initialisation init) {
+	double finit_(0.0);
+	if (init == DEFAULT) {
+		// TODO verify
+		if (x <= xL) {
+			finit_ = 0.0;
+		} else if (x >= xR) {
+			finit_ = 0.0;
+		} else {
+			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - xL) / (xR - xL)));
+		}
+	} else if (init == MODE) {
+		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * sqrt(u2) * (x - xL));
+	}
 	return finit_;
 }
 
@@ -36,12 +91,54 @@ template<class T> ostream& operator<<(ostream& o, vector<T> const& v) {
 	return o;
 }
 
+Boundary string_to_boundary(const string& str) {
+	if (str == "fixed") {
+		return FIXED;
+	} else if (str == "free") {
+		return FREE;
+	} else if (str == "exit") {
+		return EXIT;
+	} else {
+		throw runtime_error("Unknown boundary condition type!");
+	}
+}
+
+Direction string_to_direction(const string& str) {
+	if (str == "left") {
+		return LEFT;
+	} else if (str == "right") {
+		return RIGHT;
+	} else if (str == "static") {
+		return NONE;
+	} else {
+		throw runtime_error("Unknown initial direction type!");
+	}
+}
+
+Initialisation string_to_initialisation(const string& str) {
+	if (str == "mode") {
+		return MODE;
+	} else if (str == "default") {
+		return DEFAULT;
+	} else {
+		throw runtime_error("Unknown initialisation type!");
+	}
+}
+
+Equation string_to_equation(const string& str) {
+	if (str == "Eq1") {
+		return EQ1;
+	} else if (str == "Eq2") {
+		return EQ2;
+	} else {
+		throw runtime_error("Unknown equation type!");
+	}
+}
+
 //
 // Main
 //
 int main(int argc, char* argv[]) {
-	const double PI = 3.1415926535897932384626433832795028841971e0;
-	const double g = 9.81;
 	double dx;
 	double dt;
 	double t;
@@ -60,46 +157,46 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Parametres de simulation :
-	double tfin = configFile.get<double>("tfin");
-	int nx = configFile.get<int>("nx"); // nb d'intervalles
-	int N = nx + 1;                                // nb de pts de maillage
+	const double tfin = configFile.get<double>("tfin");
+	const int nx = configFile.get<int>("nx"); // nb d'intervalles
+	const size_t N = nx + 1;                                // nb de pts de maillage
 	double CFL = configFile.get<double>("CFL");
-	double nsteps = configFile.get<double>("nsteps");
-	double A = configFile.get<double>("A");
-	double n_init = configFile.get<double>("n_init");
-	double hL = configFile.get<double>("hL");
-	double hR = configFile.get<double>("hR");
-	double hC = configFile.get<double>("hC");
-	double h00 = configFile.get<double>("h00"); // profondeur, cas uniforme
-	double x1 = configFile.get<double>("x1");
-	double x2 = configFile.get<double>("x2");
-	double xa = configFile.get<double>("xa");
-	double xb = configFile.get<double>("xb");
-	double xc = configFile.get<double>("xc");
-	double xd = configFile.get<double>("xd");
-	double xL = configFile.get<double>("xL");
-	double xR = configFile.get<double>("xR");
-	int n_stride(configFile.get<int>("n_stride"));
+	const double nsteps = configFile.get<double>("nsteps");
+	const double A = configFile.get<double>("A");
+	const double n_init = configFile.get<double>("n_init");
+	const double hL = configFile.get<double>("hL");
+	const double hR = configFile.get<double>("hR");
+	const double hC = configFile.get<double>("hC");
+	const double h00 = configFile.get<double>("h00"); // profondeur, cas uniforme
+	const double x1 = configFile.get<double>("x1");
+	const double x2 = configFile.get<double>("x2");
+	const double xa = configFile.get<double>("xa");
+	const double xb = configFile.get<double>("xb");
+	const double xc = configFile.get<double>("xc");
+	const double xd = configFile.get<double>("xd");
+	const double xL = configFile.get<double>("xL");
+	const double xR = configFile.get<double>("xR");
+	const int n_stride = configFile.get<int>("n_stride");
 
 	// Conditions aux bords:
-	string bc_l = configFile.get<string>("cb_gauche");
-	string bc_r = configFile.get<string>("cb_droite");
+	const Boundary bc_l = string_to_boundary(configFile.get<string>("cb_gauche"));
+	const Boundary bc_r = string_to_boundary(configFile.get<string>("cb_droite"));
 
 	// Type de forme initiale de la vague: selon donnée Eq.(4) ou mode propre
 	// (par exemple 'mode' pour mode propre, autrement Eq.(4))
-	string initialization = configFile.get<string>("initialization");
+	const Initialisation initialisation = string_to_initialisation(configFile.get<string>("initialisation"));
 
 	// Onde partant initialement vers la gauche ou vers la droite ou statique
-	// (par exemple 'gauche', 'droite', 'statique')
-	string initial_state = configFile.get<string>("initial_state");
+	// (par exemple 'left', 'right', 'static')
+	const Direction initial_state = string_to_direction(configFile.get<string>("initial_state"));
 
 	// Selecteur pour le cas h0 uniforme:
-	bool v_uniform = configFile.get<bool>("v_uniform");
+	const bool v_uniform = configFile.get<bool>("v_uniform");
 
 	// Selecteur pour choisir le pas de temps:
 	// true --> dt=tfin/nsteps; t final est exactement tfin
 	// false --> dt tel que beta_CFL=1; attention, t final n'est pas exactement tfin
-	bool impose_nsteps = configFile.get<bool>("impose_nsteps");
+	const bool impose_nsteps = configFile.get<bool>("impose_nsteps");
 
 	vector<double> h0(N);   // profondeur aux points de maillage
 	vector<double> vel2(N); // u^2 = g*h_0 aux points de maillage
@@ -110,21 +207,45 @@ int main(int argc, char* argv[]) {
 	bool ecrire_f = configFile.get<bool>("ecrire_f"); // Exporter f(x,t) ou non
 
 	// Eq.(1) ou Eq.(2) [ou Eq.(6) (facultatif)]: Eq1, Eq2 ou Eq6
-	string equation_type = configFile.get<string>("equation_type");
+	const Equation equation_type = string_to_equation(configFile.get<string>("equation_type"));
 
-	for (int i(0); i < N; ++i) {
+	for (size_t i(0); i < N; ++i) {
+		const double x_ = i * dx;
+		x.at(i) = x_;
+
 		// TODO initialize the depth h0 and the velocity^2 vel2
+		// TODO: verify
+		if (v_uniform) {
+			h0.at(i) = h00;
+			vel2.at(i) = g * h00;
+		} else {
+			double h0_curr = 0.0;
+			if (xL <= x_ && x_ <= xa) {
+				h0_curr = hL;
+			} else if (xa < x_ && x_ < xb) {
+				h0_curr = (1.0 / 2.0) * (hL + hC) + (1.0 / 2.0) * (hL - hC) * cos(PI * (x_ - xa) / (xb - xa));
+			} else if (xb <= x_ && x_ <= xc) {
+				h0_curr = hC;
+			} else if (xc < x_ && x_ < xd) {
+				h0_curr = (1.0 / 2.0) * (hR + hC) - (1.0 / 2.0) * (hR - hC) * cos(PI * (x_ - xc) / (xd - xc));
+			} else if (xd <= x_ && x_ <= xR) {
+				h0_curr = hR;
+			}
+			h0.at(i) = h0_curr;
+			vel2.at(i) = g * h0_curr;
+		}
 	}
 
 	auto max_vel2 = std::max_element(vel2.begin(), vel2.end());
 
 	// TODO
 	// define the dt according to CLF input 
-	dt = 1;
+	// CLF = 1 = |u|dx/dt => dt = |u|dx / CLF
+	dt = sqrt(*max_vel2) * dx / CFL;
 	if (impose_nsteps) {
 		// define the dt and CLF when you want to fix nsteps
-		dt = 1;
-		CFL = 1;
+		dt = tfin / nsteps;
+		CFL = sqrt(*max_vel2) * dx / dt;
 	}
 
 	// Fichiers de sortie :
@@ -143,13 +264,19 @@ int main(int argc, char* argv[]) {
 	// Initialisation des tableaux du schema numerique :
 
 	//TODO initialize f and beta^2
-	for (int i(0); i < N; ++i)
+	for (size_t i(0); i < N; ++i)
 	{
-		fpast[i] = 0.;
-		fnow[i] = 0.;
-		beta2[i] = 1.0;
+		// fpast.at(i) = 0.;
+		fnow.at(i) = finit(x.at(i), A, xL, n_init, xR, vel2.at(i), initialisation);
+		beta2.at(i) = vel2.at(i) * dt*dt / (dx*dx);
 
 		// TODO initialize beta2, fnow and fpast according to the requests
+		// TODO verify
+		switch (initial_state) {
+			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, xL, n_init, xR, vel2.at(i), initialisation); break;
+			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, xL, n_init, xR, vel2.at(i), initialisation); break;
+			case NONE: fpast.at(i) = fnow.at(i); break;
+		}
 	}
 
 
@@ -158,7 +285,7 @@ int main(int argc, char* argv[]) {
 
 
 	// Boucle temporelle :
-	for (t = 0.; t < tfin - .5 * dt; t += dt)
+	for (t = 0.0; t < tfin - 0.5 * dt; t += dt)
 	{
 		// Ecriture :
 		if (stride % n_stride == 0)
@@ -168,18 +295,31 @@ int main(int argc, char* argv[]) {
 		++stride;
 
 		// Evolution :
-		for (int i(1); i < N - 1; ++i)
+		for (size_t i(1); i < N - 1; ++i)
 		{
-			// TODO: write the expressions for fnext 
-			fnext[i] = 0.0;
+			// TODO: write the expressions for fnext
+			// TODO: verify
+			if (equation_type == EQ1) {
+				fnext.at(i) = (
+					42.0 // feur
+				);
+			} else if (equation_type == EQ2) {
+				fnext.at(i) = (
+					2.0 * (1.0 - beta2.at(i)) * fnow.at(i)
+					- fpast.at(i)
+					+ beta2.at(i) * (fnow.at(i+1) + fnow.at(i-1))
+				);
+			}
 		}
 
 		// TODO add boundary conditions
-		boundary_condition(fnext, fnow, A, t, dt, beta2, bc_l, bc_r, N);
+		// TODO: verify
+		boundary_condition(fnext, fnow, t, dt, beta2, A, bc_l, bc_r, N);
 
-		//TODO: faire la mise a jour :
-		// fpast = something ;
-		// fnow  = something ;
+		// TODO: faire la mise a jour
+		// TODO: verify
+		fpast = fnow;
+		fnow = fnext;
 	}
 
 	if (ecrire_f) fichier_f << t << " " << fnow << endl;
