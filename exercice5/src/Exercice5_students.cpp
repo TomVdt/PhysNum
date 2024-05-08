@@ -240,8 +240,7 @@ int main(int argc, char* argv[]) {
 
 	// TODO
 	// define the dt according to CLF input 
-	// CLF = 1 = |u|dx/dt => dt = |u|dx / CLF
-	dt = sqrt(*max_vel2) * dx / CFL;
+	dt = CFL * dx / sqrt(*max_vel2);
 	if (impose_nsteps) {
 		// define the dt and CLF when you want to fix nsteps
 		dt = tfin / nsteps;
@@ -260,6 +259,8 @@ int main(int argc, char* argv[]) {
 	ofstream fichier_f((output + "_f.out").c_str());
 	fichier_f.precision(15);
 
+	ofstream fichier_h0((output + "_h0.out").c_str());
+	fichier_h0.precision(15);
 
 	// Initialisation des tableaux du schema numerique :
 
@@ -301,7 +302,10 @@ int main(int argc, char* argv[]) {
 			// TODO: verify
 			if (equation_type == EQ1) {
 				fnext.at(i) = (
-					42.0 // feur
+					1.0/4.0 * (beta2.at(i+1) - beta2.at(i-1)) * (fnow.at(i+1) - fnow.at(i-1))
+					+ beta2.at(i) * (fnow.at(i+1) - 2 * fnow.at(i) + fnow.at(i-1))
+					+ 2 * fnow.at(i)
+					- fpast.at(i)
 				);
 			} else if (equation_type == EQ2) {
 				fnext.at(i) = (
@@ -325,10 +329,12 @@ int main(int argc, char* argv[]) {
 	if (ecrire_f) fichier_f << t << " " << fnow << endl;
 	fichier_x << x << endl;
 	fichier_v << vel2 << endl;
+	fichier_h0 << h0 << endl;
 
 	fichier_f.close();
 	fichier_x.close();
 	fichier_v.close();
+	fichier_h0.close();
 
 	return 0;
 }

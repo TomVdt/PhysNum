@@ -73,10 +73,11 @@ def run_with_params(config_name: str, all_params: list[dict[str, Any]]) -> list[
 
     dataset = []
     for file, params in zip(outputs, all_params):
-        data_x = np.loadtxt(path + file + "_x.log")
-        data_v = np.loadtxt(path + file + "_v.log")
-        data_f = np.loadtxt(path + file + "_f.log")
-        dataset.append((params, data_x, data_v, data_f))
+        data_x = np.loadtxt(path + file + "_x.out")
+        data_v = np.loadtxt(path + file + "_v.out")
+        data_f = np.loadtxt(path + file + "_f.out")
+        data_h0 = np.loadtxt(path + file + "_h0.out")
+        dataset.append((params, data_x, data_v, data_f, data_h0))
     return dataset
 
 def load_conf(config_name: str) -> dict[str, Any]:
