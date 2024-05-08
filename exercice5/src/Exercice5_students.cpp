@@ -60,7 +60,7 @@ void boundary_condition(vector<double>& fnext, vector<double>& fnow,
 	}
 }
 
-double finit(double x, double A, double x1, double x2, double xL, double n_init, double xR, double u2, Initialisation init) {
+double finit(double x, double A, double x1, double x2, double xL, double n_init, double xR, Initialisation init) {
 	double finit_(0.0);
 	if (init == DEFAULT) {
 		// TODO verify
@@ -72,7 +72,7 @@ double finit(double x, double A, double x1, double x2, double xL, double n_init,
 			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - x1) / (x2 - x1)));
 		}
 	} else if (init == MODE) {
-		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * sqrt(u2) * (x - xL));
+		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * (x - xL));
 	}
 	return finit_;
 }
@@ -211,7 +211,7 @@ int main(int argc, char* argv[]) {
 
 	for (size_t i(0); i < N; ++i) {
 		const double x_ = i * dx;
-		x.at(i) = x_;
+		x.at(i) = xL + x_;
 
 		// TODO initialize the depth h0 and the velocity^2 vel2
 		// TODO: verify
@@ -268,14 +268,14 @@ int main(int argc, char* argv[]) {
 	for (size_t i(0); i < N; ++i)
 	{
 		// fpast.at(i) = 0.;
-		fnow.at(i) = finit(x.at(i), A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation);
+		fnow.at(i) = finit(x.at(i), A, x1, x2, xL, n_init, xR, initialisation);
 		beta2.at(i) = vel2.at(i) * dt*dt / (dx*dx);
 
 		// TODO initialize beta2, fnow and fpast according to the requests
 		// TODO verify
 		switch (initial_state) {
-			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation); break;
-			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, vel2.at(i), initialisation); break;
+			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, initialisation); break;
+			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, initialisation); break;
 			case NONE: fpast.at(i) = fnow.at(i); break;
 		}
 	}
