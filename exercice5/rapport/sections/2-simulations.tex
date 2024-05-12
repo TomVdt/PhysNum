@@ -73,11 +73,62 @@ In this section we will use the following function for oceanic depth:
 \end{equation}
 We will choose \(h_L = 7000\)m, \(h_C = 35\)m, \(h_R = 200\)m, \(x_L = 0\)m, \(x_a = 300\)km, \(x_b = 700\)km, \(x_c = 720\)km, \(x_d = 850\)km and \(x_R = 1000\)km. The initial conditions will be a right moving wave with \(x_1 = 50\)km, \(x_2 = 250\)km and amplitude \(A = 1\)m. Both border conditions will be set to exit, to be more representative of an actual large ocean. The simulations were done until the wave passes the coral reef entierely, which corresponds to a time of about \(t = 12000\). The timestep \(\Delta t\) was chosen such that \(\max(\beta_{\textrm{CFL}}) = 1\), which is \(\Delta t = \Delta x / \max_x(u(x)^2)\). The number of intervals was chosen to be 8192.
 
-\autoref{fig:corail_eq1_mouv} shows the obtained wave motion.
+\autoref{fig:corail_eq1_mouv} shows the obtained wave motion when using \autoref{eq:eq1}. We can see that around \(x=600\)km, the wave slows down considerably with a peak in amplitude, which corresponds to when the wave is right above the reef. We will study the amplitude and speed later. The observed behavior makes sense intuitively, as a wave would indeed get larger when the water becomes less deep.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/corail_eq1_mouvement_vague.png}
     \caption{Wave amplitude as a function of space and time. Simulated using \(n=8192\) intervals, until \(t=12000\)}
     \label{fig:corail_eq1_mouv}
+\end{figure}
+
+The maximum amplitude of the wave was obtained using a quadratic fit for every point around the time of its maximum amplitude. The maximum of the fit gave the maximum amplitude. Results are shown in \autoref{fig:corail_eq1_amplitude}. The simulation shows that the maximum amplitude increase up to the point of the coral reef, remains more or less constant on top of the reef and then goes back down. The peak amplitude above the reef (\(x_b < x < x_c\)) was found to be about 3.58m, while after the reef (\(x_d<x<x_R\)) the maximum amplitude was 2.30m. When compared to the WKB solution on \autoref{eq:eq2}, we can see that the phenomenon is completely inverted: for WKB, the amplitude lessens above the reef and increases back again after. This discrepency could be attributed to higher order terms in the expansion.
+
+Using the analysis done on the amplitude, the speed of the peak of the wave was calculated using the time \(t_{\textrm{peak},i}\) at which the fitted function is maximal. Then for every point \(x_i\), except for border cases, the speed is given by \(v_i = (x_{i+k} - x_{i-k})/(t_{\textrm{peak},i+k} - t_{\textrm{peak},i-k})\), where \(k\) is chosen such that the oscillations in \(v\) are minimal. The results are shown in \autoref{fig:corail_eq1_vitesse}. We can see that the speed decrease drastically between the starting position of the wave and the coral reef, by a factor of about 11: the speed above the reef was found to be 18 m/s, while the initial speed was 261 m/s. After the reef, the speed increases again to around 42 m/s. The simulation matches the WKB solution exactly. This is because when analysing both \autoref{eq:eq1} and \autoref{eq:eq2} using WKB, we find the same result for the speed \(u(x) = \sqrt{gh_0(x)}\). MARTIN VERIFIE STP J'AI PAS TOUT COMPRIS
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/corail_eq1_amplitude_wkb.pdf}
+        \caption{Maximum amplitude reached at each position}
+        \label{fig:corail_eq1_amplitude}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/corail_eq1_vitesse_wkb.pdf}
+        \caption{Speed of wave peak}
+        \label{fig:corail_eq1_vitesse}
+    \end{subfigure}
+    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated using \(n=8192\) intervals, until \(t=12000\)}
+    \label{fig:corail_eq1_properties}
+\end{figure}
+
+FEUR PARTIE (D)
+
+Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak shown in \autoref{fig:corail_eq2_amplitude}. This time, the results match the WKB solution almost exactly for the amplitude and exactly for the speed. While the results are not realistic physically, it remains coherent that the WKB solution matches these simulations, because they were done using the same base equation.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/corail_eq2_mouvement_vague.png}
+    \caption{Wave amplitude as a function of space and time, simulated following \autoref{eq:eq2}. Simulated with \(n=16328\) intervals until \(t=12000\)}
+    \label{fig:corail_eq2_mouvement}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/corail_eq2_amplitude_wkb.pdf}
+        \caption{Maximum amplitude reached at each position}
+        \label{fig:corail_eq2_amplitude}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/corail_eq2_vitesse_wkb.pdf}
+        \caption{Speed of wave peak}
+        \label{fig:corail_eq2_vitesse}
+    \end{subfigure}
+    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated w.r.t. \autoref{eq:eq2}, using \(n=8192\) intervals, until \(t=12000\)}
+    \label{fig:corail_eq2_properties}
 \end{figure}
