@@ -1,9 +1,108 @@
 \section{Analytical results}
-
+The subject of this study is waves in shallow waters. The system is considered in only one dimension with the position $x \in [x_L, x_R]$. It is a body of water with depth $h_0(x)$ when at rest. The gravitational acceleration is applied to it with $g = 9.81$ \si{\meter\per\square\second}. With $f(x,t)$ the height of the displacement of water due to the waves we have the equation:
 \begin{equation}
     \frac{\partial^2 f}{\partial t^2} = \frac{\partial}{\partial x} \left( g h_0 \frac{\partial f}{\partial x} \right)
     \label{eq:eq1}
 \end{equation}
+
+\subsection{Solution for $h_0$ constant}
+\underline{Question (a)}
+We assume here that we have $h_0(x) \equiv h_0 \in \mathbb{R}$ constant. Thus \autoref{eq:eq1} becomes:
+\begin{equation}
+    \frac{\partial^2 f}{\partial t^2} = g h_0 \frac{\partial^2 f}{\partial x^2}
+    \label{eq:eq_h0_const}
+\end{equation}
+this is the classical wave equation with speed $u$ such that $u^2 = gh_0$. The general solution for this equation is:
+\begin{equation}
+    f(x,t) = f_+(x+ut) + f_-(x-ut)
+    \label{eq:general_solution}
+\end{equation}
+with two functions $f_+$ and $f_-$ belonging to $C^2(\mathbb{R})$ and corresponding to different orientations of the wave. Since these two functions take into account the orientation of the wave we can take for the phase velocity $u = \sqrt{gh_0}$ only the positive solution without loss of generality. Then $f_+$ corresponds to a retrograde wave moving along $-\hat{x}$ and $f_-$ to a prograde wave moving along $\hat{x}$.
+
+\subsection{Normal modes}
+\underline{Question (b)}
+We take the boundary conditions of a fixed left side:
+\begin{equation}
+    f(x_L, t) = 0 \quad \forall t
+    \label{eq:condition_left}
+\end{equation}
+and a free right side:
+\begin{equation}
+    \frac{\partial f}{\partial x}(x_R,t) = 0 \quad \forall t
+    \label{eq:condition_right}
+\end{equation}
+and want to find the normal modes and frequencies of this system.
+
+We first take a sine solution of $f_+$ from \autoref{eq:general_solution} as a retrograde wave:
+\begin{equation}
+    f_+(x,t) = A \sin(kx + \varphi_x + \omega t + \varphi_t)
+\end{equation}
+with amplitude $A$ and phases $\varphi_x$ and $\varphi_t$ according to position and time. We have here the wavenumber $k$ such that $ku = \omega$. This wave will be reflected inside our basin $[x_L, x_R]$ in a prograde wave. We are searching for stationary waves that have the form $f(x,t) = f_x(x)f_t(t)$ and thus the total displacement as a sum of the prograde and retrograde wave will be
+\begin{equation}
+    f(x,t) = A(\sin(kx + \varphi_x + \omega t + \varphi_t) + \sin(kx + \varphi_x - \omega t - \varphi_t))
+\end{equation}
+in order to have a stationary wave:
+\begin{equation}
+    f(x,t) = 2A\sin(kx + \varphi_x)\cos(\omega t + \varphi_t)
+    \label{eq:stationary}
+\end{equation}
+
+We take the fixed condition of \autoref{eq:condition_left} with \autoref{eq:stationary} which gives:
+\[
+    \begin{aligned}
+        & 2A\sin(kx_L + \varphi_x)\cos(\omega t + \varphi_t) = 0 \quad \forall t \\
+        & \Rightarrow \sin(kx_L + \varphi_x) = 0 \\
+        & \Rightarrow \varphi_x = -kx_L + m\pi \quad , m \in \mathbb{N}\\
+    \end{aligned}    
+\]
+We then have $\forall y, \forall m \in \mathbb{N}, sin(y+m\pi) = \pm sin(y)$ and then $\sin(kx + \varphi_x) = \pm \sin(k(x-x_L))$. This first condition thus gives, by redefining the constant $\pm A$ as $A$:
+\begin{equation}
+    f(x,t) = 2A\sin(k(x-x_L))\cos(\omega t + \varphi_t)
+    \label{eq:sol_first_condition}
+\end{equation}
+
+We then take the free side condition of \autoref{eq:condition_right} with \autoref{eq:sol_first_condition} which gives:
+\[
+    \begin{aligned}
+        & 2A k \cos(k(x_R-x_L))\cos(\omega t + \varphi_t) = 0 \quad \forall t \\
+        & \Rightarrow \cos(k(x_R-x_L)) = 0 \\
+        & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi \quad , n \in \mathbb{N} \\
+    \end{aligned}
+\]
+which allows to define wavenumbers corresponding to normal modes:
+\begin{equation}
+    k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \quad , n \in \mathbb{N}
+    \label{eq:wavenumber_mode}
+\end{equation}
+Knowing $ku = \omega$ then we have the angular frequencies of the modes:
+\begin{equation}
+    \omega_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \quad , n \in \mathbb{N}
+    \label{eq:angular_mode}
+\end{equation}
+Allowing us to rewrite the solution of \autoref{eq:eq_h0_const} for normal modes and the boundary conditions from \autoref{eq:condition_left} and \autoref{eq:condition_right} as:
+\begin{equation}
+    f_n(x,t) = 2A\sin(k_n(x - x_L))\cos(\omega_n t + \varphi_t)
+    \label{eq:normal_mode_simple}
+\end{equation}
+\begin{equation}
+    f_n(x,t) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)\cos\left(\frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \, t + \varphi_t\right) \quad , n \in \mathbb{N}
+    \label{eq:normal_mode_explicit}
+\end{equation}
+
+We can also calculate the frequencies of the stationary waves for each normal mode $n \in \mathbb{N}$ which are:
+\begin{equation}
+    \nu_n = \frac{\omega_n}{2\pi} = \frac{(2n + 1)}{4(x_R-x_L)} \sqrt{gh_0}
+\end{equation}
+
+In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\varphi_t$ that can be determined using initial conditions. In this study we will consider $\varphi_t = 0$ such that the initial position of the normal modes $n \in \mathbb{N}$ are:
+\begin{equation}
+    f_n(x,t=0) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)
+    \label{eq:normal_initial}
+\end{equation}
+
+
+\subsection{WKB analysis for $h_0$ not uniform}
+\underline{Question (c)}
 
 \begin{equation}
     \frac{\partial^2 f}{\partial t^2} = g h_0 \frac{\partial^2 f}{\partial x^2}
