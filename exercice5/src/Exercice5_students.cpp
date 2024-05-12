@@ -6,6 +6,7 @@
 #include <string.h>
 #include "ConfigFile.tpp"
 #include <algorithm>
+#include <filesystem>
 
 using namespace std;
 constexpr double PI = 3.1415926535897932384626433832795028841971e0;
@@ -142,7 +143,6 @@ int main(int argc, char* argv[]) {
 	double dx;
 	double dt;
 	double t;
-	double Nsteps;
 	int stride(0);
 
 	string inputPath("configuration.in"); // Fichier d'input par defaut
@@ -258,6 +258,13 @@ int main(int argc, char* argv[]) {
 
 	ofstream fichier_f((output + "_f.out").c_str());
 	fichier_f.precision(15);
+	// Environ 0.5 * N bytes / ligne
+	// if (ecrire_f) {
+	// 	std::filesystem::resize_file(
+	// 		std::filesystem::path((output + "_f.out").c_str()),
+	// 		(size_t)(0.5 * N * tfin / dt)
+	// 	);
+	// }
 
 	ofstream fichier_h0((output + "_h0.out").c_str());
 	fichier_h0.precision(15);
@@ -326,7 +333,11 @@ int main(int argc, char* argv[]) {
 		fnow = fnext;
 	}
 
-	if (ecrire_f) fichier_f << t << " " << fnow << endl;
+	// Environ 16 * N bytes / ligne
+	if (ecrire_f) {
+		fichier_f << t << " " << fnow << endl;
+	}
+	
 	fichier_x << x << endl;
 	fichier_v << vel2 << endl;
 	fichier_h0 << h0 << endl;

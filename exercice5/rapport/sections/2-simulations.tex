@@ -1,1 +1,43 @@
 \section{Simulations}
+
+\subsection{Numerical implementation}
+
+\subsubsection{Evolution equation}
+
+Starting from \autoref{eq:eq1}, we want to obtain to numerically calculate the wave height at the next timestep \(t_{i+1}\) using the previous heights at positions \(x_i\), \(x_{i-1}\) and \(x_{i+1}\). Using the following approximations for the derivatives
+\begin{equation}
+    \frac{\partial F}{\partial x}(x_i) \approx \frac{F(x_{i+1}) - F(x_{x-1})}{2 \Delta x}
+    , \qquad
+    \frac{\partial^2 F}{\partial x^2}(x_i) \approx \frac{F(x_{i+1}) - 2 F(x_i) + F(x_{i-1})}{(\Delta x)^2}
+\end{equation}
+where \(F\) is a generic function representing either \(f\) or \(h_0\), \(\Delta x = x_{i+1} - x_i\) and \(x\) is a generic variable representing either \(x\) or \(t\). \autoref{eq:eq1} is equivalent to:
+\begin{equation}
+    \frac{\partial^2 f}{\partial t^2} = g \frac{\partial h_0}{\partial x} \frac{\partial f}{\partial x} + g h_0 \frac{\partial^2 f}{\partial x^2}
+\end{equation}
+Then using the previously mentioned formulas:
+\begin{equation}
+    \begin{aligned}
+        \frac{f(x_i, t_{i+1}) - 2 f(x_i, t_i) + f(x_i, t_{i-1})}{(\Delta t)^2} &= g \left( \frac{h_0(x_{i+1}) - h_0(x_{i-1})}{2 \Delta x} \right) \left( \frac{f(x_{i+1}, t_i) - f(x_{i-1}, t_i)}{2 \Delta x} \right) \\
+        &+ g h_0(x_i) \frac{f(x_{i+1}, t_i) - 2 f(x_i, t_i) + f(x_{i-1}, t_i)}{(\Delta x)^2}
+    \end{aligned}
+\end{equation}
+By rearanging and identifying the Courant-Friedrichs-Lewy constant \(\beta(x) = u(x) \frac{\Delta t}{\Delta x} = \sqrt{g h_0(x)} \frac{\Delta t}{\Delta x}\) we get the following equation:
+\begin{equation}
+    \begin{aligned}
+        f(x_i, t_{i+1}) &= \frac{g}{4} \left( \beta(x_{i+1})^2 - \beta(x_{i-1})^2 \right) \left( f(x_{i+1}, t_i) - f(x_{i-1}, t_i) \right) \\
+        &+ \beta(x_i)^2 (f(x_{i+1}, t_i) - 2 f(x_i, t_i) + f(x_{i-1}, t_i)) \\
+        &+ f(x_i,t_i) \\
+        &- f(x_i,t_{i-1})
+    \end{aligned}
+\end{equation}
+The evolution for \autoref{eq:eq2} is taken from \cite{physnumbook}, equation 4.43.
+
+\subsubsection{Border conditions}
+
+The simulation implements border conditions for a fixed border (wave has a specific height at border), a free border (the wave is allowed to move as it pleases along the border) and an exit condition (the wave continues as if there was no border). These conditions are given in \cite{physnumbook}, for the left and right borders. We will derive the exit conditions for the left border here. Under this condition, the left border only has a retrograde wave, i.e. \(f = G(x + |u| t)\) TODO: NOTATION, VOIR PARTIE THEORIE
+
+\subsection{Smol basin for smol duckies}
+
+% feur
+
+\subsection{}
