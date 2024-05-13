@@ -75,11 +75,11 @@ In this section we will use the following function for oceanic depth:
 \begin{equation}
     h_0(x) = \begin{cases}
         \begin{aligned}
-            &\scriptstyle{h_L} &&\scriptstyle{(x_L \le x \le x_a)} \\
-            &\scriptstyle{\frac{1}{2}(h_L + h_C) + \frac{1}{2}(h_L - h_C) \cos \left( \pi \frac{x-x_a}{x_b-x_a} \right)} &&\scriptstyle{(x_a < x < x_b)} \\
-            &\scriptstyle{h_C} &&\scriptstyle{(x_b \le x \le x_c)} \\
-            &\scriptstyle{\frac{1}{2}(h_R + h_C) - \frac{1}{2}(h_R - h_C) \cos \left( \pi \frac{x-x_c}{x_d-x_c} \right)} &&\scriptstyle{(x_c < x < x_d)} \\
-            &\scriptstyle{h_R} &&\scriptstyle{(x_d \le x \le x_R)}
+            &h_L &&(x_L \le x \le x_a) \\
+            &\frac{1}{2}(h_L + h_C) + \frac{1}{2}(h_L - h_C) \cos \left( \pi \frac{x-x_a}{x_b-x_a} \right) &&(x_a < x < x_b) \\
+            &h_C &&(x_b \le x \le x_c) \\
+            &\frac{1}{2}(h_R + h_C) - \frac{1}{2}(h_R - h_C) \cos \left( \pi \frac{x-x_c}{x_d-x_c} \right) &&(x_c < x < x_d) \\
+            &h_R &&(x_d \le x \le x_R)
         \end{aligned}
     \end{cases}
 \end{equation}
@@ -118,7 +118,7 @@ Using the analysis done on the amplitude, the speed of the peak of the wave was 
 
 FEUR PARTIE (D)
 
-Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak shown in \autoref{fig:corail_eq2_amplitude}. This time, the results match the WKB solution almost exactly for the amplitude and exactly for the speed. While the results are not realistic physically, it remains coherent that the WKB solution matches these simulations, because they were done using the same base equation.
+Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak shown in \autoref{fig:corail_eq2_amplitude}. This time, the simulation undershoots the WKB solution, starting from where the depth changes. The difference between the simulation and the WKB solution remains under 0.02m, which is still quite precise. Like previously howether, the speed matches the WKB solution exactly, as can be seen in \autoref{fig:corail_eq2_vitesse}. The WKB analysis on both equations showed that the speed is the same for both equations, which was verified again here.
 
 \begin{figure}[h]
     \centering
