@@ -12,6 +12,7 @@ using namespace std;
 constexpr double PI = 3.1415926535897932384626433832795028841971e0;
 constexpr double g = 9.81;
 
+// Create types for initialisation
 enum Boundary {
 	FIXED, FREE, EXIT
 };
@@ -31,8 +32,7 @@ void boundary_condition(vector<double>& fnext, vector<double>& fnow,
 	double A, Boundary bc_l, Boundary bc_r, size_t N)
 {
 	(void)t; (void)dt; (void)A;
-	// TODO: Insert boundary conditions
-	// TODO: verify
+	// Various boundary conditions
 	if (bc_l == FIXED) {
 		fnext.at(0) = fnow.at(0);
 	}
@@ -64,7 +64,7 @@ void boundary_condition(vector<double>& fnext, vector<double>& fnow,
 double finit(double x, double A, double x1, double x2, double xL, double n_init, double xR, Initialisation init) {
 	double finit_(0.0);
 	if (init == DEFAULT) {
-		// TODO verify
+		// By default initialisation
 		if (x <= x1) {
 			finit_ = 0.0;
 		} else if (x >= x2) {
@@ -73,6 +73,8 @@ double finit(double x, double A, double x1, double x2, double xL, double n_init,
 			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - x1) / (x2 - x1)));
 		}
 	} else if (init == MODE) {
+		// Initialisation for a normal mode, careful A here is 2A in the theory
+		// it is twice the amplitude of the two composing waves
 		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * (x - xL));
 	}
 	return finit_;
@@ -92,6 +94,8 @@ template<class T> ostream& operator<<(ostream& o, vector<T> const& v) {
 	return o;
 }
 
+
+// Various functions to initialise from a string to specific types
 Boundary string_to_boundary(const string& str) {
 	if (str == "fixed") {
 		return FIXED;
