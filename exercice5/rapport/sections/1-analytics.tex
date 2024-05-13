@@ -103,10 +103,88 @@ In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\var
 
 \subsection{WKB analysis for $h_0$ not uniform}
 \underline{Question (c)}
-We now want to consider a more general case where $h_0(x)$ is not uniform according to $x$. Obtaining analytical solution in this very general case being too complicated a WKB analysis will be done instead. This is shown for \autoref{eq:eq1} in a Numerical Physics book \cite{physnumbook} (section 4.2.4) and will then be done here for this equation:
+We now want to consider a more general case where $h_0(x)$ is not uniform according to $x$. Obtaining analytical solutions in this general case being too complicated a WKB analysis will be done instead. This is shown for \autoref{eq:eq1} in a Numerical Physics book \cite{physnumbook} (section 4.2.4) and will then be done here for this equation:
 \begin{equation}
     \frac{\partial^2 f}{\partial t^2} = g h_0(x) \frac{\partial^2 f}{\partial x^2}
     \label{eq:eq2}
 \end{equation}
 which does not represent the correct physical situation for $h_0(x)$ not constant.
+
+We first take a general solution in complex exponential form as an ansatz:
+\begin{equation}
+    f(x,t) = \hat{f}(x)e^{-i\omega t} \quad \mathrm{with} \quad
+    \hat{f}(x) = A(x)e^{-iS(x)}
+    \label{eq:ansatz}
+\end{equation}
+and apply it to \autoref{eq:eq2}:
+\[
+    \begin{aligned}
+        \hat{f}(x)(-i\omega)^2e^{-i\omega t} &= gh_0(x)\frac{\partial^2 \hat{f}(x)}{\partial x^2} e^{-i\omega t} \\
+        \Rightarrow -Ae^{-iS}\omega^2 &= gh_0 \frac{\partial}{\partial x}\left(\frac{\partial A}{\partial x}e^{-iS} + Ae^{-iS}(-i)\frac{\partial S}{\partial x}\right) \\
+        \Rightarrow -Ae^{-iS}\omega^2 &= gh_0 \left(\frac{\partial^2 A}{\partial x^2}e^{-iS} + 2 \frac{\partial A}{\partial x}e^{-iS}(-i)\frac{\partial S}{\partial x} + Ae^{-iS}(-i)^2\left(\frac{\partial S}{\partial x}\right)^2 + Ae^{-iS}(-i)\frac{\partial^2 S}{\partial x^2} \right) \\
+    \end{aligned}    
+\]
+which gives us by simplifying:
+\begin{equation}
+    -A(x)\omega^2 = gh_0(x)\left(\frac{\mathrm{d}^2 A}{\mathrm{d} x^2}(x) - 2i \frac{\mathrm{d} A}{\mathrm{d} x}(x)\frac{\mathrm{d} S}{\mathrm{d} x}(x) - A\left(\frac{\mathrm{d} S}{\mathrm{d} x}(x)\right)^2 - iA\frac{\mathrm{d}^2 S}{\mathrm{d} x^2}(x)\right)
+    \label{eq:equation_exponential_wkb}
+\end{equation}
+We can do the change $\frac{\partial}{\partial x} \rightleftharpoons \frac{\mathrm{d}}{\mathrm{d}x}$ in the entire equation as every remaining variable depends only on $x$.
+
+We then apply the tagging of each variable depending on how much it varies. We will consider $\varepsilon ^0$ as large values and $\varepsilon^1$ and $\varepsilon^2$ as increasingly smaller values. We have three large values: the depth of the ocean $h_0$, the amplitude $A$ and the rate of change of the phase $S$ according to position. By using the fact that taking the derivative brings to a smaller order of $\varepsilon$ and the notation $'$ for $\frac{\mathrm{d}}{\mathrm{d}x}$ we have:
+\begin{equation}
+    \begin{array}{rrr}
+        A(x) \sim \varepsilon^0 & A'(x) \sim \varepsilon^1 & A''(x) \sim \varepsilon^2 \\
+        S'(x) \sim \varepsilon^0 & S''(x) \sim \varepsilon^1 & \\
+        h_0(x) \sim \varepsilon^0 & & \\
+    \end{array}
+\end{equation}
+By using this tagging on \autoref{eq:equation_exponential_wkb} we have:
+\begin{equation}
+    -\mathop{A(x)}_{\varepsilon^0}\omega^2 = g\mathop{h_0(x)}_{\varepsilon^0} \left(\mathop{A''(x)}_{\varepsilon^2} - 2i \mathop{A'(x)}_{\varepsilon^1}\mathop{S'(x)}_{\varepsilon^0} - \mathop{A(x)}_{\varepsilon^0}\mathop{\left(S'(x)\right)^2}_{\varepsilon^0} - i\mathop{A(x)}_{\varepsilon^0}\mathop{S''(x)}_{\varepsilon^1}\right)
+\end{equation}
+and for each order of $\varepsilon$ ignoring terms of other orders we obtain:
+\begin{equation}
+    \begin{aligned}
+        &\varepsilon^0: -A(x)\omega^2 & = & -gh_0(x)A(x)(S'(x))^2 \\
+        &\varepsilon^1: 0 & = & \, gh_0(x)(-2iA'(x)S'(x) - iA(x)S''(x)) \\
+        &\varepsilon^2: 0 & = & \, gh_0(x) A''(x) \\
+    \end{aligned}
+    \label{eq:tagging}
+\end{equation}
+We neglect the term in $\varepsilon^2$ and we first use the equation in $\varepsilon^0$ to have:
+\begin{equation}
+    \frac{\omega^2}{gh_0(x)} = (S'(x))^2 \Rightarrow S'(x) = k(x) = \pm \sqrt{\frac{\omega^2}{gh_0(x)}}
+    \label{eq:s_prime}
+\end{equation}
+with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$. We now use the terms in $\varepsilon^1$ from \autoref{eq:tagging} to have the differential equation for $A$:
+\[
+    \begin{aligned}
+        & 2A'(x)S'(x) + A(x)S''(x) = 0 \\
+        & \Rightarrow 2\frac{\mathrm{d}A}{\mathrm{d}x}(x)k(x) = - A(x) \frac{\mathrm{d}k}{\mathrm{d}x}(x) \\
+        & \Rightarrow \ln(A) = -\frac{1}{2}\ln(k) + C_1 \quad , C_1 \in \mathbb{R} \\
+        & \Rightarrow A = C_2 k^{-\frac{1}{2}} \quad , C_2>0 \\
+    \end{aligned}
+\]
+We use the formula for $k(x)$ from \autoref{eq:s_prime} and keep only the positive solution to find:
+\begin{equation}
+    A(x) = C_2 \left(\left(\frac{\omega^2}{gh_0(x)}\right)^{\frac{1}{2}}\right)^{-\frac{1}{2}} = C_2 \left(\frac{gh_0(x)}{\omega^2}\right)^\frac{1}{4} = A_0 (h_0(x))^\frac{1}{4}
+\end{equation}
+with $A_0$ a constant and thus the amplitude $A \propto (h_0(x))^{1/4}$.
+
+We then have the local wavenumber $k = \left(\frac{\omega^2}{gh_0(x)}\right)^{1/2} \propto (h_0(x))^{-1/2}$ and with $k(x) = \omega / u(x)$ the local phase velocity $u(x)$ is:
+\begin{equation}
+    u(x) = \frac{\omega}{k(x)} = \sqrt{gh_0(x)} \propto (h_0(x))^{1/2}
+\end{equation}
+and the local wavelength $\lambda(x)$ is:
+\begin{equation}
+    \lambda(x) = \frac{2\pi}{k(x)} = \frac{2\pi}{\omega}\sqrt{gh_0(x)}  \propto (h_0(x))^{1/2}
+\end{equation}
+
+Our final solution for \autoref{eq:eq2} using the ansatz from \autoref{eq:ansatz} is:
+\begin{equation}
+    f(x,t) = A(x)e^{-iS(x)}e^{-i\omega t} = A_0 (h_0(x))^\frac{1}{4}e^{-iS(x)}e^{-i\omega t}
+\end{equation}
+with $S(x) = \int S'(x) \mathrm{d}x$ that can be found using \autoref{eq:s_prime} when knowing the formula for $h_0(x)$.
+
 
