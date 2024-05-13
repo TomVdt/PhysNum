@@ -4,9 +4,9 @@
 
 \subsubsection{Evolution equation}
 
-Starting from \autoref{eq:eq1}, we want to obtain to numerically calculate the wave height at the next timestep \(t_{i+1}\) using the previous heights at positions \(x_i\), \(x_{i-1}\) and \(x_{i+1}\). Using the following approximations for the derivatives
+Starting from \autoref{eq:eq1}, we want to obtain an equation to numerically calculate the wave height at the next timestep \(t_{i+1}\) using the previous heights at positions \(x_i\), \(x_{i-1}\) and \(x_{i+1}\). Using the following approximations for the derivatives
 \begin{equation}
-    \frac{\partial F}{\partial x}(x_i) \approx \frac{F(x_{i+1}) - F(x_{x-1})}{2 \Delta x}
+    \frac{\partial F}{\partial x}(x_i) \approx \frac{F(x_{i+1}) - F(x_{i-1})}{2 \Delta x}
     , \qquad
     \frac{\partial^2 F}{\partial x^2}(x_i) \approx \frac{F(x_{i+1}) - 2 F(x_i) + F(x_{i-1})}{(\Delta x)^2}
 \end{equation}
