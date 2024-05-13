@@ -53,6 +53,18 @@ Rearanging and identifying the CFL constant we then get:
 
 The initial conditions for a left and right moving wave, as well as a static wave were implemented using equations 4.48 to 4.50 given in \cite{physnumbook}.
 
+The initial position and height of the wave can also be chosen to be either:
+\begin{equation}
+    f_\textrm{init}(x) = \begin{cases}
+        \begin{aligned}
+            &0 &&(x \le x_1)\\
+            & {\frac{A}{2} \left( 1 - \cos \left( 2\pi\frac{x-x_1}{x_2-x_1} \right) \right)} &&(x_1 < x < x_2)\\
+            &0 &&(x_2 \le x)
+        \end{aligned}
+    \end{cases}
+\end{equation}
+or initialised in normal modes according to \autoref{eq:normal_initial}.
+
 \subsection{Smol basin for smol duckies}
 
 % feur
