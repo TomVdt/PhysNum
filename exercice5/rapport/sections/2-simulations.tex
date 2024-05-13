@@ -10,7 +10,7 @@ Starting from \autoref{eq:eq1}, we want to obtain an equation to numerically cal
     , \qquad
     \frac{\partial^2 F}{\partial x^2}(x_i) \approx \frac{F(x_{i+1}) - 2 F(x_i) + F(x_{i-1})}{(\Delta x)^2}
 \end{equation}
-where \(F\) is a generic function representing either \(f\) or \(h_0\), \(\Delta x = x_{i+1} - x_i\) and \(x\) is a generic variable representing either \(x\) or \(t\). \autoref{eq:eq1} is equivalent to:
+where \(F\) is a generic function representing either \(f\) or \(h_0\), \(\Delta x = x_{i+1} - x_i\) as the mesh is regular and \(x\) is a generic variable representing either \(x\) or \(t\). \autoref{eq:eq1} is equivalent to:
 \begin{equation}
     \frac{\partial^2 f}{\partial t^2} = g \frac{\partial h_0}{\partial x} \frac{\partial f}{\partial x} + g h_0 \frac{\partial^2 f}{\partial x^2}
 \end{equation}
@@ -24,9 +24,9 @@ Then using the previously mentioned formulas:
 By rearanging and identifying the Courant-Friedrichs-Lewy constant \(\beta(x) = u(x) \frac{\Delta t}{\Delta x} = \sqrt{g h_0(x)} \frac{\Delta t}{\Delta x}\) we get the following equation:
 \begin{equation}
     \begin{aligned}
-        f(x_i, t_{i+1}) &= \frac{g}{4} \left( \beta(x_{i+1})^2 - \beta(x_{i-1})^2 \right) \left( f(x_{i+1}, t_i) - f(x_{i-1}, t_i) \right) \\
+        f(x_i, t_{i+1}) &= \frac{1}{4} \left( \beta(x_{i+1})^2 - \beta(x_{i-1})^2 \right) \left( f(x_{i+1}, t_i) - f(x_{i-1}, t_i) \right) \\
         &+ \beta(x_i)^2 (f(x_{i+1}, t_i) - 2 f(x_i, t_i) + f(x_{i-1}, t_i)) \\
-        &+ f(x_i,t_i) \\
+        &+ 2 f(x_i,t_i) \\
         &- f(x_i,t_{i-1})
     \end{aligned}
 \end{equation}
@@ -34,13 +34,13 @@ The evolution for \autoref{eq:eq2} is taken from \cite{physnumbook}, equation 4.
 
 \subsubsection{Border conditions}
 
-The simulation implements border conditions for a fixed border (wave has a specific height at border), a free border (the wave is allowed to move as it pleases along the border) and an exit condition (the wave continues as if there was no border). These conditions are given in a Numerical Physics book \cite{physnumbook} (section 4.2.1), for the left and right borders. We will derive the exit conditions for the left border here. Under this condition, the left border only has a retrograde wave, i.e. \(f(x, t) = G(x + |u| t)\) TODO: NOTATION, VOIR PARTIE THEORIE. Differentiating w.r.t. to \(t\) and \(x\), at \(x = x_L\) (left border) we obtain the following relationship:
+The simulation implements border conditions for a fixed border (the wave has a specific height at the border), a free border (the wave is allowed to move as it pleases along the border) and an exit condition (the wave continues as if there was no border). These conditions are given in a Numerical Physics book \cite{physnumbook} (section 4.2.1), for the left and right borders for exit and free borders as well as the exit condition for the right border. We will derive the exit conditions for the left border here. Under this condition, the left border only has a retrograde wave, i.e. \(f(x, t) = G(x + |u| t)\) TODO: NOTATION, VOIR PARTIE THEORIE. Differentiating w.r.t. to \(t\) and \(x\), at \(x = x_L\) (left border) we obtain the following relationship:
 \begin{gather}
-    \frac{\partial f}{\partial t}(x_L, t) = \frac{\partial G(x_L + |u| t)}{\partial t} = |u| G'(x_L - |u| t) \\
+    \frac{\partial f}{\partial t}(x_L, t) = \frac{\partial G(x_L + |u| t)}{\partial t} = |u| G'(x_L + |u| t) \\
     \frac{\partial f}{\partial x}(x_L, t) = G'(x_L + |u| t) \\
     \implies \frac{\partial f}{\partial t}(x_L, t) = |u| \frac{\partial f}{\partial x}(x_L, t)
 \end{gather}
-Discretising using the "forward" finite difference method, i.e. \(F(x_i) \approx (F(x_{i+1}) - F(x_i))/\Delta x\), for both time and space derivatives, and identifying \(x_L \equiv x_0\), we get:
+Discretising using the "forward" finite difference method, i.e. \(\frac{\partial F(x_i)}{\partial x} \approx (F(x_{i+1}) - F(x_i))/\Delta x\), for both time and space derivatives, and identifying \(x_L \equiv x_0\) the first position in the discretised list, we get:
 \begin{equation}
     \frac{f(x_0,t_{n+1}) - f(x_0, t_n)}{\Delta t} = |u| \frac{f(x_1, t_n) - f(x_0, t_n)}{\Delta x}
 \end{equation}
