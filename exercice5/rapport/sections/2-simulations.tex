@@ -141,11 +141,11 @@ This looks a lot like a numerical instability but to be fully rigorous we need t
         \caption{At the end of the simulation lasting one analytical period $t_\mathrm{fin}$ as a function of the CFL}
         \label{fig:CFL_stable}
     \end{subfigure}
-    \caption{Maximum amplitude of a simulated wave in a basin}
+    \caption{Maximum amplitude of a simulated wave in a basin. Using \(n_x=64\) intervals.}
 \end{figure}
 
 
-The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly seems to indicate that the stability lies at $\beta = 1$. We can check this by running simulations for numerous values of $\beta$ around 1 with always the same number of intervals in the position grid in order not to influence this stability study. This was done for 50 values of $\beta$ between 0.8 and 1.2 and the result is shown in \autoref{fig:CFL_stable}.
+The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly seems to indicate that the stability lies at $\beta = 1$. We can check this by running simulations for numerous values of $\beta$ around 1 with always the same number of intervals in the position grid in order not to influence this stability study. This was done for 100 values of $\beta$ between -1.2 and 1.2 and the result is shown in \autoref{fig:CFL_stable}.
 
 The \autoref{fig:CFL_stable} clearly shows the difference between the domain $|\beta| \leq 1$ and $|\beta| > 1$. We thus verified that the condition for stability in this simulation is $|\beta| \leq 1$ which is in line with the theory.
 
@@ -163,28 +163,38 @@ The simulation was run until the end of one period of the stationary wave as cal
     t_\mathrm{fin} = T_n = \frac{1}{\nu_n} = \frac{4(x_R - x_L)\sqrt{gh_0}}{2n + 1}
 \end{equation}
 The simulation was run for a value of the CFL $\beta = 1$ and various values of the number of intervals $n_x$. This gave a value for $\Delta x$ knowing the length of the basin $L$ and thus a value for $\Delta t$ knowing $\beta = u\Delta t/\Delta x$. The result of the simulation for the greatest number of intervals (and thus the most precise) is given in \autoref{fig:normal_level}. We can observe that the number of the normal mode $n$ corresponds to the number of nodes or peaks when not considering the borders.
+
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/bassin_mode_level.png}
-    \caption{Simulation of a normal mode of a basin with CFL = 1 and $n_x = 5120$ intervals in the position mesh}
-    \label{fig:normal_level}
+    \begin{minipage}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/bassin_mode_level.png}
+        \captionof{figure}{Simulation of a normal mode of a basin with CFL = 1 and $n_x = 5120$ intervals in the position mesh}
+        \label{fig:normal_level}
+    \end{minipage}
+    \hspace*{0.4cm}
+    \begin{minipage}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/bassin_mode_convergence.pdf}
+        \captionof{figure}{Convergence of a simulation for a normal mode of a wave at CFL constant $\beta = 1$}
+        \label{fig:normal_convergence}
+    \end{minipage}
 \end{figure}
 
 It is observed in \autoref{fig:normal_level} that the simulation seems to behave as expected with a return to the original position after one analytical period, at least for a large value of $n_x$. It is therefore interesting to do a convergence analysis on these simulations according to $n_x$ or equivalently to the size of the intervals $\Delta x$. We want to keep the CFL constant at $\beta \equiv 1$ to not influence our study with changes in the simulation. We have:
 \begin{equation}
-    \beta = 1 = u\frac{\Delta t}{\Delta x} = u \frac{t_\mathrm{fin}}{L}\frac{n_x}{n_\mathrm{steps}}
+    \beta = 1 = u\frac{\Delta t}{\Delta x} = u \frac{t_\mathrm{fin}}{n_{\textrm{steps}}}\frac{n_x}{L}
 \end{equation}
 with $n_\mathrm{steps}$ the number of steps in the time evolution. We then want to increase $n_x$ by multiplying it and to keep $\beta$ constant multiply $n_\mathrm{steps}$ by the same factor. This was done with power of 2 from 0 to 8. Knowing that the simulation should converge to the analytical solution we calculated an error $\varepsilon$ using the formula:
 \begin{equation}
     \varepsilon = \int_{x_L}^{x_R} |f_\mathrm{num}(x, t=t_\mathrm{fin}) - f_\mathrm{ana}(x, t=t_\mathrm{fin})|\mathrm{d}x
 \end{equation}
 with $f_\mathrm{num}$ the results of the simulation and $f_\mathrm{ana}$ the analytical function given in \autoref{eq:normal_mode_explicit}. This integral was discretised to be calculated using the output of the simulation. The resulting convergence analysis is shown in \autoref{fig:normal_convergence}.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/bassin_mode_convergence.pdf}
-    \caption{Convergence of a simulation for a normal mode of a wave at CFL constant $\beta = 1$}
-    \label{fig:normal_convergence}
-\end{figure}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.6\linewidth]{figures/bassin_mode_convergence.pdf}
+%     \caption{Convergence of a simulation for a normal mode of a wave at CFL constant $\beta = 1$}
+%     \label{fig:normal_convergence}
+% \end{figure}
 
 We thus find that the simulation does converge to the analytical solution as the error $\varepsilon$ tends to 0 as $\Delta x$ tends to 0. However the order of convergence is of only 1 which indicates that this simulation requires a lot of computation if precise results are needed.
 

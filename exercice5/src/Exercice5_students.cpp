@@ -242,7 +242,7 @@ int main(int argc, char* argv[]) {
 	auto max_vel2 = std::max_element(vel2.begin(), vel2.end());
 
 	// Define the dt according to CFL input 
-	dt = CFL * dx / sqrt(*max_vel2);
+	dt = abs(CFL) * dx / sqrt(*max_vel2);
 	if (impose_nsteps) {
 		// define the dt and CLF when you want to fix nsteps
 		dt = tfin / nsteps;
