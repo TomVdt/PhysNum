@@ -62,6 +62,7 @@ The initial position and height of the wave can also be chosen to be either:
             &0 &&(x_2 \le x)
         \end{aligned}
     \end{cases}
+    \label{eq:form_init}
 \end{equation}
 or initialised in normal modes according to \autoref{eq:normal_initial}.
 
@@ -69,19 +70,74 @@ or initialised in normal modes according to \autoref{eq:normal_initial}.
 
 
 \subsection{Wave with constant velocity}
-In this first simulation we consider a basin going from $x_L = 0$ \si{\meter} to $x_R = 10$ \si{\meter}. The water inside of it has a constant depth of $h_0(x) = 3$ \si{\meter} $\, \forall x$
+In this first simulation we consider a basin going from $x_L = 0$ \si{\meter} to $x_R = 10$ \si{\meter}. The water inside of it has a constant depth of $h_0 = 3$ \si{\meter}. The left border of the water is fixed and the right side is free. 
+
+\paragraph{Reflecting waves} We first want to analyse reflecting waves in the basin. For this we simulate the behavior of a wave initialised according to \autoref{eq:form_init} with $A = 1$ \si{\meter}, $x_1 = 2$ \si{\meter} and $x_2 = 6$ \si{\meter}. It is given initial velocities to the left and to the right and no initial velocity in three different simulations. It is each time simulated until the time $t_\mathrm{fin}$ for two round trips across the basin, i.e. $t_\mathrm{fin} = 4L/u$ with $L = x_R - x_L = 10$ \si{\meter} the length of the basin and $u = \sqrt{gh_0}$ the speed in the basin. The results of these simulations are shown in \autoref{fig:basin_movements}.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_left.png}
+        \caption{Oriented left}
+        \label{fig:basin_left}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_right.png}
+        \caption{Oreinted right}
+        \label{fig:basin_right}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_static.png}
+        \caption{With no original orientation}
+        \label{fig:basin_static}
+    \end{subfigure}
+    \caption{Propagation of a wave in a basin with various initial velocities}
+    \label{fig:basin_movements}
+\end{figure}
+
+It is possible to observe the expected behaviors for moving waves in \autoref{fig:basin_left} and \autoref{fig:basin_right} with respectively the peak of the wave moving to the left of the basin $x_L = 0$ \si{\meter} and to the right $x_R = 10$ \si{\meter} at the beginning of the simulation. The initial behavior of the wave with no initial velocity is of two waves of opposite directions. This shows that a wave of velocity 0 \si{\meter\per\second} can be created from two opposing waves of half the amplitude. It is also noted that all the waves in these figures come back at exactly their starting position and orientation of the velocity ath the end of the simulation. This shows that waves in this basin go on in a periodic movement of period $t_\mathrm{fin}$ which corresponds to two round trips at speed $u$.
+
+When it comes to the behavior of these waves in the reflection they all behave the same and this behavior depends on the type of condition placed on the border as observed in the three figures of \autoref{fig:basin_movements}. As expected the fixed condition on the left nullifies and then reverts the wave and it has negative amplitude $-A$ when it goes back to the right. The free condition gives a peak of twice the amplitude and then reflects the wave with the same sign of $A$ but with velocity to the left. A final point of interest is that \autoref{fig:basin_static} shows well the principle of superposition emerging from the linearity of \autoref{eq:eq1}. The waves do amplify or counteract each other when close but then go on in the same way as if they add not encountered each other.
+
+TODO STABILITY OF CFL
 
 
+The final simulation run for this basin is a study of its normal modes. Indeed with these border conditions it is possible to calculate the normal modes to have stationary waves as done in \autoref{sec:normal_modes}. We then want to simulate a wave starting as in \autoref{eq:normal_initial} to verify if our simulation does show the behavior of a stationary wave. Using \autoref{eq:normal_initial} with $A = 0.5$ \si{\meter} and $n = 2$ the number of the normal mode we initialised our simulation as shown in \autoref{fig:normal_init}.
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.6\linewidth]{figures/bassin_mode_start.pdf}
+    \caption{Initialisation of the normal mode}
+    \label{fig:normal_init}
+\end{figure}
 
+The simulation was run until the end of one period of the stationary wave as calculated analytically, using \autoref{eq:normal_frequency} we have one period:
+\begin{equation}
+    t_\mathrm{fin} = T_n = \frac{1}{\nu_n} = \frac{4(x_R - x_L)\sqrt{gh_0}}{2n + 1}
+\end{equation}
+The simulation was run for a value of the CFL $\beta = 1$ and various values of the number of intervals $n_x$. This gave a value for $\Delta x$ knowing the length of the basin $L$ and thus a value for $\Delta t$ knowing $\beta = u\Delta t/\Delta x$. The result of the simulation for the greatest number of intervals (and thus the most precise) is given in \autoref{fig:normal_level}. We can observe that the number of the normal mode $n$ corresponds to the number of nodes or peaks when not considering the borders.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/bassin_mode_level.png}
+    \caption{Simulation of a normal mode of a basin with CFL = 1 and $n_x = 5120$ intervals in the position mesh}
+    \label{fig:normal_level}
+\end{figure}
 
+It is observed in \autoref{fig:normal_level} that the simulation seems to behave as expected with a return to the original position after one analytical period, at least for a large value of $n_x$. It is therefore interesting to do a convergence analysis on these simulations according to $n_x$ or equivalently to the size of the intervals $\Delta x$. We want to keep the CFL constant at $\beta \equiv 1$ to not influence our study with changes in the simulation. We have:
+\begin{equation}
+    \beta = 1 = u\frac{\Delta t}{\Delta x} = u \frac{t_\mathrm{fin}}{L}\frac{n_x}{n_\mathrm{steps}}
+\end{equation}
+with $n_\mathrm{steps}$ the number of steps in the time evolution. We then want to increase $n_x$ by multiplying it and to keep $\beta$ constant multiply $n_\mathrm{steps}$ by the same factor. This was done with power of 2 from 0 to 8. Knowing that the simulation should converge to the analytical solution we calculated an error $\varepsilon$ using the formula:
+\begin{equation}
+    \varepsilon = \int_{x_L}^{x_R} |f_\mathrm{num}(x, t=t_\mathrm{fin}) - f_\mathrm{ana}(x, t=t_\mathrm{fin})|\mathrm{d}x
+\end{equation}
+with $f_\mathrm{num}$ the results of the simulation and $f_\mathrm{ana}$ the analytical function given in \autoref{eq:normal_mode_explicit}. This integral was discretised to be calculated using the output of the simulation. The resulting convergence analysis is shown in \autoref{fig:normal_convergence}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/bassin_mode_convergence.pdf}
+    \caption{Convergence of a simulation for a normal mode of a wave at CFL constant $\beta = 1$}
+    \label{fig:normal_convergence}
+\end{figure}
 
-
-
-
-
-
-
-
+We thus find that the simulation does converge to the analytical solution as the error $\varepsilon$ tends to 0 as $\Delta x$ tends to 0. However the order of convergence is of only 1 which indicates that this simulation requires a lot of computation if precise results are needed.
 
 \subsection{Oceanic wave on a coral reef}
 

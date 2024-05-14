@@ -73,9 +73,8 @@ double finit(double x, double A, double x1, double x2, double xL, double n_init,
 			finit_ = A / 2.0 * (1.0 - cos(2.0 * PI * (x - x1) / (x2 - x1)));
 		}
 	} else if (init == MODE) {
-		// Initialisation for a normal mode, careful A here is 2A in the theory
-		// it is twice the amplitude of the two composing waves
-		finit_ = A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * (x - xL));
+		// Initialisation for a normal mode
+		finit_ = 2 * A * sin(PI * (2.0 * n_init + 1.0) / (2.0 * (xR - xL)) * (x - xL));
 	}
 	return finit_;
 }
