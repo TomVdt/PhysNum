@@ -233,9 +233,9 @@ We will choose \(h_L = 7000\)m, \(h_C = 35\)m, \(h_R = 200\)m, \(x_L = 0\)m, \(x
     \caption{Wave height as a function of space and time and depth profile. Simulated using \(n=8192\) intervals, until \(t=12000\) \si{\second}}
 \end{figure}
 
-The maximum amplitude of the wave was obtained using a quadratic fit for every point around the time of its maximum amplitude. The maximum of the fit gave the maximum amplitude. Results are shown in \autoref{fig:corail_eq1_amplitude}. The simulation shows that the maximum amplitude increases up to the point of the coral reef, remains more or less constant on top of the reef and then goes back down. The peak amplitude above the reef (\(x_b < x < x_c\)) was found to be about 3.58m, while after the reef (\(x_d<x<x_R\)) the maximum amplitude was 2.30m. When compared to the WKB solution of \autoref{eq:eq1} given in \cite{physnumbook}, we notice that the amplitude is a bit lower than expected on top and after the reef, while it matches almost exactly before the reef. This discrepency can be attributed to either numerical imprecision or the effect of higher order terms.
+The maximum amplitude of the wave was obtained using a quadratic fit for every point around the time of its maximum amplitude. The maximum of the fit gave the maximum amplitude. Results are shown in \autoref{fig:corail_eq1_amplitude}. The simulation shows that the maximum amplitude increases up to the point of the coral reef, remains more or less constant on top of the reef and then goes back down. The peak amplitude above the reef (\(x_b < x < x_c\)) was found to be about 3.58m, while after the reef (\(x_d<x<x_R\)) the maximum amplitude was 2.30m. When compared to the WKB solution of \autoref{eq:eq1} given in \cite{physnumbook} (section 4.2.4), we notice that the amplitude is a bit lower than expected on top and after the reef, while it matches almost exactly before the reef. This discrepency can be attributed to either numerical imprecision or the effect of higher order terms.
 
-Using the analysis done on the amplitude, the speed of the peak of the wave was calculated using the time \(t_{\textrm{peak},i}\) at which the fitted function is maximal. Then for every point \(x_i\), except for border cases, the speed is given by \(v_i = (x_{i+k} - x_{i-k})/(t_{\textrm{peak},i+k} - t_{\textrm{peak},i-k})\), where \(k\) is chosen such that the oscillations in \(v\) are minimal. The results are shown in \autoref{fig:corail_eq1_vitesse}. We can see that the speed decrease drastically between the starting position of the wave and the coral reef, by a factor of about 11: the speed above the reef was found to be 18 m/s, while the initial speed was 261 m/s. After the reef, the speed increases again to around 42 m/s. The simulation matches the WKB solution exactly.
+Using the analysis done on the amplitude, the speed of the peak of the wave was calculated using the time \(t_{\textrm{peak},i}\) at which the fitted function is maximal. Then for every point \(x_i\), except for border cases, the speed is given by \(v_i = (x_{i+k} - x_{i-k})/(t_{\textrm{peak},i+k} - t_{\textrm{peak},i-k})\), where \(k\) is chosen such that the oscillations in \(v\) are minimal. The results are shown in \autoref{fig:corail_eq1_vitesse}. We can see that the speed decreases drastically between the starting position of the wave and the coral reef, by a factor of about 11: the speed above the reef was found to be 18 m/s, while the initial speed was 261 m/s. After the reef, the speed increases again to around 42 m/s. The simulation matches the WKB solution exactly since the speed is calculated using the same formula for both.
 
 \begin{figure}[h]
     \centering
@@ -251,27 +251,29 @@ Using the analysis done on the amplitude, the speed of the peak of the wave was 
         \caption{Speed of wave peak}
         \label{fig:corail_eq1_vitesse}
     \end{subfigure}
-    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated using \(n=8192\) intervals, until \(t=12000\)}
+    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated using \(n=8192\) intervals, until \(t=12000\) \si{\second}}
     \label{fig:corail_eq1_properties}
 \end{figure}
 
-We would now like to analyse what happens when the slope becomes really steep, by setting \(x_a\) closer and closer to \(x_b\). Here we chose to look at case where the distance between \(x_b\) and \(x_a\) was 100km and 50km, as the 400km case was treated previously. \autoref{fig:corail_eq1_mouv_xa=60km} and \autoref{fig:corail_eq1_mouv_xa=65km} show the obtained wave function. The depth profile for both cases is also shown in \autoref{fig:corail_eq1_depth_xa}. We notice an interesting phenomenon: as the slope becomes steeper, a large part of the wave gets reflected at the reef. This is similar to a change in medium, with different density, leading to a greater reflected wave and a smaller transmitted one.
+\paragraph{Steep coral reef} We would now like to analyse what happens when the slope becomes really steep, by setting \(x_a\) closer and closer to \(x_b\). Here we chose to look at the cases
+
+where the distance between \(x_b\) and \(x_a\) was 100km and 50km, as the 400km case was treated previously. \autoref{fig:corail_eq1_mouv_xa=60km} and \autoref{fig:corail_eq1_mouv_xa=65km} show the obtained wave function. The depth profile for both cases is also shown in \autoref{fig:corail_eq1_depth_xa}. We notice an interesting phenomenon: as the slope becomes steeper, a large part of the wave gets reflected at the reef. This is similar to a change in medium, with different density, leading to a greater reflected wave and a smaller transmitted one.
 
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/corail_eq1_movement_xa=600000.pdf}
-        \caption{\(x_a = 60\)km}
+        \caption{\(x_a = 600\)km}
         \label{fig:corail_eq1_mouv_xa=60km}
     \end{subfigure}
     \begin{subfigure}{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/corail_eq1_movement_xa=650000.pdf}
-        \caption{\(x_a = 65\)km}
+        \caption{\(x_a = 650\)km}
         \label{fig:corail_eq1_mouv_xa=65km}
     \end{subfigure}
-    \caption{Wave height as a function of space and time. Simulated using \(n=8192\) intervals until \(t=12000\)}
+    \caption{Wave height as a function of space and time. Simulated using \(n=8192\) intervals until \(t=12000\) \si{\second}}
     \label{fig:corail_eq1_mouv_xa}
 \end{figure}
 
@@ -282,7 +284,7 @@ We would now like to analyse what happens when the slope becomes really steep, b
     \label{fig:corail_eq1_depth_xa}
 \end{figure}
 
-Using the same analysis methods as before, we obtain the amplitude in \autoref{fig:corail_eq1_amplitude_xa=60km} and \autoref{fig:corail_eq1_amplitude_xa=65km}. We notice that as the slope gets steeper, the simulated wave becomes less and less high when on the reef. Compared to the WKB solution, the simulation severely undershoots, with a difference of about 1m on and after the reef for \(x_a = 65\)km. This difference can be attributed by the fact that WKB suppose a reasonably small change in depth, while this change of about 7000m over 50km could be considered "too fast". For the speed of the wave, the \autoref{fig:corail_eq1_speed_xa=60km} and \autoref{fig:corail_eq1_speed_xa=65km}, we notice that the simulations follows the WKB solution closely, except when near the cliff, with the effect being more important for \(x_a = 65\)km. This effect does not seem physical and could be attributed to numerical effects: if we consider a vertical slope, the wave would travel across an interface between to "mediums" with different propagation speeds, the speed would only change rapidly at the interface and not before.
+Using the same analysis methods as before, we obtain the amplitude in \autoref{fig:corail_eq1_amplitude_xa=60km} and \autoref{fig:corail_eq1_amplitude_xa=65km}. We notice that as the slope gets steeper, the simulated wave becomes less and less high when on the reef. Compared to the WKB solution, the simulation severely undershoots, with a difference of about 1m on and after the reef for \(x_a = 650\)km. This difference can be attributed by the fact that WKB suppose a reasonably small change in depth, while this change of about 7000m over 50km could be considered "too fast". For the speed of the wave, the \autoref{fig:corail_eq1_speed_xa=60km} and \autoref{fig:corail_eq1_speed_xa=65km}, we notice that the simulations follows the WKB solution closely, except when near the cliff, with the effect being more important for \(x_a = 650\)km. This effect does not seem physical and could be attributed to numerical effects: if we consider a vertical slope, the wave would travel across an interface between to "mediums" with different propagation speeds, the speed would only change rapidly at the interface and not before.
 
 \begin{figure}[h]
     \centering
@@ -295,10 +297,10 @@ Using the same analysis methods as before, we obtain the amplitude in \autoref{f
     \begin{subfigure}{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/corail_eq1_vitesse_xa=600000.0.pdf}
-        \caption{\(x_a = 65\)km}
+        \caption{\(x_a = 600\)km}
         \label{fig:corail_eq1_speed_xa=60km}
     \end{subfigure}
-    \caption{Wave properties for \(x_a = 60\)km. Simulated using \(n=8192\) intervals until \(t=12000\)}
+    \caption{Wave properties for \(x_a = 600\)km. Simulated using \(n=8192\) intervals until \hbox{\(t=12000\) \si{\second}}}
 \end{figure}
 
 \begin{figure}[h]
@@ -312,10 +314,10 @@ Using the same analysis methods as before, we obtain the amplitude in \autoref{f
     \begin{subfigure}{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/corail_eq1_vitesse_xa=650000.0.pdf}
-        \caption{\(x_a = 65\)km}
+        \caption{\(x_a = 650\)km}
         \label{fig:corail_eq1_speed_xa=65km}
     \end{subfigure}
-    \caption{Wave properties for \(x_a = 65\)km. Simulated using \(n=8192\) intervals until \(t=12000\)}
+    \caption{Wave properties for \(x_a = 650\)km. Simulated using \(n=8192\) intervals until \hbox{\(t=12000\) \si{\second}}}
 \end{figure}
 
 
