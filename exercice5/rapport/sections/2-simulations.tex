@@ -322,12 +322,12 @@ Using the same analysis methods as before, we obtain the amplitude in \autoref{f
 \end{figure}
 
 
-Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak shown in \autoref{fig:corail_eq2_amplitude}. This time, the simulation undershoots the WKB solution, starting from where the depth changes. The difference between the simulation and the WKB solution remains under 0.02m, which is still quite precise. Like previously howether, the speed matches the WKB solution exactly, as can be seen in \autoref{fig:corail_eq2_vitesse}. The WKB analysis on both equations showed that the speed is the same for both equations, which was verified again here.
+\paragraph{Using the wrong equation} Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak. The amplitude is shown in \autoref{fig:corail_eq2_amplitude}, this time the simulation undershoots the WKB solution, starting from where the depth changes. The difference between the simulation and the WKB solution remains under 0.02m, which is still quite precise. Like previously however, the speed matches the WKB solution exactly, as can be seen in \autoref{fig:corail_eq2_vitesse}. The WKB analysis on both equations showed that the speed is the same for both equations, which was verified again here.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/corail_eq2_mouvement_vague.png}
-    \caption{Wave height as a function of space and time, simulated following \autoref{eq:eq2}. Simulated with \(n=16328\) intervals until \(t=12000\). CFL \(\beta=1\)}
+    \caption{Wave height as a function of space and time, simulated following \autoref{eq:eq2}. Simulated with \(n=16328\) intervals until \(t=12000\) \si{\second}. CFL \(\beta=1\)}
     \label{fig:corail_eq2_mouvement}
 \end{figure}
 
@@ -345,6 +345,6 @@ Let's now analyse what happens when we simulate the system using the wrong altho
         \caption{Speed of wave peak}
         \label{fig:corail_eq2_vitesse}
     \end{subfigure}
-    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated w.r.t. \autoref{eq:eq2}, using \(n=8192\) intervals, until \(t=12000\). CFL \(\beta=1\)}
+    \caption{Properties of the wave going towards the coral reef, compared to WKB solution. Simulated w.r.t. \autoref{eq:eq2}, using \(n=8192\) intervals, until \(t=12000\) \si{\second}. CFL \(\beta=1\)}
     \label{fig:corail_eq2_properties}
 \end{figure}
