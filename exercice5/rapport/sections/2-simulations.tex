@@ -72,7 +72,7 @@ or initialised in normal modes according to \autoref{eq:normal_initial}.
 \subsection{Wave with constant velocity}
 In this first simulation we consider a basin going from $x_L = 0$ \si{\meter} to $x_R = 10$ \si{\meter}. The water inside of it has a constant depth of $h_0 = 3$ \si{\meter}. The left border of the water is fixed and the right side is free. 
 
-\paragraph{Reflecting waves} We first want to analyse reflecting waves in the basin. For this we simulate the behavior of a wave initialised according to \autoref{eq:form_init} with $A = 1$ \si{\meter}, $x_1 = 2$ \si{\meter} and $x_2 = 6$ \si{\meter}. It is given initial velocities to the left and to the right and no initial velocity in three different simulations. It is each time simulated until the time $t_\mathrm{fin}$ for two round trips across the basin, i.e. $t_\mathrm{fin} = 4L/u$ with $L = x_R - x_L = 10$ \si{\meter} the length of the basin and $u = \sqrt{gh_0}$ the speed in the basin. The results of these simulations are shown in \autoref{fig:basin_movements}.
+\paragraph{Reflecting waves} We first want to analyse reflecting waves in the basin. For this we simulate the behavior of a wave initialised according to \autoref{eq:form_init} with $A = 1$ \si{\meter}, $x_1 = 2$ \si{\meter} and $x_2 = 6$ \si{\meter}. It is given initial velocities to the left and to the right and no initial velocity in three different simulations. It is each time simulated until the time $t_\mathrm{fin}$ for two round trips across the basin, i.e. $t_\mathrm{fin} = 4L/u$ with $L = x_R - x_L = 10$ \si{\meter} the length of the basin and $u = \sqrt{gh_0}$ the speed of the wave in the basin. The results of these simulations are shown in \autoref{fig:basin_movements}.
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.48\linewidth}
@@ -82,24 +82,24 @@ In this first simulation we consider a basin going from $x_L = 0$ \si{\meter} to
     \end{subfigure}
     \begin{subfigure}{0.48\linewidth}
         \includegraphics[width=\linewidth]{figures/bassin_default_right.png}
-        \caption{Oreinted right}
+        \caption{Oriented right}
         \label{fig:basin_right}
     \end{subfigure}
     \begin{subfigure}{0.48\linewidth}
         \includegraphics[width=\linewidth]{figures/bassin_default_static.png}
-        \caption{With no original orientation}
+        \caption{With no initial orientation}
         \label{fig:basin_static}
     \end{subfigure}
     \caption{Propagation of a wave in a basin with various initial velocities}
     \label{fig:basin_movements}
 \end{figure}
 
-It is possible to observe the expected behaviors for moving waves in \autoref{fig:basin_left} and \autoref{fig:basin_right} with respectively the peak of the wave moving to the left of the basin $x_L = 0$ \si{\meter} and to the right $x_R = 10$ \si{\meter} at the beginning of the simulation. The initial behavior of the wave with no initial velocity is of two waves of opposite directions. This shows that a wave of velocity 0 \si{\meter\per\second} can be created from two opposing waves of half the amplitude. It is also noted that all the waves in these figures come back at exactly their starting position and orientation of the velocity ath the end of the simulation. This shows that waves in this basin go on in a periodic movement of period $t_\mathrm{fin}$ which corresponds to two round trips at speed $u$.
+It is possible to observe the expected behaviors for moving waves in \autoref{fig:basin_left} and \autoref{fig:basin_right} with respectively the peak of the wave moving to the left of the basin $x_L = 0$ \si{\meter} and to the right $x_R = 10$ \si{\meter} at the beginning of the simulation. The initial behavior of the wave with no initial velocity is of two waves of opposite directions. This shows that a wave of velocity 0 \si{\meter\per\second} can be created from two opposing waves of half the amplitude. It is also noted that all the waves in these figures come back to their exact starting position and orientation of the velocity at the end of the simulation. This shows that waves in this basin go on in a periodic movement of period $t_\mathrm{fin}$ which corresponds to two round trips at speed $u$.
 
 When it comes to the behavior of these waves in the reflection they all behave the same and this behavior depends on the type of condition placed on the border as observed in the three figures of \autoref{fig:basin_movements}. As expected the fixed condition on the left nullifies and then reverts the wave and it has negative amplitude $-A$ when it goes back to the right. The free condition gives a peak of twice the amplitude and then reflects the wave with the same sign of $A$ but with velocity to the left. A final point of interest is that \autoref{fig:basin_static} shows well the principle of superposition emerging from the linearity of \autoref{eq:eq1}. The waves do amplify or counteract each other when close but then go on in the same way as if they add not encountered each other.
 
 
-\paragraph{Stability depending on CFL} The simulation has displayed the expected behavior however it can be interesting to check its stability and especially around the value of the CFL $\beta = 1$. Indeed according to the known theory, \cite{physnumbook} in section 4.2.2, this method is stable for $\beta \leq 1$. The first step was to check a few values of $\beta$ to get a empiric view on this. Four values of $\beta$ around 1 are shown in \autoref{fig:CFL_empiric}.
+\paragraph{Stability depending on CFL} The simulation has displayed the expected behavior however it can be interesting to check its stability and especially around the value of the CFL $\beta = 1$. Indeed according to the known theory, \cite{physnumbook} in section 4.2.2, this method is stable for $|\beta| \leq 1$. The first step was to check a few values of $\beta$ to get a empiric view on this. Four values of $\beta$ around 1 are shown in \autoref{fig:CFL_empiric}.
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.48\linewidth}
@@ -129,20 +129,25 @@ When it comes to the behavior of these waves in the reflection they all behave t
 This looks a lot like a numerical instability but to be fully rigorous we need to show that it diverges exponentially from the expected behavior. For this we take back the situation where $\beta = 1.01$ as it seems to have diverged but we are not sure if it is unstable by this definition. The \autoref{fig:CFL_exp} shows the maximum amplitude of the simulation according to time that should remain between a factor 2 of the start, as the reflection on the free side gives a doubled amplitude during the reflection. We see however a line in this semi-logarithmic scale indicating that the value of the maximum amplitude grow exponentially. This is according to our definition and we can thus say that this divergence is a nulerical instability.
 \begin{figure}
     \centering
-    \includegraphics*[width=0.6\linewidth]{figures/bassin_default_CFL_exponential.pdf}
-    \caption{Maximum amplitude of a simulated wave in a basin according to time for a value of CFL $\beta = 1.01$}
-    \label{fig:CFL_exp}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics*[width=\linewidth]{figures/bassin_default_CFL_exponential.pdf}
+        \caption{Over time for CFL $\beta = 1.01$}
+        \label{fig:CFL_exp}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/bassin_default_CFL_stability.pdf}
+        \caption{At the end of the simulation lasting one analytical period $t_\mathrm{fin}$ as a function of the CFL}
+        \label{fig:CFL_stable}
+    \end{subfigure}
+    \caption{Maximum amplitude of a simulated wave in a basin}
 \end{figure}
 
 
 The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly seems to indicate that the stability lies at $\beta = 1$. We can check this by running simulations for numerous values of $\beta$ around 1 with always the same number of intervals in the position grid in order not to influence this stability study. This was done for 50 values of $\beta$ between 0.8 and 1.2 and the result is shown in \autoref{fig:CFL_stable}.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/bassin_default_CFL_stability.pdf}
-    \caption{Maximum amplitude of the wave at the end of a simulation lasting one analytical period $t_\mathrm{fin} according to the CFL$}
-    \label{fig:CFL_stable}
-\end{figure}
-The \autoref{fig:CFL_stable} clearly shows the difference between the domain $\beta \leq 1$ and $\beta > 1$. We thus verified that the condition for stability in this simulation is $\beta \leq 1$ which is coherent with the theory.
+
+The \autoref{fig:CFL_stable} clearly shows the difference between the domain $|\beta| \leq 1$ and $|\beta| > 1$. We thus verified that the condition for stability in this simulation is $|\beta| \leq 1$ which is in line with the theory.
 
 
 \paragraph{Normal modes} The final simulation run for this basin is a study of its normal modes. Indeed with these border conditions it is possible to calculate the normal modes to have stationary waves as done in \autoref{sec:normal_modes}. We then want to simulate a wave starting as in \autoref{eq:normal_initial} to verify if our simulation does show the behavior of a stationary wave. Using \autoref{eq:normal_initial} with $A = 0.5$ \si{\meter} and $n = 2$ the number of the normal mode we initialised our simulation as shown in \autoref{fig:normal_init}.

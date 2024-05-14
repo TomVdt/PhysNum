@@ -67,17 +67,17 @@ We then take the free side condition of \autoref{eq:condition_right} with \autor
     \begin{aligned}
         & 2A k \cos(k(x_R-x_L))\cos(\omega t + \varphi_t) = 0 \quad \forall t \\
         & \Rightarrow \cos(k(x_R-x_L)) = 0 \\
-        & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi, \quad n \in \mathbb{Z} \\
+        & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi\,, \quad n \in \mathbb{Z} \\
     \end{aligned}
 \]
 which allows to define wavenumbers corresponding to normal modes:
 \begin{equation}
-    k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)}, \quad n \in \mathbb{Z}
+    k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)}\,, \quad n \in \mathbb{Z}
     \label{eq:wavenumber_mode}
 \end{equation}
 Knowing $ku = \omega$ then we have the angular frequencies of the modes:
 \begin{equation}
-    \omega_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0}, \quad n \in \mathbb{Z}
+    \omega_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0}\,, \quad n \in \mathbb{Z}
     \label{eq:angular_mode}
 \end{equation}
 Allowing us to rewrite the solution of \autoref{eq:eq_h0_const} for normal modes and the boundary conditions from \autoref{eq:condition_left} and \autoref{eq:condition_right} as:
@@ -86,7 +86,7 @@ Allowing us to rewrite the solution of \autoref{eq:eq_h0_const} for normal modes
     \label{eq:normal_mode_simple}
 \end{equation}
 \begin{equation}
-    f_n(x,t) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)\cos\left(\frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \, t + \varphi_t\right), \quad n \in \mathbb{Z}
+    f_n(x,t) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)\cos\left(\frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \, t + \varphi_t\right)\,, \quad n \in \mathbb{Z}
     \label{eq:normal_mode_explicit}
 \end{equation}
 
@@ -164,8 +164,8 @@ with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$. We now u
     \begin{aligned}
         & 2A'(x)S'(x) + A(x)S''(x) = 0 \\
         & \Rightarrow 2\frac{\mathrm{d}A}{\mathrm{d}x}(x)k(x) = - A(x) \frac{\mathrm{d}k}{\mathrm{d}x}(x) \\
-        & \Rightarrow \ln(A) = -\frac{1}{2}\ln(k) + C_1, \quad C_1 \in \mathbb{R} \\
-        & \Rightarrow A = C_2 k^{-\frac{1}{2}}, \quad C_2>0 \\
+        & \Rightarrow \ln(A) = -\frac{1}{2}\ln(k) + C_1\,, \quad C_1 \in \mathbb{R} \\
+        & \Rightarrow A = C_2 k^{-\frac{1}{2}}\,, \quad C_2>0 \\
     \end{aligned}
 \]
 We use the formula for $k(x)$ from \autoref{eq:s_prime} and keep only the positive solution to find:
