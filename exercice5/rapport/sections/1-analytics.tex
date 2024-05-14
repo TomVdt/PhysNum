@@ -1,7 +1,7 @@
 \section{Analytical results}
 The subject of this study is waves in shallow waters. The system is considered in only one dimension with the position $x \in [x_L, x_R]$. It is a body of water with depth $h_0(x)$ when at rest. The gravitational acceleration is applied to it with $g = 9.81$ \si{\meter\per\square\second}. With $f(x,t)$ the height of the displacement of water due to the waves we have the equation:
 \begin{equation}
-    \frac{\partial^2 f}{\partial t^2} = \frac{\partial}{\partial x} \left( g h_0 \frac{\partial f}{\partial x} \right)
+    \frac{\partial^2 f}{\partial t^2} = \frac{\partial}{\partial x} \left( g h_0(x) \frac{\partial f}{\partial x} \right)
     \label{eq:eq1}
 \end{equation}
 
@@ -38,15 +38,16 @@ We first take a sine solution of $f_+$ from \autoref{eq:general_solution} as a r
 \begin{equation}
     f_+(x,t) = A \sin(kx + \varphi_x + \omega t + \varphi_t)
 \end{equation}
-with amplitude $A$ and phases $\varphi_x$ and $\varphi_t$ according to position and time. We have here the wavenumber $k$ such that $ku = \omega$. This wave will be reflected inside our basin $[x_L, x_R]$ in a prograde wave. We are searching for stationary waves that have the form $f(x,t) = f_x(x)f_t(t)$ and thus the total displacement as a sum of the prograde and retrograde wave will be
+with amplitude $A$, angular frequency $\omega$ and phases according to position and time $\varphi_x$ and $\varphi_t$. We have here the wavenumber $k$ such that $ku = \omega$. This wave will be reflected inside our basin $[x_L, x_R]$ in a prograde wave. We are searching for stationary waves that have the form $f(x,t) = f_x(x)f_t(t)$. We must thus consider reflections that do give this kind of equation such as:
 \begin{equation}
     f(x,t) = A(\sin(kx + \varphi_x + \omega t + \varphi_t) + \sin(kx + \varphi_x - \omega t - \varphi_t))
 \end{equation}
-in order to have a stationary wave:
+with this sum being the total displacement as a sum of the prograde and retrograde wave. This reflection yields by simplifying the sum of sines the stationary wave:
 \begin{equation}
     f(x,t) = 2A\sin(kx + \varphi_x)\cos(\omega t + \varphi_t)
     \label{eq:stationary}
 \end{equation}
+and thus the amplitude $2A$ of our stationary wave is twice the amplitude of its two composing waves.
 
 We take the fixed condition of \autoref{eq:condition_left} with \autoref{eq:stationary} which gives:
 \[
@@ -70,7 +71,7 @@ We then take the free side condition of \autoref{eq:condition_right} with \autor
         & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi\,, \quad n \in \mathbb{Z} \\
     \end{aligned}
 \]
-which allows to define wavenumbers corresponding to normal modes:
+which allows to define wavenumbers corresponding to normal modes $n$ of this system:
 \begin{equation}
     k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)}\,, \quad n \in \mathbb{Z}
     \label{eq:wavenumber_mode}
@@ -96,7 +97,7 @@ We can also calculate the frequencies of the stationary waves for each normal mo
     \label{eq:normal_frequency}
 \end{equation}
 
-In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\varphi_t$ that can be determined using initial conditions. In this study we will consider $\varphi_t = 0$ such that the initial position of the normal modes $n \in \mathbb{Z}$ are:
+In \autoref{eq:normal_mode_explicit} the only two unknowns left are $A$ and $\varphi_t$ that can be determined using initial conditions. In this study we will initialise our $t$ such that $\varphi_t = 0$. We then have that the initial position of the normal modes $n \in \mathbb{Z}$ are:
 \begin{equation}
     f_n(x,t=0) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)
     \label{eq:normal_initial}
@@ -110,7 +111,7 @@ We now want to consider a more general case where $h_0(x)$ is not uniform accord
     \frac{\partial^2 f}{\partial t^2} = g h_0(x) \frac{\partial^2 f}{\partial x^2}
     \label{eq:eq2}
 \end{equation}
-which does not represent the correct physical situation for $h_0(x)$ not constant.
+which do not represent the correct physical situation for $h_0(x)$ not constant.
 
 We first take a general solution in complex exponential form as an ansatz:
 \begin{equation}
@@ -133,7 +134,7 @@ which gives us by simplifying:
 \end{equation}
 We can do the change $\frac{\partial}{\partial x} \rightleftharpoons \frac{\mathrm{d}}{\mathrm{d}x}$ in the entire equation as every remaining variable depends only on $x$.
 
-We then apply the tagging of each variable depending on how much it varies. We will consider $\varepsilon ^0$ as large values and $\varepsilon^1$ and $\varepsilon^2$ as increasingly smaller values. We have three large values: the depth of the ocean $h_0$, the amplitude $A$ and the rate of change of the phase $S$ according to position. By using the fact that taking the derivative brings to a smaller order of $\varepsilon$ and the notation $'$ for $\frac{\mathrm{d}}{\mathrm{d}x}$ we have:
+We then apply the tagging of each variable depending on how much it varies. We will consider $\varepsilon ^0$ as large values and $\varepsilon^1$ and $\varepsilon^2$ as increasingly smaller values. We have three large values: the depth of the ocean $h_0$, the amplitude $A$ and the rate of change of $S$ according to position. By using the fact that taking the derivative brings to a smaller order of $\varepsilon$ and the notation $'$ for $\frac{\mathrm{d}}{\mathrm{d}x}$ we have:
 \begin{equation}
     \begin{array}{rrr}
         A(x) \sim \varepsilon^0 & A'(x) \sim \varepsilon^1 & A''(x) \sim \varepsilon^2 \\
@@ -154,12 +155,12 @@ and for each order of $\varepsilon$ ignoring terms of other orders we obtain:
     \end{aligned}
     \label{eq:tagging}
 \end{equation}
-We neglect the term in $\varepsilon^2$ and we first use the equation in $\varepsilon^0$ to have:
+We neglect the small term in $\varepsilon^2$ and we first use the equation in $\varepsilon^0$ to have:
 \begin{equation}
     \frac{\omega^2}{gh_0(x)} = (S'(x))^2 \Rightarrow S'(x) = k(x) = \pm \sqrt{\frac{\omega^2}{gh_0(x)}}
     \label{eq:s_prime}
 \end{equation}
-with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$. We now use the terms in $\varepsilon^1$ from \autoref{eq:tagging} to have the differential equation for $A$:
+with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$ but still satisfying $k = \omega / u$. We now use the terms in $\varepsilon^1$ from \autoref{eq:tagging} to have the differential equation for $A$:
 \[
     \begin{aligned}
         & 2A'(x)S'(x) + A(x)S''(x) = 0 \\
@@ -168,6 +169,8 @@ with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$. We now u
         & \Rightarrow A = C_2 k^{-\frac{1}{2}}\,, \quad C_2>0 \\
     \end{aligned}
 \]
+considering only the case $A > 0$ here.
+
 We use the formula for $k(x)$ from \autoref{eq:s_prime} and keep only the positive solution to find:
 \begin{equation}
     A(x) = C_2 \left(\left(\frac{\omega^2}{gh_0(x)}\right)^{\frac{1}{2}}\right)^{-\frac{1}{2}} = C_2 \left(\frac{gh_0(x)}{\omega^2}\right)^\frac{1}{4} = A_0 (h_0(x))^\frac{1}{4}
