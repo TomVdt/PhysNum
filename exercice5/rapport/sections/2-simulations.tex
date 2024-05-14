@@ -34,7 +34,7 @@ The evolution for \autoref{eq:eq2} is taken from \cite{physnumbook}, equation 4.
 
 \subsubsection{Border conditions}
 
-The simulation implements border conditions for a fixed border (the wave has a specific height at the border), a free border (the wave is allowed to move as it pleases along the border) and an exit condition (the wave continues as if there was no border). These conditions are given in the Numerical Physics book \cite{physnumbook} (section 4.2.1), for the left and right borders for exit and free borders as well as the exit condition for the right border. We will derive the exit conditions for the left border here. Under this condition, the left border only has a retrograde wave, i.e. \(f(x, t) = f_+(x + u t)\). Differentiating w.r.t. to \(t\) and \(x\), at \(x = x_L\) (left border) we obtain the following relationship:
+The simulation implements border conditions for a fixed border (the wave has a specific height at the border), a free border (the wave is allowed to move as it pleases along the border) and an exit condition (the wave continues as if there was no border). These conditions are given in the numerical physics book \cite{physnumbook} (section 4.2.1), for the left and right borders for exit and free borders as well as the exit condition for the right border. We will derive the exit conditions for the left border here. Under this condition, the left border only has a retrograde wave, i.e. \(f(x, t) = f_+(x + u t)\). Differentiating w.r.t. to \(t\) and \(x\), at \(x = x_L\) (left border) we obtain the following relationship:
 \begin{gather}
     \frac{\partial f}{\partial t}(x_L, t) = \frac{\partial f_+(x_L + u t)}{\partial t} = u f_+'(x_L + u t) \\
     \frac{\partial f}{\partial x}(x_L, t) = f_+'(x_L + u t) \\

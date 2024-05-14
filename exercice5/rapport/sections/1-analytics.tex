@@ -52,10 +52,10 @@ We take the fixed condition of \autoref{eq:condition_left} with \autoref{eq:stat
     \begin{aligned}
         & 2A\sin(kx_L + \varphi_x)\cos(\omega t + \varphi_t) = 0 \quad \forall t \\
         & \Rightarrow \sin(kx_L + \varphi_x) = 0 \\
-        & \Rightarrow \varphi_x = -kx_L + m\pi \quad , m \in \mathbb{N}\\
+        & \Rightarrow \varphi_x = -kx_L + m\pi, \quad m \in \mathbb{Z}\\
     \end{aligned}    
 \]
-We then have $\forall y, \forall m \in \mathbb{N}, sin(y+m\pi) = \pm sin(y)$ and then $\sin(kx + \varphi_x) = \pm \sin(k(x-x_L))$. This first condition thus gives, by redefining the constant $\pm A$ as $A$:
+We then have $\forall y, \forall m \in \mathbb{Z}, \sin(y+m\pi) = \pm \sin(y)$ and then $\sin(kx + \varphi_x) = \pm \sin(k(x-x_L))$. This first condition thus gives, by redefining the constant $\pm A$ as $A$:
 \begin{equation}
     f(x,t) = 2A\sin(k(x-x_L))\cos(\omega t + \varphi_t)
     \label{eq:sol_first_condition}
@@ -66,17 +66,17 @@ We then take the free side condition of \autoref{eq:condition_right} with \autor
     \begin{aligned}
         & 2A k \cos(k(x_R-x_L))\cos(\omega t + \varphi_t) = 0 \quad \forall t \\
         & \Rightarrow \cos(k(x_R-x_L)) = 0 \\
-        & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi \quad , n \in \mathbb{N} \\
+        & \Rightarrow k(x_R-x_L) = \frac{\pi}{2} + n\pi, \quad n \in \mathbb{Z} \\
     \end{aligned}
 \]
 which allows to define wavenumbers corresponding to normal modes:
 \begin{equation}
-    k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \quad , n \in \mathbb{N}
+    k_n = \frac{\pi(2n + 1)}{2(x_R-x_L)}, \quad n \in \mathbb{Z}
     \label{eq:wavenumber_mode}
 \end{equation}
 Knowing $ku = \omega$ then we have the angular frequencies of the modes:
 \begin{equation}
-    \omega_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \quad , n \in \mathbb{N}
+    \omega_n = \frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0}, \quad n \in \mathbb{Z}
     \label{eq:angular_mode}
 \end{equation}
 Allowing us to rewrite the solution of \autoref{eq:eq_h0_const} for normal modes and the boundary conditions from \autoref{eq:condition_left} and \autoref{eq:condition_right} as:
@@ -85,16 +85,16 @@ Allowing us to rewrite the solution of \autoref{eq:eq_h0_const} for normal modes
     \label{eq:normal_mode_simple}
 \end{equation}
 \begin{equation}
-    f_n(x,t) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)\cos\left(\frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \, t + \varphi_t\right) \quad , n \in \mathbb{N}
+    f_n(x,t) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)\cos\left(\frac{\pi(2n + 1)}{2(x_R-x_L)} \sqrt{gh_0} \, t + \varphi_t\right), \quad n \in \mathbb{Z}
     \label{eq:normal_mode_explicit}
 \end{equation}
 
-We can also calculate the frequencies of the stationary waves for each normal mode $n \in \mathbb{N}$ which are:
+We can also calculate the frequencies of the stationary waves for each normal mode $n \in \mathbb{Z}$ which are:
 \begin{equation}
     \nu_n = \frac{\omega_n}{2\pi} = \frac{(2n + 1)}{4(x_R-x_L)} \sqrt{gh_0}
 \end{equation}
 
-In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\varphi_t$ that can be determined using initial conditions. In this study we will consider $\varphi_t = 0$ such that the initial position of the normal modes $n \in \mathbb{N}$ are:
+In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\varphi_t$ that can be determined using initial conditions. In this study we will consider $\varphi_t = 0$ such that the initial position of the normal modes $n \in \mathbb{Z}$ are:
 \begin{equation}
     f_n(x,t=0) = 2A\sin\left(\frac{\pi(2n + 1)}{2(x_R-x_L)}(x - x_L)\right)
     \label{eq:normal_initial}
@@ -103,7 +103,7 @@ In \autoref{eq:normal_mode_explicit} the only two unknown left are $A$ and $\var
 
 \subsection{WKB analysis for $h_0$ not uniform}
 \underline{Question (c)}
-We now want to consider a more general case where $h_0(x)$ is not uniform according to $x$. Obtaining analytical solutions in this general case being too complicated a WKB analysis will be done instead. This is shown for \autoref{eq:eq1} in a Numerical Physics book \cite{physnumbook} (section 4.2.4) and will then be done here for this equation:
+We now want to consider a more general case where $h_0(x)$ is not uniform according to $x$. Obtaining analytical solutions in this general case being too complicated a WKB analysis will be done instead. This is shown for \autoref{eq:eq1} in the numerical physics book \cite{physnumbook} (section 4.2.4) and will then be done here for this equation:
 \begin{equation}
     \frac{\partial^2 f}{\partial t^2} = g h_0(x) \frac{\partial^2 f}{\partial x^2}
     \label{eq:eq2}
@@ -146,9 +146,9 @@ By using this tagging on \autoref{eq:equation_exponential_wkb} we have:
 and for each order of $\varepsilon$ ignoring terms of other orders we obtain:
 \begin{equation}
     \begin{aligned}
-        &\varepsilon^0: -A(x)\omega^2 & = & -gh_0(x)A(x)(S'(x))^2 \\
-        &\varepsilon^1: 0 & = & \, gh_0(x)(-2iA'(x)S'(x) - iA(x)S''(x)) \\
-        &\varepsilon^2: 0 & = & \, gh_0(x) A''(x) \\
+        &\varepsilon^0: &-A(x) \omega^2& = -gh_0(x)A(x)(S'(x))^2 \\
+        &\varepsilon^1: &0& = gh_0(x)(-2iA'(x)S'(x) - iA(x)S''(x)) \\
+        &\varepsilon^2: &0& = gh_0(x) A''(x) \\
     \end{aligned}
     \label{eq:tagging}
 \end{equation}
@@ -162,8 +162,8 @@ with $k$ newly defined as $k(x) = \frac{\mathrm{d} S}{\mathrm{d}x}(x)$. We now u
     \begin{aligned}
         & 2A'(x)S'(x) + A(x)S''(x) = 0 \\
         & \Rightarrow 2\frac{\mathrm{d}A}{\mathrm{d}x}(x)k(x) = - A(x) \frac{\mathrm{d}k}{\mathrm{d}x}(x) \\
-        & \Rightarrow \ln(A) = -\frac{1}{2}\ln(k) + C_1 \quad , C_1 \in \mathbb{R} \\
-        & \Rightarrow A = C_2 k^{-\frac{1}{2}} \quad , C_2>0 \\
+        & \Rightarrow \ln(A) = -\frac{1}{2}\ln(k) + C_1, \quad C_1 \in \mathbb{R} \\
+        & \Rightarrow A = C_2 k^{-\frac{1}{2}}, \quad C_2>0 \\
     \end{aligned}
 \]
 We use the formula for $k(x)$ from \autoref{eq:s_prime} and keep only the positive solution to find:
