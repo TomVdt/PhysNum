@@ -98,10 +98,44 @@ It is possible to observe the expected behaviors for moving waves in \autoref{fi
 
 When it comes to the behavior of these waves in the reflection they all behave the same and this behavior depends on the type of condition placed on the border as observed in the three figures of \autoref{fig:basin_movements}. As expected the fixed condition on the left nullifies and then reverts the wave and it has negative amplitude $-A$ when it goes back to the right. The free condition gives a peak of twice the amplitude and then reflects the wave with the same sign of $A$ but with velocity to the left. A final point of interest is that \autoref{fig:basin_static} shows well the principle of superposition emerging from the linearity of \autoref{eq:eq1}. The waves do amplify or counteract each other when close but then go on in the same way as if they add not encountered each other.
 
-TODO STABILITY OF CFL
 
+\paragraph{Stability depending on CFL} The simulation has displayed the expected behavior however it can be interesting to check its stability and especially around the value of the CFL $\beta = 1$. Indeed according to the known theory, \cite{physnumbook} in section 4.2.2, this method is stable for $\beta \leq 1$. The first step was to check a few values of $\beta$ to get a empiric view on this. Four values of $\beta$ around 1 are shown in \autoref{fig:CFL_empiric}.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_CFL0.5_1.15s.pdf}
+        \caption{$\beta = 0.5$}
+        \label{fig:CFL_0.5}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_CFL1_1.15s.pdf}
+        \caption{$\beta = 1$}
+        \label{fig:CFL_1}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_CFL1.01_1.15s.pdf}
+        \caption{$\beta = 1.01$}
+        \label{fig:CFL_1.01}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/bassin_default_CFL1.5_1.15s.pdf}
+        \caption{$\beta = 1.5$}
+        \label{fig:CFL_1.5}
+    \end{subfigure}
+    \caption{Simulations of a wave in a basin up to 1.15 \si{\second} for different values of the CFL}
+    \label{fig:CFL_empiric}
+\end{figure}
 
-The final simulation run for this basin is a study of its normal modes. Indeed with these border conditions it is possible to calculate the normal modes to have stationary waves as done in \autoref{sec:normal_modes}. We then want to simulate a wave starting as in \autoref{eq:normal_initial} to verify if our simulation does show the behavior of a stationary wave. Using \autoref{eq:normal_initial} with $A = 0.5$ \si{\meter} and $n = 2$ the number of the normal mode we initialised our simulation as shown in \autoref{fig:normal_init}.
+The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly seems to indicate that the stability lies at $\beta = 1$. We can check this by running simulations for numerous values of $\beta$ around 1 with always the same number of intervals in the position grid in order not to influence this stability study. This was done for 50 values of $\beta$ between 0.8 and 1.2 and the result is shown in \autoref{fig:CFL_stable}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/bassin_default_CFL_stability.pdf}
+    \caption{Maximum amplitude of the wave at the end of a simulation lasting one analytical period $t_\mathrm{fin} according to the CFL$}
+    \label{fig:CFL_stable}
+\end{figure}
+The \autoref{fig:CFL_stable} clearly shows the difference between the domain $\beta \leq 1$ and $\beta > 1$. We thus verified that the condition for stability in this simulation is $\beta \leq 1$ which is coherent with the theory.
+
+\paragraph{Normal modes} The final simulation run for this basin is a study of its normal modes. Indeed with these border conditions it is possible to calculate the normal modes to have stationary waves as done in \autoref{sec:normal_modes}. We then want to simulate a wave starting as in \autoref{eq:normal_initial} to verify if our simulation does show the behavior of a stationary wave. Using \autoref{eq:normal_initial} with $A = 0.5$ \si{\meter} and $n = 2$ the number of the normal mode we initialised our simulation as shown in \autoref{fig:normal_init}.
 \begin{figure}[h]
     \centering
     \includegraphics*[width=0.6\linewidth]{figures/bassin_mode_start.pdf}
