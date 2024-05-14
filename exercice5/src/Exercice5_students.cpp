@@ -199,7 +199,7 @@ int main(int argc, char* argv[]) {
 
 	// Selecteur pour choisir le pas de temps:
 	// true --> dt=tfin/nsteps; t final est exactement tfin
-	// false --> dt tel que beta_CFL=1; attention, t final n'est pas exactement tfin
+	// false --> dt tel que beta_CFL = CFL fourni; attention, t final n'est pas exactement tfin
 	const bool impose_nsteps = configFile.get<bool>("impose_nsteps");
 
 	vector<double> h0(N);   // profondeur aux points de maillage
@@ -207,18 +207,18 @@ int main(int argc, char* argv[]) {
 	vector<double> x(N);    // positions des points de maillage
 	vector<double> fpast(N), fnow(N), fnext(N), beta2(N);
 
-	dx = (xR - xL) / (N - 1);
+	dx = (xR - xL) / (N - 1);  // Regular grid
 	bool ecrire_f = configFile.get<bool>("ecrire_f"); // Exporter f(x,t) ou non
 
 	// Eq.(1) ou Eq.(2) [ou Eq.(6) (facultatif)]: Eq1, Eq2 ou Eq6
 	const Equation equation_type = string_to_equation(configFile.get<string>("equation_type"));
 
 	for (size_t i(0); i < N; ++i) {
+		// Initialise positions
 		const double x_ = i * dx;
 		x.at(i) = xL + x_;
 
-		// TODO initialize the depth h0 and the velocity^2 vel2
-		// TODO: verify
+		// Initialise the depth and the velocity at every point
 		if (v_uniform) {
 			h0.at(i) = h00;
 			vel2.at(i) = g * h00;
@@ -242,8 +242,7 @@ int main(int argc, char* argv[]) {
 
 	auto max_vel2 = std::max_element(vel2.begin(), vel2.end());
 
-	// TODO
-	// define the dt according to CFL input 
+	// Define the dt according to CFL input 
 	dt = CFL * dx / sqrt(*max_vel2);
 	if (impose_nsteps) {
 		// define the dt and CLF when you want to fix nsteps
@@ -262,28 +261,19 @@ int main(int argc, char* argv[]) {
 
 	ofstream fichier_f((output + "_f.out").c_str());
 	fichier_f.precision(15);
-	// Environ 0.5 * N bytes / ligne
-	// if (ecrire_f) {
-	// 	std::filesystem::resize_file(
-	// 		std::filesystem::path((output + "_f.out").c_str()),
-	// 		(size_t)(0.5 * N * tfin / dt)
-	// 	);
-	// }
 
 	ofstream fichier_h0((output + "_h0.out").c_str());
 	fichier_h0.precision(15);
 
 	// Initialisation des tableaux du schema numerique :
 
-	//TODO initialize f and beta^2
 	for (size_t i(0); i < N; ++i)
 	{
-		// fpast.at(i) = 0.;
+		// Initialise f and beta^2
 		fnow.at(i) = finit(x.at(i), A, x1, x2, xL, n_init, xR, initialisation);
 		beta2.at(i) = vel2.at(i) * dt*dt / (dx*dx);
 
-		// TODO initialize beta2, fnow and fpast according to the requests
-		// TODO verify
+		// Initialise fpast to have starting velocity
 		switch (initial_state) {
 			case LEFT: fpast.at(i) = finit(x.at(i) - sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, initialisation); break;
 			case RIGHT: fpast.at(i) = finit(x.at(i) + sqrt(vel2.at(i)) * dt, A, x1, x2, xL, n_init, xR, initialisation); break;
@@ -309,8 +299,7 @@ int main(int argc, char* argv[]) {
 		// Evolution :
 		for (size_t i(1); i < N - 1; ++i)
 		{
-			// TODO: write the expressions for fnext
-			// TODO: verify
+			// Expressions for fnext according to the equation chosen
 			if (equation_type == EQ1) {
 				fnext.at(i) = (
 					1.0/4.0 * (beta2.at(i+1) - beta2.at(i-1)) * (fnow.at(i+1) - fnow.at(i-1))
@@ -327,12 +316,10 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		// TODO add boundary conditions
-		// TODO: verify
+		// Apply boundary conditions
 		boundary_condition(fnext, fnow, t, dt, beta2, A, bc_l, bc_r, N);
 
-		// TODO: faire la mise a jour
-		// TODO: verify
+		// Update the vectors
 		fpast = fnow;
 		fnow = fnext;
 	}
