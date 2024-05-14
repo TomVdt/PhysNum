@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
 	double CFL = configFile.get<double>("CFL");
 	const double nsteps = configFile.get<double>("nsteps");
 	const double A = configFile.get<double>("A");
-	const double n_init = configFile.get<double>("n_init");
+	const double n_init = configFile.get<double>("n_init");  // number of the normal mode
 	const double hL = configFile.get<double>("hL");
 	const double hR = configFile.get<double>("hR");
 	const double hC = configFile.get<double>("hC");
