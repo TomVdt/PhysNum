@@ -277,14 +277,12 @@ where the distance between \(x_b\) and \(x_a\) was 100km and 50km, as the 400km 
     \label{fig:corail_eq1_mouv_xa}
 \end{figure}
 
-\begin{wrapfigure}{R}{0.5\linewidth}
-    \vspace*{-0.8cm}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{figures/corail_eq1_depth_var_xa.pdf}
+    \includegraphics[width=0.55\linewidth]{figures/corail_eq1_depth_var_xa.pdf}
     \caption{Depth profile for different \(x_a\)}
     \label{fig:corail_eq1_depth_xa}
-    \vspace*{-0.4cm}
-\end{wrapfigure}
+\end{figure}
 Using the same analysis methods as before, we obtain the amplitude in \autoref{fig:corail_eq1_amplitude_xa=60km} and \autoref{fig:corail_eq1_amplitude_xa=65km}. We notice that as the slope gets steeper, the simulated wave becomes less and less high when on the reef. Compared to the WKB solution, the simulation severely undershoots, with a difference of about 1m on and after the reef for \(x_a = 650\)km. This difference can be attributed by the fact that WKB suppose a reasonably small change in depth, while this change of about 7000m over 50km could be considered "too fast". For the speed of the wave, the \autoref{fig:corail_eq1_speed_xa=60km} and \autoref{fig:corail_eq1_speed_xa=65km}, we notice that the simulations follows the WKB solution closely, except when near the cliff, with the effect being more important for \(x_a = 650\)km. This effect does not seem physical and could be attributed to numerical effects: if we consider a vertical slope, the wave would travel across an interface between to "mediums" with different propagation speeds, the speed would only change rapidly at the interface and not before.
 
 \begin{figure}[H]
@@ -324,14 +322,14 @@ Using the same analysis methods as before, we obtain the amplitude in \autoref{f
 
 \paragraph{Using the wrong equation} Let's now analyse what happens when we simulate the system using the wrong although maybe intuitively plausible equation, \autoref{eq:eq2}. The resulting wave can be seen in \autoref{fig:corail_eq2_mouvement}. While the result looks similar at a glance to the result at the begining of this section, we can see that the amplitude of the wave decreases above the reef! Analysing this further using the same methods as described previously, we obtain a plot of the maximal amplitude and speed of the wave peak. The amplitude is shown in \autoref{fig:corail_eq2_amplitude}, this time the simulation undershoots the WKB solution, starting from where the depth changes. The difference between the simulation and the WKB solution remains under 0.02m, which is still quite precise. Like previously however, the speed matches the WKB solution exactly, as can be seen in \autoref{fig:corail_eq2_vitesse}. The WKB analysis on both equations showed that the speed is the same for both equations, which was verified again here.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/corail_eq2_mouvement_vague.png}
     \caption{Wave height as a function of space and time, simulated following \autoref{eq:eq2}. Simulated with \(n=16328\) intervals until \(t=12000\) \si{\second}. CFL \(\beta=1\)}
     \label{fig:corail_eq2_mouvement}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\linewidth}
         \centering
