@@ -247,7 +247,7 @@ int main(int argc, char* argv[]) {
 	if (impose_nsteps) {
 		// define the dt and CLF when you want to fix nsteps
 		dt = tfin / nsteps;
-		CFL = sqrt(*max_vel2) * dx / dt;
+		CFL = sqrt(*max_vel2) * dt / dx;
 	}
 
 	// Fichiers de sortie :
