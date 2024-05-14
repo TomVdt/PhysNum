@@ -126,6 +126,15 @@ When it comes to the behavior of these waves in the reflection they all behave t
     \label{fig:CFL_empiric}
 \end{figure}
 
+This looks a lot like a numerical instability but to be fully rigorous we need to show that it diverges exponentially from the expected behavior. For this we take back the situation where $\beta = 1.01$ as it seems to have diverged but we are not sure if it is unstable by this definition. The \autoref{fig:CFL_exp} shows the maximum amplitude of the simulation according to time that should remain between a factor 2 of the start, as the reflection on the free side gives a doubled amplitude during the reflection. We see however a line in this semi-logarithmic scale indicating that the value of the maximum amplitude grow exponentially. This is according to our definition and we can thus say that this divergence is a nulerical instability.
+\begin{figure}
+    \centering
+    \includegraphics*[width=0.6\linewidth]{figures/bassin_default_CFL_exponential.pdf}
+    \caption{Maximum amplitude of a simulated wave in a basin according to time for a value of CFL $\beta = 1.01$}
+    \label{fig:CFL_exp}
+\end{figure}
+
+
 The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly seems to indicate that the stability lies at $\beta = 1$. We can check this by running simulations for numerous values of $\beta$ around 1 with always the same number of intervals in the position grid in order not to influence this stability study. This was done for 50 values of $\beta$ between 0.8 and 1.2 and the result is shown in \autoref{fig:CFL_stable}.
 \begin{figure}[h]
     \centering
@@ -134,6 +143,7 @@ The difference between \autoref{fig:CFL_1} and \autoref{fig:CFL_1.01} clearly se
     \label{fig:CFL_stable}
 \end{figure}
 The \autoref{fig:CFL_stable} clearly shows the difference between the domain $\beta \leq 1$ and $\beta > 1$. We thus verified that the condition for stability in this simulation is $\beta \leq 1$ which is coherent with the theory.
+
 
 \paragraph{Normal modes} The final simulation run for this basin is a study of its normal modes. Indeed with these border conditions it is possible to calculate the normal modes to have stationary waves as done in \autoref{sec:normal_modes}. We then want to simulate a wave starting as in \autoref{eq:normal_initial} to verify if our simulation does show the behavior of a stationary wave. Using \autoref{eq:normal_initial} with $A = 0.5$ \si{\meter} and $n = 2$ the number of the normal mode we initialised our simulation as shown in \autoref{fig:normal_init}.
 \begin{figure}[h]
