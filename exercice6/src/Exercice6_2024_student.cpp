@@ -11,6 +11,11 @@
 using namespace std;
 typedef vector<complex<double>> vec_cmplx;
 
+// Global constants
+constexpr complex<double> complex_i = complex<double>(0, 1); // Nombre imaginaire i
+constexpr double hbar = 1.0;
+constexpr double m = 1.0;
+
 // Fonction resolvant le systeme d'equations A * solution = rhs
 // où A est une matrice tridiagonale
 template<class T>
@@ -55,54 +60,135 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 
 
 // Fonction pour normaliser une fonction d'onde :
-vec_cmplx normalize();
+void normalize(vec_cmplx& psi, const vector<double>& x);
 
 // Les definitions de ces fonctions sont en dessous du main.
 double prob() {
     return 0.0;
 }
 
-double E() {
-    return 0.0;
+double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
+    complex<double> cum(0.0, 0.0);
+    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        cum += (
+            conj(psi.at(i)) * H.at(i) * psi.at(i)
+            + conj(psi.at(i+1)) * H.at(i+1) * psi.at(i+1)
+        ) / 2.0;
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
-double xmoy() {
-    return 0.0;
+double xmoy(const vector<double>& x, const vec_cmplx& psi) {
+    complex<double> cum(0.0, 0.0);
+    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        cum += (
+            conj(psi.at(i)) * x.at(i) * psi.at(i)
+            + conj(psi.at(i+1)) * x.at(i+1) * psi.at(i+1)
+        ) / 2.0;
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
-double x2moy() {
-    return 0.0;
+double x2moy(const vector<double>& x, const vec_cmplx& psi) {
+    complex<double> cum(0.0, 0.0);
+    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        cum += (
+            conj(psi.at(i)) * x.at(i) * x.at(i) * psi.at(i)
+            + conj(psi.at(i+1)) * x.at(i+1) * x.at(i+1) * psi.at(i+1)
+        ) / 2.0;
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
-double pmoy() {
-    return 0.0;
+double pmoy(const vector<double>& x, const vec_cmplx& psi) {
+    complex<double> cum(0.0, 0.0);
+    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        // TODO: simplify expression
+        // min and max for left and right borders with correct finite difference
+        const size_t left_idx = max(i-1, 0uz);
+        const size_t right_idx = min(i+2, psi.size() - 1);
+        cum += (
+            -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(left_idx)) / ((i+1-left_idx) * dx))
+            -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(min(i+2, right_idx)) - psi.at(i)) / ((i+2-right_idx) * dx))
+        ) / 2.0;
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
-double p2moy() {
-    return 0.0;
+double p2moy(const vector<double>& x, const vec_cmplx& psi) {
+    complex<double> cum(0.0, 0.0);
+    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        // TODO: simplify expression
+        if (i == 0uz) {
+            cum += (
+                0.0
+                -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
+            ) / 2.0;
+        } else if (i == x.size() - 2) {
+            cum += (
+                -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
+                - 0.0
+            ) / 2.0;
+        } else {
+            cum += (
+                -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
+                -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
+            ) / 2.0;
+        }
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
-//@TODO write a function to normalize psi
-vec_cmplx normalize() {
-    vec_cmplx psi_norm(1.0, 1.0);
-    return psi_norm;
+// @TODO write a function to normalize psi
+// TODO: verify
+void normalize(vec_cmplx& psi, const vector<double>& x) {
+    double norm = 0.0;
+    const double h = (x.at(1) - x.at(0)) / x.size();
+
+    for (size_t i(0); i < x.size() - 1; i++) {
+        norm += (pow(abs(psi.at(i)), 2) + pow(abs(psi.at(i+1)), 2)) / 2.0;
+    }
+    norm *= h;
+    
+    // Modifies given psi
+    for (auto& z: psi) {
+        z /= sqrt(norm);
+    }
 }
 
-void write_observables(std::ofstream& fichier_observables, double t) {
+void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
     fichier_observables << t << " "
         << prob() << " "
         << prob() << " " // TODO: huh why twice?
-        << E() << " "
-        << xmoy() << " "
-        << x2moy() << " "
-        << pmoy() << " "
-        << p2moy() << endl;
+        << E(x, psi, ) << " "
+        << xmoy(x, psi) << " "
+        << x2moy(x, psi) << " "
+        << pmoy(x, psi) << " "
+        << p2moy(x, psi) << endl;
 }
 
 // SIMULATION
 int main(int argc, char** argv) {
-    complex<double> complex_i = complex<double>(0, 1); // Nombre imaginaire i
-
     string inputPath("configuration.in.example");
     if (argc > 1) {
         inputPath = argv[1];
@@ -118,11 +204,10 @@ int main(int argc, char** argv) {
     configFile.setVerbosity(verbose);
 
     // Parametres physiques :
-    const double hbar = 1.0;
-    const double m = 1.0;
     const double tfin = configFile.get<double>("tfin");
     const double xL = configFile.get<double>("xL");
     const double xR = configFile.get<double>("xR");
+    const double L = xR - xL;
     const double V0 = configFile.get<double>("V0");
     const double n_v = configFile.get<double>("n_v");
     const double n = configFile.get<int>("n"); // Read mode number as integer, convert to double
@@ -131,31 +216,40 @@ int main(int argc, char** argv) {
     double dt = configFile.get<double>("dt");
     const int Nintervals = configFile.get<int>("Nintervals");
     const int Npoints = Nintervals + 1;
-    const double dx = (xR - xL) / Nintervals;
+    const double dx = L / Nintervals;
+    
+    const double x0 = configFile.get<double>("x0");
+    const double k0 = 2 * M_PI * n / L;
+    const double sigma0 = configFile.get<double>("sigma_norm") * L;
+
+    // initialization time and position to check Probability
+    double t = 0;
+    unsigned int Nx0 = floor((xR * 0.5 - xL) / (xR - xL) * Npoints); //chosen xR*0.5 since top of potential is at half x domain
 
     // Not useful, python already times this shit
     // const auto simulationStart = std::chrono::steady_clock::now();
 
     // Maillage :
     vector<double> x(Npoints);
-    //@TODO build the x mesh
+    // @TODO build the x mesh
+    // TODO: verifier
+    for (int i(0); i < Npoints; i++) {
+        x.at(i) = i * dx;
+    }
 
     // Initialisation de la fonction d'onde :
-    vec_cmplx psi(Npoints);
-
-    // initialization time and position to check Probability
-    double t = 0;
-    unsigned int Nx0 = floor((xR * 0.5 - xL) / (xR - xL) * Npoints); //chosen xR*0.5 since top of potential is at half x domain
-
-    const double x0 = configFile.get<double>("x0");
-    const double k0 = 2 * M_PI * n / (xR - xL);
-    const double sigma0 = configFile.get<double>("sigma_norm") * (xR - xL);
     // TODO: initialiser le paquet d'onde, equation (4.116) du cours
+    vec_cmplx psi(Npoints);
+    for (int i(0); i < Npoints; i++) {
+        psi.at(i) = exp(complex_i * k0 * x[i]) * exp(-pow((x[i] - x0) / sigma0, 2) / 2.0);
+    }
 
     // TODO: Modifications des valeurs aux bords :
+    psi.front() *= 0.0;
+    psi.back() *= 0.0;
 
     // TODO Normalisation :
-    psi = normalize();
+    normalize(psi, x);
 
     // Matrices (d: diagonale, a: sous-diagonale, c: sur-diagonale) :
     vec_cmplx dH(Npoints), aH(Nintervals), cH(Nintervals); // matrice Hamiltonienne
@@ -229,7 +323,8 @@ int main(int argc, char** argv) {
     fichier_psi << endl;
 
     // Ecriture des observables :
-    write_observables(fichier_observables, t);
+    // TODO: dH
+    write_observables(fichier_observables, t, x, psi, dH);
 
     // Boucle temporelle :    
     while (t < tfin) {
@@ -249,7 +344,8 @@ int main(int argc, char** argv) {
         fichier_psi << endl;
 
         // Ecriture des observables :
-        write_observables(fichier_observables, t);
+        // TODO: dH
+        write_observables(fichier_observables, t, x, psi, dH);
     }
 
 
