@@ -40,8 +40,8 @@ void triangular_solve(
 }
 
 // Potentiel V(x) : @TODO write potential
-double V() {
-    return 0.0;
+double V_calculate(double x, double V0, double n_v, double xL, double xR) {
+    return 1/2 * V0 * (1 + cos(2*M_PI*n_v * (x - xL)/(xR - xL)));
 }
 
 // @TODO compute the folliwing quantities
@@ -162,13 +162,49 @@ int main(int argc, char** argv) {
     vec_cmplx dA(Npoints), aA(Nintervals), cA(Nintervals); // matrice du membre de gauche de l'equation (4.100)
     vec_cmplx dB(Npoints), aB(Nintervals), cB(Nintervals); // matrice du membre de droite de l'equation (4.100)
 
-    complex<double> a = complex_i * hbar * dt / (4. * m * dx * dx); // Coefficient complexe a de l'equation (4.100)
+    complex<double> a = complex_i * hbar * dt / (4.0 * m * dx * dx); // Coefficient complexe a de l'equation (4.100)
+
+    // Vector of potential at each position
+    vector<double> V(Npoints);
+    for (size_t i(0); i < V.size(); ++i) {
+        V.at(i) = V_calculate(x.at(i), V0, n_v, xL, xR);
+    }
+
+    // Vector of the values of b of equation (4.100)
+    vector<complex<double>> b(Npoints);
+    for (size_t i(0); i < b.size(); ++i) {
+        b.at(i) = complex_i * dt * V.at(i) / (hbar * 2);
+    }
 
     // TODO: calculer les éléments des matrices A, B et H.
     // Ces matrices sont stockées sous forme tridiagonale, d:diagonale, c et a: diagonales supérieures et inférieures
+    double const_hamiltonian(hbar * hbar / (2.0 * m * dx * dx));
+    
+    for (size_t i(0); i < dH.size(); ++i){
+        dH.at(i) = 2.0 * const_hamiltonian + V.at(i);
 
+        dA.at(i) = 1.0 + 2.0*a + b.at(i);
+        dB.at(i) = 1.0 - 2.0*a + b.at(i);
+    }
+
+    for (size_t i(0); i < aH.size(); ++i){
+        aH.at(i) = -const_hamiltonian;
+        cH.at(i) = -const_hamiltonian;
+        
+        aA.at(i) = -a;
+        cA.at(i) = -a;
+
+        aB.at(i) = a;
+        cB.at(i) = a;
+    }
 
     // TODO: Modifier les matrices A et B pour satisfaire les conditions aux limites
+    // H is not changed as it does not play a role in the evolution
+    dA.at(0) = 1.0, dA.at(Npoints - 1) = 1.0;
+    aA.at(0) = 0.0, aA.at(Nintervals - 1) = 0.0, cA.at(0) = 0.0, cA.at(Nintervals - 1) = 0.0;
+
+    dB.at(0) = 1.0, dB.at(Npoints - 1) = 1.0;
+    aB.at(0) = 0.0, aB.at(Nintervals - 1) = 0.0, cB.at(0) = 0.0, cB.at(Nintervals - 1) = 0.0;
 
     // Fichiers de sortie :
     string output = configFile.get<string>("output");
@@ -176,7 +212,7 @@ int main(int argc, char** argv) {
     ofstream fichier_potentiel((output + "_pot.out").c_str());
     fichier_potentiel.precision(15);
     for (int i(0); i < Npoints; ++i) {
-        fichier_potentiel << x[i] << " " << V() << endl;
+        fichier_potentiel << x[i] << " " << V.at(i) << endl;
     }
     fichier_potentiel.close();
 
