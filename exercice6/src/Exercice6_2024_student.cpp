@@ -46,7 +46,7 @@ void triangular_solve(
 
 // Potentiel V(x) : @TODO write potential
 double V_calculate(double x, double V0, double n_v, double xL, double xR) {
-    return 1/2 * V0 * (1 + cos(2*M_PI*n_v * (x - xL)/(xR - xL)));
+    return 1.0/2.0 * V0 * (1 + cos(2*M_PI*n_v * (x - xL)/(xR - xL)));
 }
 
 // @TODO compute the folliwing quantities
@@ -63,8 +63,18 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 void normalize(vec_cmplx& psi, const vector<double>& x);
 
 // Les definitions de ces fonctions sont en dessous du main.
-double prob() {
-    return 0.0;
+double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t from, size_t to) {
+    complex<double> cum(0.0, 0.0);
+
+    for (size_t i(from); i < to - 1; i++) {
+        cum += (
+            conj(psi.at(i)) * x.at(i) * psi.at(i)
+            + conj(psi.at(i+1)) * x.at(i+1) * psi.at(i+1)
+        ) / 2.0;
+    }
+    cum *= dx;
+
+    return cum.real();
 }
 
 double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
@@ -178,8 +188,8 @@ void normalize(vec_cmplx& psi, const vector<double>& x) {
 
 void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
     fichier_observables << t << " "
-        << prob() << " "
-        << prob() << " " // TODO: huh why twice?
+        << prob(x, psi, dx, 0, x.size() / 2) << " "
+        << prob(x, psi, dx, x.size() / 2, x.size()) << " "
         << E(x, psi, H) << " "
         << xmoy(x, psi) << " "
         << x2moy(x, psi) << " "
@@ -234,7 +244,7 @@ int main(int argc, char** argv) {
     // @TODO build the x mesh
     // TODO: verifier
     for (int i(0); i < Npoints; i++) {
-        x.at(i) = i * dx;
+        x.at(i) = xL + i * dx;
     }
 
     // Initialisation de la fonction d'onde :
