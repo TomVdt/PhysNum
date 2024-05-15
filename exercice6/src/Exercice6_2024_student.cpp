@@ -180,7 +180,7 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
     fichier_observables << t << " "
         << prob() << " "
         << prob() << " " // TODO: huh why twice?
-        << E(x, psi, ) << " "
+        << E(x, psi, H) << " "
         << xmoy(x, psi) << " "
         << x2moy(x, psi) << " "
         << pmoy(x, psi) << " "
