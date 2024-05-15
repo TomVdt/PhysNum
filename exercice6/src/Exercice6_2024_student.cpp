@@ -77,14 +77,13 @@ double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t fro
     return cum.real();
 }
 
-double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
+double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         cum += (
-            conj(psi.at(i)) * H.at(i) * psi.at(i)
-            + conj(psi.at(i+1)) * H.at(i+1) * psi.at(i+1)
+            conj(psi.at(i)) * H_psi.at(i)
+            + conj(psi.at(i+1)) * H_psi.at(i+1)
         ) / 2.0;
     }
     cum *= dx;
@@ -92,9 +91,8 @@ double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
     return cum.real();
 }
 
-double xmoy(const vector<double>& x, const vec_cmplx& psi) {
+double xmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         cum += (
@@ -107,9 +105,8 @@ double xmoy(const vector<double>& x, const vec_cmplx& psi) {
     return cum.real();
 }
 
-double x2moy(const vector<double>& x, const vec_cmplx& psi) {
+double x2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         cum += (
@@ -122,9 +119,8 @@ double x2moy(const vector<double>& x, const vec_cmplx& psi) {
     return cum.real();
 }
 
-double pmoy(const vector<double>& x, const vec_cmplx& psi) {
+double pmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         // TODO: simplify expression
@@ -141,9 +137,8 @@ double pmoy(const vector<double>& x, const vec_cmplx& psi) {
     return cum.real();
 }
 
-double p2moy(const vector<double>& x, const vec_cmplx& psi) {
+double p2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    const double dx = (x.at(1) - x.at(0)) / (x.size() - 1);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         // TODO: simplify expression
@@ -186,16 +181,31 @@ void normalize(vec_cmplx& psi, const vector<double>& x) {
     }
 }
 
-void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H) {
+void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     fichier_observables << t << " "
         << prob(x, psi, dx, 0, x.size() / 2) << " "
         << prob(x, psi, dx, x.size() / 2, x.size()) << " "
-        << E(x, psi, H) << " "
-        << xmoy(x, psi) << " "
-        << x2moy(x, psi) << " "
-        << pmoy(x, psi) << " "
-        << p2moy(x, psi) << endl;
+        << E(x, psi, H_psi, dx) << " "
+        << xmoy(x, psi, dx) << " "
+        << x2moy(x, psi, dx) << " "
+        << pmoy(x, psi, dx) << " "
+        << p2moy(x, psi, dx) << endl;
 }
+
+vec_cmplx diag_matrix_vector(const vec_cmplx& dH, const vec_cmplx& aH, const vec_cmplx& cH, const vec_cmplx& psi) {
+    size_t Npoints = dH.size();
+    size_t Nintervals = aH.size();
+    vec_cmplx H_psi(Npoints);
+
+    H_psi.at(0) = dH.at(0)*psi.at(0) + cH.at(0)*psi.at(1);
+    H_psi.at(Npoints - 1) = aH.at(Nintervals - 1)*psi.at(Npoints - 2) + dH.at(Npoints - 1)*psi.at(Npoints - 1);
+
+    for (size_t i(1); i < Npoints - 1; ++i) {
+        H_psi.at(i) = aH.at(i - 1)*psi.at(i - 1) + dH.at(i)*psi.at(i) + cH.at(i)*psi.at(i + 1);
+    }
+    return H_psi;
+}
+
 
 // SIMULATION
 int main(int argc, char** argv) {
@@ -333,8 +343,8 @@ int main(int argc, char** argv) {
     fichier_psi << endl;
 
     // Ecriture des observables :
-    // TODO: dH
-    write_observables(fichier_observables, t, x, psi, dH);
+    vec_cmplx H_psi = diag_matrix_vector(dH, aH, cH, psi);
+    write_observables(fichier_observables, t, x, psi, H_psi, dx);
 
     // Boucle temporelle :    
     while (t < tfin) {
@@ -354,8 +364,8 @@ int main(int argc, char** argv) {
         fichier_psi << endl;
 
         // Ecriture des observables :
-        // TODO: dH
-        write_observables(fichier_observables, t, x, psi, dH);
+        H_psi = diag_matrix_vector(dH, aH, cH, psi);
+        write_observables(fichier_observables, t, x, psi, H_psi, dx);
     }
 
 
