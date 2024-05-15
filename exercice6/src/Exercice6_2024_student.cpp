@@ -46,7 +46,7 @@ void triangular_solve(
 
 // Potentiel V(x) : @TODO write potential
 double V_calculate(double x, double V0, double n_v, double xL, double xR) {
-    return 1.0/2.0 * V0 * (1 + cos(2*M_PI*n_v * (x - xL)/(xR - xL)));
+    return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
 }
 
 // @TODO compute the folliwing quantities
@@ -60,7 +60,7 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 
 
 // Fonction pour normaliser une fonction d'onde :
-void normalize(vec_cmplx& psi, const vector<double>& x);
+void normalize(const vector<double>& x, vec_cmplx& psi);
 
 // Les definitions de ces fonctions sont en dessous du main.
 double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t from, size_t to) {
@@ -79,7 +79,6 @@ double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t fro
 
 double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     complex<double> cum(0.0, 0.0);
-
     for (size_t i(0); i < x.size() - 1; i++) {
         cum += (
             conj(psi.at(i)) * H_psi.at(i)
@@ -124,13 +123,22 @@ double pmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
 
     for (size_t i(0); i < x.size() - 1; i++) {
         // TODO: simplify expression
-        // min and max for left and right borders with correct finite difference
-        const size_t left_idx = max(i-1, 0uz);
-        const size_t right_idx = min(i+2, psi.size() - 1);
-        cum += (
-            -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(left_idx)) / ((i+1-left_idx) * dx))
-            -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(min(i+2, right_idx)) - psi.at(i)) / ((i+2-right_idx) * dx))
+        if (i == 0uz) {
+            cum += (
+                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i)) / (dx))
+                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
         ) / 2.0;
+        } else if (i == x.size() - 2) {
+            cum += (
+                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
+                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i)) / (dx))
+        ) / 2.0;
+        } else {
+            cum += (
+                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
+                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
+        ) / 2.0;
+        }
     }
     cum *= dx;
 
@@ -166,9 +174,9 @@ double p2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
 
 // @TODO write a function to normalize psi
 // TODO: verify
-void normalize(vec_cmplx& psi, const vector<double>& x) {
+void normalize(const vector<double>& x, vec_cmplx& psi) {
     double norm = 0.0;
-    const double h = (x.at(1) - x.at(0)) / x.size();
+    const double h = x.at(1) - x.at(0);
 
     for (size_t i(0); i < x.size() - 1; i++) {
         norm += (pow(abs(psi.at(i)), 2) + pow(abs(psi.at(i+1)), 2)) / 2.0;
@@ -271,7 +279,7 @@ int main(int argc, char** argv) {
     psi.back() *= 0.0;
 
     // TODO Normalisation :
-    normalize(psi, x);
+    normalize(x, psi);
 
     // Matrices (d: diagonale, a: sous-diagonale, c: sur-diagonale) :
     vec_cmplx dH(Npoints), aH(Nintervals), cH(Nintervals); // matrice Hamiltonienne
@@ -295,7 +303,6 @@ int main(int argc, char** argv) {
     // TODO: calculer les éléments des matrices A, B et H.
     // Ces matrices sont stockées sous forme tridiagonale, d:diagonale, c et a: diagonales supérieures et inférieures
     double const_hamiltonian(hbar * hbar / (2.0 * m * dx * dx));
-    
     for (size_t i(0); i < dH.size(); ++i){
         dH.at(i) = 2.0 * const_hamiltonian + V.at(i);
 

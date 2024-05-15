@@ -75,7 +75,7 @@ def run_with_params(config_name: str, all_params: list[dict[str, Any]]) -> list[
     dataset = []
     for file, params in zip(outputs, all_params):
         data_pot = np.loadtxt(path + file + "_pot.out")
-        data_phi2 = np.loadtxt(path + file + "_phi2.out")
+        data_phi2 = np.loadtxt(path + file + "_psi2.out")
         data_obs = np.loadtxt(path + file + "_obs.out")
         dataset.append((params, data_pot, data_phi2, data_obs))
     return dataset
