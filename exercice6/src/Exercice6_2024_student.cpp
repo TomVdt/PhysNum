@@ -192,6 +192,8 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
         << p2moy(x, psi, dx) << endl;
 }
 
+
+// Calculate a matrix * vector multiplication with a tri-diagonal representation of the matrix
 vec_cmplx diag_matrix_vector(const vec_cmplx& dH, const vec_cmplx& aH, const vec_cmplx& cH, const vec_cmplx& psi) {
     size_t Npoints = dH.size();
     size_t Nintervals = aH.size();
