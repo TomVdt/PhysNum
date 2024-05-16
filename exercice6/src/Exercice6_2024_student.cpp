@@ -63,6 +63,7 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 void normalize(const vector<double>& x, vec_cmplx& psi);
 
 // Les definitions de ces fonctions sont en dessous du main.
+// TODO: PROBA IS FUCKED
 double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t from, size_t to) {
     complex<double> cum(0.0, 0.0);
 
@@ -307,7 +308,8 @@ int main(int argc, char** argv) {
         dH.at(i) = 2.0 * const_hamiltonian + V.at(i);
 
         dA.at(i) = 1.0 + 2.0*a + b.at(i);
-        dB.at(i) = 1.0 - 2.0*a + b.at(i);
+        // TODO: CHECK SIGNES, j'ai rajouté le - au b
+        dB.at(i) = 1.0 - 2.0*a - b.at(i);
     }
 
     for (size_t i(0); i < aH.size(); ++i){
@@ -323,11 +325,11 @@ int main(int argc, char** argv) {
 
     // TODO: Modifier les matrices A et B pour satisfaire les conditions aux limites
     // H is not changed as it does not play a role in the evolution
-    dA.at(0) = 1.0, dA.at(Npoints - 1) = 1.0;
-    aA.at(0) = 0.0, aA.at(Nintervals - 1) = 0.0, cA.at(0) = 0.0, cA.at(Nintervals - 1) = 0.0;
+    dA.front() = 1.0; dA.back() = 1.0;
+    aA.front() = 0.0; aA.back() = 0.0; cA.front() = 0.0; cA.back() = 0.0;
 
-    dB.at(0) = 1.0, dB.at(Npoints - 1) = 1.0;
-    aB.at(0) = 0.0, aB.at(Nintervals - 1) = 0.0, cB.at(0) = 0.0, cB.at(Nintervals - 1) = 0.0;
+    dB.front() = 1.0; dB.back() = 1.0;
+    aB.front() = 0.0; aB.back() = 0.0; cB.front() = 0.0; cB.back() = 0.0;
 
     // Fichiers de sortie :
     string output = configFile.get<string>("output");
@@ -359,8 +361,13 @@ int main(int argc, char** argv) {
     while (t < tfin) {
 
         // TODO Calcul du membre de droite :
+        // TODO: verify
         vec_cmplx psi_tmp(Npoints, 0.);
-
+        psi_tmp.front() = dB.at(0) * psi.at(0) + cB.at(0) * psi.at(1);
+        for (size_t i(1); i < psi.size() - 1; i++) {
+            psi_tmp.at(i) = aB.at(i-1) * psi.at(i-1) + dB.at(i) * psi.at(i) + cB.at(i) * psi.at(i+1);
+        }
+        psi_tmp.back() = aB.back() * psi.at(psi.size() - 2) + dB.back() * psi.back();
 
         // Resolution de A * psi = psi_tmp :
         triangular_solve(dA, aA, cA, psi_tmp, psi);
