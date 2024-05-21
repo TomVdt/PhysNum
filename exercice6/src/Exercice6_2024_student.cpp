@@ -78,9 +78,10 @@ double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
     return cum.real();
 }
 
-double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
+// Calculate energy of system
+double E(const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     complex<double> cum(0.0, 0.0);
-    for (size_t i(0); i < x.size() - 1; i++) {
+    for (size_t i(0); i < psi.size() - 1; i++) {
         cum += (
             conj(psi.at(i)) * H_psi.at(i)
             + conj(psi.at(i+1)) * H_psi.at(i+1)
@@ -91,6 +92,7 @@ double E(const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, 
     return cum.real();
 }
 
+// Caculate average position
 double xmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
 
@@ -105,6 +107,7 @@ double xmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     return cum.real();
 }
 
+// Calculate average squared position
 double x2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
 
@@ -118,6 +121,7 @@ double x2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
 
     return cum.real();
 }
+
 
 double pmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
@@ -194,7 +198,7 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
     fichier_observables << t << " "
         << prob(psi, dx, 0, x.size() / 2) << " "
         << prob(psi, dx, x.size() / 2, x.size() - 1) << " "
-        << E(x, psi, H_psi, dx) << " "
+        << E(psi, H_psi, dx) << " "
         << xmoy(x, psi, dx) << " "
         << x2moy(x, psi, dx) << " "
         << pmoy(x, psi, dx) << " "
