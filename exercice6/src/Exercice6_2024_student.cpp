@@ -44,7 +44,7 @@ void triangular_solve(
     }
 }
 
-// Potentiel V(x) : @TODO write potential
+// Potentiel V(x)
 double V_calculate(double x, double V0, double n_v, double xL, double xR) {
     return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
 }
@@ -62,15 +62,15 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 // Fonction pour normaliser une fonction d'onde :
 void normalize(const vector<double>& x, vec_cmplx& psi);
 
-// Les definitions de ces fonctions sont en dessous du main.
-// TODO: PROBA IS FUCKED
-double prob(const vector<double>& x, const vec_cmplx& psi, double dx, size_t from, size_t to) {
+// Les definitions de ces fonctions sont en dessous du main.    <-- gne what does this mean?
+// Calculate proba between two points
+double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
     complex<double> cum(0.0, 0.0);
 
-    for (size_t i(from); i < to - 1; i++) {
+    for (size_t i(from); i < to; i++) {
         cum += (
-            conj(psi.at(i)) * x.at(i) * psi.at(i)
-            + conj(psi.at(i+1)) * x.at(i+1) * psi.at(i+1)
+            conj(psi.at(i)) * psi.at(i)
+            + conj(psi.at(i+1)) * psi.at(i+1)
         ) / 2.0;
     }
     cum *= dx;
@@ -192,8 +192,8 @@ void normalize(const vector<double>& x, vec_cmplx& psi) {
 
 void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     fichier_observables << t << " "
-        << prob(x, psi, dx, 0, x.size() / 2) << " "
-        << prob(x, psi, dx, x.size() / 2, x.size()) << " "
+        << prob(psi, dx, 0, x.size() / 2) << " "
+        << prob(psi, dx, x.size() / 2, x.size() - 1) << " "
         << E(x, psi, H_psi, dx) << " "
         << xmoy(x, psi, dx) << " "
         << x2moy(x, psi, dx) << " "
@@ -203,18 +203,18 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
 
 
 // Calculate a matrix * vector multiplication with a tri-diagonal representation of the matrix
-vec_cmplx diag_matrix_vector(const vec_cmplx& dH, const vec_cmplx& aH, const vec_cmplx& cH, const vec_cmplx& psi) {
-    size_t Npoints = dH.size();
-    size_t Nintervals = aH.size();
-    vec_cmplx H_psi(Npoints);
+vec_cmplx diag_matrix_vector(const vec_cmplx& diag, const vec_cmplx& lower, const vec_cmplx& upper, const vec_cmplx& psi) {
+    size_t Npoints = diag.size();
+    size_t Nintervals = lower.size();
+    vec_cmplx result(Npoints);
 
-    H_psi.at(0) = dH.at(0)*psi.at(0) + cH.at(0)*psi.at(1);
-    H_psi.at(Npoints - 1) = aH.at(Nintervals - 1)*psi.at(Npoints - 2) + dH.at(Npoints - 1)*psi.at(Npoints - 1);
+    result.at(0) = diag.at(0)*psi.at(0) + upper.at(0)*psi.at(1);
+    result.back() = lower.back()*psi.at(Npoints - 2) + diag.back()*psi.back();
 
     for (size_t i(1); i < Npoints - 1; ++i) {
-        H_psi.at(i) = aH.at(i - 1)*psi.at(i - 1) + dH.at(i)*psi.at(i) + cH.at(i)*psi.at(i + 1);
+        result.at(i) = lower.at(i - 1)*psi.at(i - 1) + diag.at(i)*psi.at(i) + upper.at(i)*psi.at(i + 1);
     }
-    return H_psi;
+    return result;
 }
 
 
@@ -363,17 +363,19 @@ int main(int argc, char** argv) {
         // TODO Calcul du membre de droite :
         // TODO: verify
         vec_cmplx psi_tmp(Npoints, 0.);
-        psi_tmp.front() = dB.at(0) * psi.at(0) + cB.at(0) * psi.at(1);
-        for (size_t i(1); i < psi.size() - 1; i++) {
-            psi_tmp.at(i) = aB.at(i-1) * psi.at(i-1) + dB.at(i) * psi.at(i) + cB.at(i) * psi.at(i+1);
-        }
-        psi_tmp.back() = aB.back() * psi.at(psi.size() - 2) + dB.back() * psi.back();
+        psi_tmp = diag_matrix_vector(dB, aB, cB, psi);
+
+        // psi_tmp.front() = dB.at(0) * psi.at(0) + cB.at(0) * psi.at(1);
+        // for (size_t i(1); i < psi.size() - 1; i++) {
+        //     psi_tmp.at(i) = aB.at(i-1) * psi.at(i-1) + dB.at(i) * psi.at(i) + cB.at(i) * psi.at(i+1);
+        // }
+        // psi_tmp.back() = aB.back() * psi.at(psi.size() - 2) + dB.back() * psi.back();
 
         // Resolution de A * psi = psi_tmp :
         triangular_solve(dA, aA, cA, psi_tmp, psi);
         t += dt;
 
-        // t0 writing
+        // Write psi at t
         for (int i(0); i < Npoints; ++i) {
             fichier_psi << pow(abs(psi[i]), 2) << " " << real(psi[i]) << " " << imag(psi[i]) << " ";
         }
