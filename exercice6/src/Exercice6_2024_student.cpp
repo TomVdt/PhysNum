@@ -163,6 +163,7 @@ double p2moy(const vec_cmplx& psi, double dx) {
         -conj(psi.at(1)) * hbar * hbar * ((psi.at(2) - 2.0 * psi.at(1) + psi.at(0)) / (dx * dx))
     ) / 2.0;
 
+    // Calculate middle intervals
     for (size_t i(1); i < end - 1; i++) {
         cum += (
             -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
@@ -170,6 +171,7 @@ double p2moy(const vec_cmplx& psi, double dx) {
         ) / 2.0;
     }
     
+    // Calculate last interval
     cum += (
         -conj(psi.at(end - 1)) * hbar * hbar * ((psi.at(end) - 2.0 * psi.at(end - 1) + psi.at(end - 2)) / (dx * dx))
         + 0.0
