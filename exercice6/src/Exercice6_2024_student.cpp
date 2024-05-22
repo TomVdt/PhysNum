@@ -129,12 +129,12 @@ double pmoy(const vec_cmplx& psi, double dx) {
 
     // Calculate first interval
     cum += (
-            -conj(psi.at(0)) * complex_i * hbar * ((psi.at(1) - psi.at(0)) / (dx))
-            -conj(psi.at(1)) * complex_i * hbar * ((psi.at(2) - psi.at(0)) / (2.0 * dx))
+        -conj(psi.at(0)) * complex_i * hbar * ((psi.at(1) - psi.at(0)) / (dx))
+        -conj(psi.at(1)) * complex_i * hbar * ((psi.at(2) - psi.at(0)) / (2.0 * dx))
     ) / 2.0;
 
     // Calculate middle intervals
-    for (size_t i(0); i < Npoints - 2; i++) {
+    for (size_t i(1); i < end - 1; i++) {
         cum += (
             -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
             -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
@@ -143,8 +143,8 @@ double pmoy(const vec_cmplx& psi, double dx) {
 
     // Calculate last interval
     cum += (
-            -conj(psi.at(end - 1)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 2)) / (2.0 * dx))
-            -conj(psi.at(end)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 1)) / (dx))
+        -conj(psi.at(end - 1)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 2)) / (2.0 * dx))
+        -conj(psi.at(end)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 1)) / (dx))
     ) / 2.0;
     
     cum *= dx;
@@ -152,28 +152,29 @@ double pmoy(const vec_cmplx& psi, double dx) {
     return cum.real();
 }
 
+// Calculate average squared momentum
 double p2moy(const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
+    size_t end = psi.size() - 1;
 
-    for (size_t i(0); i < psi.size() - 1; i++) {
-        // TODO: simplify expression
-        if (i == 0uz) {
-            cum += (
-                0.0
-                -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
-            ) / 2.0;
-        } else if (i == psi.size() - 2) {
-            cum += (
-                -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
-                - 0.0
-            ) / 2.0;
-        } else {
-            cum += (
-                -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
-                -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
-            ) / 2.0;
-        }
+    // Calculate first interval
+    cum += (
+        0.0
+        -conj(psi.at(1)) * hbar * hbar * ((psi.at(2) - 2.0 * psi.at(1) + psi.at(0)) / (dx * dx))
+    ) / 2.0;
+
+    for (size_t i(1); i < end - 1; i++) {
+        cum += (
+            -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
+            -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
+        ) / 2.0;
     }
+    
+    cum += (
+        -conj(psi.at(end - 1)) * hbar * hbar * ((psi.at(end) - 2.0 * psi.at(end - 1) + psi.at(end - 2)) / (dx * dx))
+        + 0.0
+    ) / 2.0;
+
     cum *= dx;
 
     return cum.real();
