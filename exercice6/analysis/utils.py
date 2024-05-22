@@ -18,6 +18,7 @@ rcParams = {
         r"\usepackage[utf8]{inputenc}",
         r"\usepackage[T1]{fontenc}",
         r"\usepackage[detect-all,locale=FR]{siunitx}",
+        r"\usepackage{eufrak}",
     ]),
     'lines.markersize': 8,
     'lines.color': 'grey',
