@@ -63,7 +63,7 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 void normalize(const vector<double>& x, vec_cmplx& psi);
 
 // Les definitions de ces fonctions sont en dessous du main.    <-- gne what does this mean?
-// Calculate proba between two points
+// Calculate proba between two points given their index
 double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
     complex<double> cum(0.0, 0.0);
 
@@ -78,7 +78,7 @@ double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
     return cum.real();
 }
 
-// Calculate energy of system
+// Calculate energy of the system
 double E(const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
     complex<double> cum(0.0, 0.0);
     for (size_t i(0); i < psi.size() - 1; i++) {
@@ -122,45 +122,47 @@ double x2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
     return cum.real();
 }
 
-
-double pmoy(const vector<double>& x, const vec_cmplx& psi, double dx) {
+// Calculate average momentum
+double pmoy(const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
+    size_t end = psi.size() - 1;
 
-    for (size_t i(0); i < x.size() - 1; i++) {
-        // TODO: simplify expression
-        if (i == 0uz) {
-            cum += (
-                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i)) / (dx))
-                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
+    // Calculate first interval
+    cum += (
+            -conj(psi.at(0)) * complex_i * hbar * ((psi.at(1) - psi.at(0)) / (dx))
+            -conj(psi.at(1)) * complex_i * hbar * ((psi.at(2) - psi.at(0)) / (2.0 * dx))
+    ) / 2.0;
+
+    // Calculate middle intervals
+    for (size_t i(0); i < Npoints - 2; i++) {
+        cum += (
+            -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
+            -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
         ) / 2.0;
-        } else if (i == x.size() - 2) {
-            cum += (
-                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
-                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i)) / (dx))
-        ) / 2.0;
-        } else {
-            cum += (
-                -conj(psi.at(i)) * complex_i * hbar * ((psi.at(i+1) - psi.at(i-1)) / (2.0 * dx))
-                -conj(psi.at(i+1)) * complex_i * hbar * ((psi.at(i+2) - psi.at(i)) / (2.0 * dx))
-        ) / 2.0;
-        }
     }
+
+    // Calculate last interval
+    cum += (
+            -conj(psi.at(end - 1)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 2)) / (2.0 * dx))
+            -conj(psi.at(end)) * complex_i * hbar * ((psi.at(end) - psi.at(end - 1)) / (dx))
+    ) / 2.0;
+    
     cum *= dx;
 
     return cum.real();
 }
 
-double p2moy(const vector<double>& x, const vec_cmplx& psi, double dx) {
+double p2moy(const vec_cmplx& psi, double dx) {
     complex<double> cum(0.0, 0.0);
 
-    for (size_t i(0); i < x.size() - 1; i++) {
+    for (size_t i(0); i < psi.size() - 1; i++) {
         // TODO: simplify expression
         if (i == 0uz) {
             cum += (
                 0.0
                 -conj(psi.at(i+1)) * hbar * hbar * ((psi.at(i+2) - 2.0 * psi.at(i+1) + psi.at(i)) / (dx * dx))
             ) / 2.0;
-        } else if (i == x.size() - 2) {
+        } else if (i == psi.size() - 2) {
             cum += (
                 -conj(psi.at(i)) * hbar * hbar * ((psi.at(i+1) - 2.0 * psi.at(i) + psi.at(i-1)) / (dx * dx))
                 - 0.0
@@ -201,8 +203,8 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
         << E(psi, H_psi, dx) << " "
         << xmoy(x, psi, dx) << " "
         << x2moy(x, psi, dx) << " "
-        << pmoy(x, psi, dx) << " "
-        << p2moy(x, psi, dx) << endl;
+        << pmoy(psi, dx) << " "
+        << p2moy(psi, dx) << endl;
 }
 
 
