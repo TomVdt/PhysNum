@@ -62,7 +62,6 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
 // Fonction pour normaliser une fonction d'onde :
 void normalize(const vector<double>& x, vec_cmplx& psi);
 
-// Les definitions de ces fonctions sont en dessous du main.    <-- gne what does this mean?
 // Calculate proba between two points given their index
 double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
     complex<double> cum(0.0, 0.0);
@@ -264,7 +263,7 @@ int main(int argc, char** argv) {
 
     // initialization time and position to check Probability
     double t = 0;
-    unsigned int Nx0 = floor((xR * 0.5 - xL) / (xR - xL) * Npoints); //chosen xR*0.5 since top of potential is at half x domain
+    unsigned int Nx0 = round((Npoints - 1.0) / 2.0);
 
     // Not useful, python already times this shit
     // const auto simulationStart = std::chrono::steady_clock::now();
@@ -317,7 +316,6 @@ int main(int argc, char** argv) {
         dH.at(i) = 2.0 * const_hamiltonian + V.at(i);
 
         dA.at(i) = 1.0 + 2.0*a + b.at(i);
-        // TODO: CHECK SIGNES, j'ai rajouté le - au b
         dB.at(i) = 1.0 - 2.0*a - b.at(i);
     }
 

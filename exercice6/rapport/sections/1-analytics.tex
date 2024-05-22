@@ -1,1 +1,43 @@
 \section{Analytical results}
+
+The theory behind this system as well as the theory behind the Crank-Nicolson method is shown in the numerical physics book \cite{physnumbook} in section 4.3. Some implementation details will be shown here.
+
+The studied system is located between \(x_L\) and \(x_R\) (\(x_L < x_R\)), with a potential given by:
+\begin{equation}
+    V(x) = \frac{1}{2} V_0 \left( 1 + \cos \left( 2\pi n_V \frac{x - x_L}{x_R - x_L} \right) \right)
+\end{equation}
+where \(V_0\) and \(n_V\) are given during the simulations. We define \(L = x_R - x_L\)
+
+Every intergal will be calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 1, \dots, N+1\), is the uniformly discretized interval between \(x_a\) and \(x_b\), and where \(N\) is the number of intervals:
+\begin{equation}
+    \int_{x_a}^{x_b} f(x) \dd x = \frac{x_b - x_a}{N} \sum_{i=1}^N \frac{f(x_i) + f(x_{i+1})}{2}
+\end{equation}
+The matrices where constructed according to the given equations TODO: MARTIN HELP PLZ.
+\begin{equation}
+    A \psi_{t+1} = B \psi_t
+\end{equation}
+The border conditions imposed to force \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\) were implemented by setting the \(A\) and \(B\) matrices such that:
+\begin{equation}
+    A = \left( \begin{matrix}
+        1 & 0      &        &   \\
+        0 & \ddots &        &   \\
+          &        & \ddots & 0 \\
+          &        & 0      & 1
+    \end{matrix} \right)
+    ,\qquad
+    B = \left( \begin{matrix}
+        1 & 0      &        &   \\
+        0 & \ddots &        &   \\
+          &        & \ddots & 0 \\
+          &        & 0      & 1
+    \end{matrix} \right)
+\end{equation}
+The initial wave function is set to be
+\begin{equation}
+    \psi(x, 0) = C e^{i k_0 x} e^{-(x-x_0)^2/(2 \sigma^2)}
+\end{equation}
+where \(k_0 = 2 \pi n / L\), \(\sigma = \sigma_{\textrm{norm}} L\). \(n\) and \(\sigma_\textrm{norm}\) are given in the simulations. \(C\) is a constant imposed by normalisation such that \(\int_{x_L}^{x_R}|\psi(x,0)|^2 dx = 1\), i.e.
+\begin{equation}
+    C = 1/\sqrt{\int_{x_L}^{x_R} e^{i k_0 x} e^{-(x-x_0)^2/(2 \sigma^2)}}
+\end{equation}
+je sais pas trop a quel point il faut détailler ici mais maintenant j'ai un peu la flemme maintenant
