@@ -213,7 +213,6 @@ void write_observables(std::ofstream& fichier_observables, double t, const vecto
 // Calculate a matrix * vector multiplication with a tri-diagonal representation of the matrix
 vec_cmplx diag_matrix_vector(const vec_cmplx& diag, const vec_cmplx& lower, const vec_cmplx& upper, const vec_cmplx& psi) {
     size_t Npoints = diag.size();
-    size_t Nintervals = lower.size();
     vec_cmplx result(Npoints);
 
     result.at(0) = diag.at(0)*psi.at(0) + upper.at(0)*psi.at(1);
