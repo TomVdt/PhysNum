@@ -44,7 +44,7 @@ void triangular_solve(
     }
 }
 
-// Potentiel V(x)
+// Potential V(x)
 double V_calculate(double x, double V0, double n_v, double xL, double xR) {
     return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
 }
@@ -177,7 +177,7 @@ double p2moy(const vec_cmplx& psi, double dx) {
     return cum.real();
 }
 
-// Fonction pour normaliser une fonction d'onde :
+// Function to normalise wave function
 void normalize(const vector<double>& x, vec_cmplx& psi, double dx) {
     double norm = prob(psi, dx, 0, psi.size() - 1);
 
@@ -187,6 +187,7 @@ void normalize(const vector<double>& x, vec_cmplx& psi, double dx) {
     }
 }
 
+// Write the observables of the system on the output file
 void write_observables(std::ofstream& fichier_observables, 
                         double t, const vector<double>& x, const vec_cmplx& psi, 
                         const vec_cmplx& H_psi, double dx, size_t Nx0) {
@@ -232,7 +233,7 @@ int main(int argc, char** argv) {
     const int verbose = configFile.get<int>("verbose");
     configFile.setVerbosity(verbose);
 
-    // Parametres physiques :
+    // Physical parameters :
     const double tfin = configFile.get<double>("tfin");
     const double xL = configFile.get<double>("xL");
     const double xR = configFile.get<double>("xR");
@@ -241,51 +242,47 @@ int main(int argc, char** argv) {
     const double n_v = configFile.get<double>("n_v");
     const double n = configFile.get<int>("n"); // Read mode number as integer, convert to double
 
-    // Parametres numeriques :
+    // Numerical parameters :
     double dt = configFile.get<double>("dt");
     const int Nintervals = configFile.get<int>("Nintervals");
     const int Npoints = Nintervals + 1;
     const double dx = L / Nintervals;
     
+    // Parameters for initialisation
     const double x0 = configFile.get<double>("x0");
     const double k0 = 2 * M_PI * n / L;
     const double sigma0 = configFile.get<double>("sigma_norm") * L;
 
-    // initialization time and position to check Probability
-    double t = 0;
+    // Initialise time and index to check Probability
+    double t = 0.0;
     size_t Nx0 = round((Npoints - 1.0) / 2.0);
 
-    // Not useful, python already times this shit
-    // const auto simulationStart = std::chrono::steady_clock::now();
-
-    // Maillage :
+    // Build the x mesh
     vector<double> x(Npoints);
-    // @TODO build the x mesh
-    // TODO: verifier
     for (int i(0); i < Npoints; i++) {
         x.at(i) = xL + i * dx;
     }
 
-    // Initialisation de la fonction d'onde :
-    // TODO: initialiser le paquet d'onde, equation (4.116) du cours
+    // Initialisation of wave function, equation (4.116) from notes
     vec_cmplx psi(Npoints);
     for (int i(0); i < Npoints; i++) {
         psi.at(i) = exp(complex_i * k0 * x[i]) * exp(-pow((x[i] - x0) / sigma0, 2) / 2.0);
     }
 
-    // TODO: Modifications des valeurs aux bords :
+    // Modify boundary values :
     psi.front() *= 0.0;
     psi.back() *= 0.0;
 
-    // TODO Normalisation :
+    // Normalisation :
     normalize(x, psi, dx);
 
-    // Matrices (d: diagonale, a: sous-diagonale, c: sur-diagonale) :
-    vec_cmplx dH(Npoints), aH(Nintervals), cH(Nintervals); // matrice Hamiltonienne
-    vec_cmplx dA(Npoints), aA(Nintervals), cA(Nintervals); // matrice du membre de gauche de l'equation (4.100)
-    vec_cmplx dB(Npoints), aB(Nintervals), cB(Nintervals); // matrice du membre de droite de l'equation (4.100)
+    // TODO check matrices
+    // Matrices (d: diagonal, a: lower diagonal, c: upper diagonal) :
+    vec_cmplx dH(Npoints), aH(Nintervals), cH(Nintervals); // Hamiltonian
+    vec_cmplx dA(Npoints), aA(Nintervals), cA(Nintervals); // Matrix of left hand side term of equation (4.100)
+    vec_cmplx dB(Npoints), aB(Nintervals), cB(Nintervals); // Matrix of right hand side term of equation (4.100)
 
-    complex<double> a = complex_i * hbar * dt / (4.0 * m * dx * dx); // Coefficient complexe a de l'equation (4.100)
+    complex<double> a = complex_i * hbar * dt / (4.0 * m * dx * dx); // Complex coefficient a of equation (4.100)
 
     // Vector of potential at each position
     vector<double> V(Npoints);
@@ -299,8 +296,8 @@ int main(int argc, char** argv) {
         b.at(i) = complex_i * dt * V.at(i) / (hbar * 2);
     }
 
-    // TODO: calculer les éléments des matrices A, B et H.
-    // Ces matrices sont stockées sous forme tridiagonale, d:diagonale, c et a: diagonales supérieures et inférieures
+    // Compute elements of A, B and H
+    // These matrices are in tridiagonal form, d:diagonal, c and a: upper and lower diagonals
     double const_hamiltonian(hbar * hbar / (2.0 * m * dx * dx));
     for (size_t i(0); i < dH.size(); ++i){
         dH.at(i) = 2.0 * const_hamiltonian + V.at(i);
@@ -320,15 +317,16 @@ int main(int argc, char** argv) {
         cB.at(i) = a;
     }
 
-    // TODO: Modifier les matrices A et B pour satisfaire les conditions aux limites
-    // H is not changed as it does not play a role in the evolution
+    // Modify A and B matrices to satisfy boundary conditions
+    // H is not changed as it does not play a role in the computation of the evolution
     dA.front() = 1.0; dA.back() = 1.0;
     aA.front() = 0.0; aA.back() = 0.0; cA.front() = 0.0; cA.back() = 0.0;
 
     dB.front() = 1.0; dB.back() = 1.0;
     aB.front() = 0.0; aB.back() = 0.0; cB.front() = 0.0; cB.back() = 0.0;
 
-    // Fichiers de sortie :
+
+    // Output files
     string output = configFile.get<string>("output");
 
     ofstream fichier_potentiel((output + "_pot.out").c_str());
@@ -350,25 +348,18 @@ int main(int argc, char** argv) {
     }
     fichier_psi << endl;
 
-    // Ecriture des observables :
+    // Writing observables at t0
     vec_cmplx H_psi = diag_matrix_vector(dH, aH, cH, psi);
     write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
 
-    // Boucle temporelle :    
+    // Time loop:    
     while (t < tfin) {
 
-        // TODO Calcul du membre de droite :
-        // TODO: verify
+        // Compute right hand side term
         vec_cmplx psi_tmp(Npoints, 0.);
         psi_tmp = diag_matrix_vector(dB, aB, cB, psi);
 
-        // psi_tmp.front() = dB.at(0) * psi.at(0) + cB.at(0) * psi.at(1);
-        // for (size_t i(1); i < psi.size() - 1; i++) {
-        //     psi_tmp.at(i) = aB.at(i-1) * psi.at(i-1) + dB.at(i) * psi.at(i) + cB.at(i) * psi.at(i+1);
-        // }
-        // psi_tmp.back() = aB.back() * psi.at(psi.size() - 2) + dB.back() * psi.back();
-
-        // Resolution de A * psi = psi_tmp :
+        // Solving A * psi = psi_tmp :
         triangular_solve(dA, aA, cA, psi_tmp, psi);
         t += dt;
 
@@ -378,7 +369,7 @@ int main(int argc, char** argv) {
         }
         fichier_psi << endl;
 
-        // Ecriture des observables :
+        // Writing observables
         H_psi = diag_matrix_vector(dH, aH, cH, psi);
         write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
     }
@@ -387,9 +378,4 @@ int main(int argc, char** argv) {
     fichier_observables.close();
     fichier_psi.close();
 
-    // NO SPAMMING COUT PLEASE
-    // const auto simulationEnd = std::chrono::steady_clock::now();
-    // const std::chrono::duration<double> elapsedSeconds = simulationEnd - simulationStart;
-    // std::cout << "Simulation finished in " << setprecision(3) << elapsedSeconds.count()
-    //     << " seconds" << std::endl;
 }
