@@ -178,7 +178,7 @@ double p2moy(const vec_cmplx& psi, double dx) {
 }
 
 // Function to normalise wave function
-void normalize(const vector<double>& x, vec_cmplx& psi, double dx) {
+void normalize(vec_cmplx& psi, double dx) {
     double norm = prob(psi, dx, 0, psi.size() - 1);
 
     // Modifies given psi
@@ -274,7 +274,7 @@ int main(int argc, char** argv) {
     psi.back() *= 0.0;
 
     // Normalisation :
-    normalize(x, psi, dx);
+    normalize(psi, dx);
 
     // TODO check matrices
     // Matrices (d: diagonal, a: lower diagonal, c: upper diagonal) :
