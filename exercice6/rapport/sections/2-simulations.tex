@@ -6,12 +6,12 @@ For all the simulations we set the physical parameters \(x_L = -1\), \(x_R = 1\)
 
 In this section we will consider \(V_0 = 0\), which means that the particle is stuck in an infinite potential well as imposed by the border conditions. Let's first look at the propagation of a single particle and its properties.
 
-The wave function, representing the probability distribution of finding the particle in a spatial interval, is shown in \autoref{fig:i_normpsi}. From this figure, we notice that the wave spreads out over time, and after hitting the potential wall gets reflected back. We observe an interesting phenomenon with this reflection: it seems that the wave gets reflected at different speeds, resulting in multiple peaks, slower waves remaining close to the wall before fading away and faster waves getting reflected to the other side.
+The wave function, representing the probability distribution of finding the particle in a spatial interval, is shown in \autoref{fig:i_normpsi}. From this figure, we notice that the wave spreads out over time, and after hitting the potential wall gets reflected back. We observe an interesting phenomenon with this reflection: it seems that the wave gets reflected at different speeds, resulting in multiple peaks.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/i_normpsi.png}
-    \caption{Probability distribution of particle over space and time.}
+    \caption{Square root of the probability density of particle over space and time.}
     \label{fig:i_normpsi}
 \end{figure}
 
@@ -35,7 +35,7 @@ Now that we've seen the general "motion" of the particle, let's analyse some of 
     \label{fig:i_xmoy_pmoy}
 \end{figure}
 
-For a quantuum particle the uncertainty of its position and momentum is also a key property. 
+For a quantuum particle the uncertainty of its position and momentum is also a key property. \autoref{fig:i_deltax} shows the increasing uncertainty in position. It increases almost constantly, only decreasing when the wave change direction. On the momentum side, \autoref{fig:i_deltap} shows the uncertainty in momentum. As opposed to the position spread, the uncertainty in momentum increases sharply at the times when the wave is reflected, increasing from less than 10 a.u. to about 50 a.u., before decreasing again to about 10 a.u.. Every reflection increases the spread of momentum. This will be further commented on when looking at the Heisenberg uncertainty principle.
 
 \begin{figure}[h]
     \centering
@@ -51,9 +51,11 @@ For a quantuum particle the uncertainty of its position and momentum is also a k
         \caption{Momentum spread}
         \label{fig:i_deltap}
     \end{subfigure}
-    \caption{feur}
+    \caption{Spread over time of the position and momentum of a quantum particle in an infinite potential well}
     \label{fig:i_deltax_deltap}
 \end{figure}
+
+Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature.
 
 \begin{figure}[h]
     \centering
