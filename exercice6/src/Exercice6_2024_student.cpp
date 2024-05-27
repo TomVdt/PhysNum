@@ -49,18 +49,14 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR) {
     return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
 }
 
-// @TODO compute the folliwing quantities
 // Declaration des diagnostiques de la particule d'apres sa fonction d'onde psi :
-//  - prob: calcule la probabilite de trouver la particule entre les points nL.dx et nR.dx,
+//  - prob: calcule la probabilite de trouver la particule entre les points from.dx et to.dx,
 //  - E:    calcule son energie moyenne,
 //  - xmoy: calcule sa position moyenne,
 //  - x2moy:calcule sa position au carre moyenne,
 //  - pmoy: calcule sa quantite de mouvement moyenne,
 //  - p2moy:calcule sa quantite de mouvement au carre moyenne.
 
-
-// Fonction pour normaliser une fonction d'onde :
-void normalize(const vector<double>& x, vec_cmplx& psi);
 
 // Calculate proba between two points given their index
 double prob(const vec_cmplx& psi, double dx, size_t from, size_t to) {
@@ -181,27 +177,22 @@ double p2moy(const vec_cmplx& psi, double dx) {
     return cum.real();
 }
 
-// @TODO write a function to normalize psi
-// TODO: verify
-void normalize(const vector<double>& x, vec_cmplx& psi) {
-    double norm = 0.0;
-    const double h = x.at(1) - x.at(0);
+// Fonction pour normaliser une fonction d'onde :
+void normalize(const vector<double>& x, vec_cmplx& psi, double dx) {
+    double norm = prob(psi, dx, 0, psi.size() - 1);
 
-    for (size_t i(0); i < x.size() - 1; i++) {
-        norm += (pow(abs(psi.at(i)), 2) + pow(abs(psi.at(i+1)), 2)) / 2.0;
-    }
-    norm *= h;
-    
     // Modifies given psi
     for (auto& z: psi) {
         z /= sqrt(norm);
     }
 }
 
-void write_observables(std::ofstream& fichier_observables, double t, const vector<double>& x, const vec_cmplx& psi, const vec_cmplx& H_psi, double dx) {
+void write_observables(std::ofstream& fichier_observables, 
+                        double t, const vector<double>& x, const vec_cmplx& psi, 
+                        const vec_cmplx& H_psi, double dx, size_t Nx0) {
     fichier_observables << t << " "
-        << prob(psi, dx, 0, x.size() / 2) << " "
-        << prob(psi, dx, x.size() / 2, x.size() - 1) << " "
+        << prob(psi, dx, 0, Nx0) << " "
+        << prob(psi, dx, Nx0, x.size() - 1) << " "
         << E(psi, H_psi, dx) << " "
         << xmoy(x, psi, dx) << " "
         << x2moy(x, psi, dx) << " "
@@ -262,7 +253,7 @@ int main(int argc, char** argv) {
 
     // initialization time and position to check Probability
     double t = 0;
-    unsigned int Nx0 = round((Npoints - 1.0) / 2.0);
+    size_t Nx0 = round((Npoints - 1.0) / 2.0);
 
     // Not useful, python already times this shit
     // const auto simulationStart = std::chrono::steady_clock::now();
@@ -287,7 +278,7 @@ int main(int argc, char** argv) {
     psi.back() *= 0.0;
 
     // TODO Normalisation :
-    normalize(x, psi);
+    normalize(x, psi, dx);
 
     // Matrices (d: diagonale, a: sous-diagonale, c: sur-diagonale) :
     vec_cmplx dH(Npoints), aH(Nintervals), cH(Nintervals); // matrice Hamiltonienne
@@ -361,7 +352,7 @@ int main(int argc, char** argv) {
 
     // Ecriture des observables :
     vec_cmplx H_psi = diag_matrix_vector(dH, aH, cH, psi);
-    write_observables(fichier_observables, t, x, psi, H_psi, dx);
+    write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
 
     // Boucle temporelle :    
     while (t < tfin) {
@@ -389,7 +380,7 @@ int main(int argc, char** argv) {
 
         // Ecriture des observables :
         H_psi = diag_matrix_vector(dH, aH, cH, psi);
-        write_observables(fichier_observables, t, x, psi, H_psi, dx);
+        write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
     }
 
 
