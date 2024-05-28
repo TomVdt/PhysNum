@@ -190,15 +190,22 @@ void normalize(vec_cmplx& psi, double dx) {
 // Write the observables of the system on the output file
 void write_observables(std::ofstream& fichier_observables, 
                         double t, const vector<double>& x, const vec_cmplx& psi, 
-                        const vec_cmplx& H_psi, double dx, size_t Nx0) {
-    fichier_observables << t << " "
-        << prob(psi, dx, 0, Nx0) << " "
-        << prob(psi, dx, Nx0, x.size() - 1) << " "
-        << E(psi, H_psi, dx) << " "
-        << xmoy(x, psi, dx) << " "
-        << x2moy(x, psi, dx) << " "
-        << pmoy(psi, dx) << " "
-        << p2moy(psi, dx) << endl;
+                        const vec_cmplx& H_psi, double dx, size_t Nx0, bool convergence = false) {
+    if (!convergence){
+        fichier_observables << t << " "
+            << prob(psi, dx, 0, Nx0) << " "
+            << prob(psi, dx, Nx0, x.size() - 1) << " "
+            << E(psi, H_psi, dx) << " "
+            << xmoy(x, psi, dx) << " "
+            << x2moy(x, psi, dx) << " "
+            << pmoy(psi, dx) << " "
+            << p2moy(psi, dx) << endl;
+    } else if (convergence){
+        fichier_observables << t << " "
+            << prob(psi, dx, 0, Nx0) << " "
+            << prob(psi, dx, Nx0, x.size() - 1) << " "
+            << E(psi, H_psi, dx) << endl;
+    }
 }
 
 
@@ -247,6 +254,8 @@ int main(int argc, char** argv) {
     const int Nintervals = configFile.get<int>("Nintervals");
     const int Npoints = Nintervals + 1;
     const double dx = L / Nintervals;
+    // Is a convergence analysis being done
+    bool convergence = configFile.get<bool>("convergence");
     
     // Parameters for initialisation
     const double x0 = configFile.get<double>("x0");
@@ -350,7 +359,7 @@ int main(int argc, char** argv) {
 
     // Writing observables at t0
     vec_cmplx H_psi = diag_matrix_vector(dH, aH, cH, psi);
-    write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
+    write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0, convergence);
 
     // Time loop:    
     while (t < tfin) {
@@ -371,7 +380,7 @@ int main(int argc, char** argv) {
 
         // Writing observables
         H_psi = diag_matrix_vector(dH, aH, cH, psi);
-        write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0);
+        write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0, convergence);
     }
 
 
