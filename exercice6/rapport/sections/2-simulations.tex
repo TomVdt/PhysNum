@@ -6,7 +6,9 @@ For all the simulations we set the physical parameters \(x_L = -1\), \(x_R = 1\)
 
 In this section we will consider \(V_0 = 0\), which means that the particle is stuck in an infinite potential well as imposed by the border conditions. Let's first look at the propagation of a single particle and its properties.
 
-The wave function, representing the probability distribution of finding the particle in a spatial interval, is shown in \autoref{fig:i_normpsi}. From this figure, we notice that the wave spreads out over time, and after hitting the potential wall gets reflected back. We observe an interesting phenomenon with this reflection: it seems that the wave gets reflected at different speeds, resulting in multiple peaks.
+\subsubsection{Physical properties}
+
+\paragraph{General motion} The wave function, representing the probability distribution of finding the particle in a spatial interval, is shown in \autoref{fig:i_normpsi}. From this figure, we notice that the wave spreads out over time, and after hitting the potential wall gets reflected back. We observe an interesting phenomenon with this reflection: it seems that the wave gets reflected at different speeds, resulting in multiple peaks.
 
 \begin{figure}[h]
     \centering
@@ -15,7 +17,7 @@ The wave function, representing the probability distribution of finding the part
     \label{fig:i_normpsi}
 \end{figure}
 
-Now that we've seen the general "motion" of the particle, let's analyse some of its properties. Firstly, its average position is shown in \autoref{fig:i_xmoy}. We can se it initially moves as we would expect a classical particle to move (which we will compare later). When it reaches the right hand side border, it gets reflected and the average position seems to move a bit slower than before the reflection, before regaining the same speed. On the second bounce however, the average position seems to stabilise a bit, which is coherent with what we saw before: the reflections seperate the wave function in multiple thinner parts. The average position then doesn't mean very much, with the position being multiple similarly sized peaks. \autoref{fig:i_pmoy} shows the average momentum of the particle. The momentum remains constant before the particle "collides" with the wall, which is also what was observed with the constant average position change on the previous figure. After the collision, the sign of the momentum flips around, meaning the wave is moving left. It is not an abrupt change, as would be expected from a wave. After a second reflection, the average momentum doesn't seem to reach the initial momentum again. This could be explained because of the spreading of the wave, where on average the wave moves slower than initially.
+\paragraph{Position and momentum} Now that we've seen the general "motion" of the particle, let's analyse some of its properties. Firstly, its average position is shown in \autoref{fig:i_xmoy}. We can se it initially moves as we would expect a classical particle to move (which we will compare later). When it reaches the right hand side border, it gets reflected and the average position seems to move a bit slower than before the reflection, before regaining the same speed. On the second bounce however, the average position seems to stabilise a bit, which is coherent with what we saw before: the reflections seperate the wave function in multiple thinner parts. The average position then doesn't mean very much, with the position being multiple similarly sized peaks. \autoref{fig:i_pmoy} shows the average momentum of the particle. The momentum remains constant before the particle "collides" with the wall, which is also what was observed with the constant average position change on the previous figure. After the collision, the sign of the momentum flips around, meaning the wave is moving left. It is not an abrupt change, as would be expected from a wave. After a second reflection, the average momentum doesn't seem to reach the initial momentum again. This could be explained because of the spreading of the wave, where on average the wave moves slower than initially.
 
 \begin{figure}[h]
     \centering
@@ -35,7 +37,7 @@ Now that we've seen the general "motion" of the particle, let's analyse some of 
     \label{fig:i_xmoy_pmoy}
 \end{figure}
 
-For a quantum particle the uncertainty of its position and momentum is also a key property. \autoref{fig:i_deltax} shows the increasing uncertainty in position. It increases almost constantly, only decreasing when the wave change direction. On the momentum side, \autoref{fig:i_deltap} shows the uncertainty in momentum. As opposed to the position spread, the uncertainty in momentum increases sharply at the times when the wave is reflected, increasing from less than 10 a.u. to about 50 a.u., before decreasing again to about 10 a.u.. Every reflection increases the spread of momentum. This will be further commented on when looking at the Heisenberg uncertainty principle.
+\paragraph{Uncertainty} For a quantum particle the uncertainty of its position and momentum is also a key property. \autoref{fig:i_deltax} shows the increasing uncertainty in position. It increases almost constantly, only decreasing when the wave change direction. On the momentum side, \autoref{fig:i_deltap} shows the uncertainty in momentum. As opposed to the position spread, the uncertainty in momentum increases sharply at the times when the wave is reflected, increasing from less than 10 a.u. to about 50 a.u., before decreasing again to about 10 a.u.. Every reflection increases the spread of momentum. This will be further commented on when looking at the Heisenberg uncertainty principle.
 
 \begin{figure}[h]
     \centering
@@ -55,7 +57,7 @@ For a quantum particle the uncertainty of its position and momentum is also a ke
     \label{fig:i_deltax_deltap}
 \end{figure}
 
-Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature of the peak lines.
+\paragraph{Group and phase velocity} Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature of the peak lines.
 
 \begin{figure}[h]
     \centering
@@ -63,6 +65,8 @@ Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notic
     \caption{feur}
     \label{fig:i_repsi}
 \end{figure}
+
+\subsubsection{Comparing with classical particle}
 
 It is also interesting to compare a quantum particle with a classical particle sharing some physical properties. First looking at a particle starting with the same initial energy as the quantum particle, i.e. staring with a speed
 \begin{equation}
@@ -88,6 +92,8 @@ we obtain the movement shown in \autoref{fig:i_classical_vs_quantum_energy}. We 
     \label{fig:i_classical_vs_quantum}
 \end{figure}
 
+\subsubsection{Verifying properties of the Crank-Nocloson method}
+
 Let's also verify features of the the Crank Nicolson method. Firstly, it was shown in the book \cite{physnumbook} that this method conserves energy to machine precision. This phenomenon can clearly be seen in \autoref{fig:i_conservation_energy}, with the stairs clearly showing errors due to floating point approximations. The error on energy conservation was found to be on the order of \(10^{-10}\). This method is also supposed to conserve normalisation (i.e. probability), which is shown in \autoref{fig:i_conservation_probability}. It is clear that the total probability remains constant, at \(1\). Due to the smaller values of probability, the error on conservation of probability was found to be on the order of \(10^{-13}\).
 
 \begin{figure}[h]
@@ -108,7 +114,7 @@ Let's also verify features of the the Crank Nicolson method. Firstly, it was sho
     \label{fig:i_conservation}
 \end{figure}
 
-Finally, we want to verify that the simulation produces sane physical results, more specifically that it follows the Heisenberg uncertainty principle. With our unit normalisation, this corresponds to:
+\paragraph{Heisenberg uncertainty principle} Finally, we want to verify that the simulation produces sane physical results, more specifically that it follows the Heisenberg uncertainty principle. With our unit normalisation, this corresponds to:
 \begin{equation}
     \langle \Delta x \rangle \langle \Delta p \rangle \ge \frac{1}{2}
 \end{equation}
