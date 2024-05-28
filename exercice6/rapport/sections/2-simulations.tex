@@ -35,7 +35,7 @@ Now that we've seen the general "motion" of the particle, let's analyse some of 
     \label{fig:i_xmoy_pmoy}
 \end{figure}
 
-For a quantuum particle the uncertainty of its position and momentum is also a key property. \autoref{fig:i_deltax} shows the increasing uncertainty in position. It increases almost constantly, only decreasing when the wave change direction. On the momentum side, \autoref{fig:i_deltap} shows the uncertainty in momentum. As opposed to the position spread, the uncertainty in momentum increases sharply at the times when the wave is reflected, increasing from less than 10 a.u. to about 50 a.u., before decreasing again to about 10 a.u.. Every reflection increases the spread of momentum. This will be further commented on when looking at the Heisenberg uncertainty principle.
+For a quantum particle the uncertainty of its position and momentum is also a key property. \autoref{fig:i_deltax} shows the increasing uncertainty in position. It increases almost constantly, only decreasing when the wave change direction. On the momentum side, \autoref{fig:i_deltap} shows the uncertainty in momentum. As opposed to the position spread, the uncertainty in momentum increases sharply at the times when the wave is reflected, increasing from less than 10 a.u. to about 50 a.u., before decreasing again to about 10 a.u.. Every reflection increases the spread of momentum. This will be further commented on when looking at the Heisenberg uncertainty principle.
 
 \begin{figure}[h]
     \centering
@@ -55,7 +55,7 @@ For a quantuum particle the uncertainty of its position and momentum is also a k
     \label{fig:i_deltax_deltap}
 \end{figure}
 
-Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature.
+Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature of the peak lines.
 
 \begin{figure}[h]
     \centering
@@ -63,6 +63,12 @@ Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notic
     \caption{feur}
     \label{fig:i_repsi}
 \end{figure}
+
+It is also interesting to compare a quantum particle with a classical particle sharing some physical properties. First looking at a particle starting with the same initial energy as the quantum particle, i.e. staring with a speed
+\begin{equation}
+    E = \frac{p^2}{2m} \stackrel{m=1,\ p=mv}{\implies} v = \pm \sqrt{2E}
+\end{equation}
+we obtain the movement shown in \autoref{fig:i_classical_vs_quantum_energy}. We chose the positive solution as we want both particles to move in the same direction initially. The same was done for a particle sharing the same initial momentum as the quantum particle, shown in \autoref{fig:i_classical_vs_quantum_momentum}. We notice that the particle sharing the same energy moves faster than the particle sharing the same initial momentum. The faster particle also doesn't match the quantum particle's average position, even before the first bounce, while the slower one matches the average position exactly, except at the borders. An interesting thing to note is that the classical particle with same momentum intersects with the average position of the quantum particle exactly at \(x=0\). From these observations we can deduce that there must be another component than the momentum contributing to the energy of the quantum particle, which is not the potential because it was set to 0.
 
 \begin{figure}[h]
     \centering
@@ -82,6 +88,8 @@ Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notic
     \label{fig:i_classical_vs_quantum}
 \end{figure}
 
+Let's also verify features of the the Crank Nicolson method. Firstly, it was shown in the book \cite{physnumbook} that this method conserves energy to machine precision. This phenomenon can clearly be seen in \autoref{fig:i_conservation_energy}, with the stairs clearly showing errors due to floating point approximations. The error on energy conservation was found to be on the order of \(10^{-10}\). This method is also supposed to conserve normalisation (i.e. probability), which is shown in \autoref{fig:i_conservation_probability}. It is clear that the total probability remains constant, at \(1\). Due to the smaller values of probability, the error on conservation of probability was found to be on the order of \(10^{-13}\).
+
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.55\linewidth}
@@ -100,9 +108,19 @@ Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notic
     \label{fig:i_conservation}
 \end{figure}
 
+Finally, we want to verify that the simulation produces sane physical results, more specifically that it follows the Heisenberg uncertainty principle. With our unit normalisation, this corresponds to:
+\begin{equation}
+    \langle \Delta x \rangle \langle \Delta p \rangle \ge \frac{1}{2}
+\end{equation}
+The results from the simulation are shown in \autoref{fig:i_heisenberg}. The minimal value for the product \(\langle \Delta x \rangle \langle \Delta p \rangle\) is around \(0.75\). We conclude that the Heisenberg uncertainty principle is respected. We notice that the product increases over time, meaning that we know less and less where the particle is and what momentum it has, as was seen previously.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/i_heisenberg.pdf}
     \caption{Verification of Heisenberg's uncertainty principle}
     \label{fig:i_heisenberg}
 \end{figure}
+
+\subsection{Well well well if it isnt the double potential well}
+
+feur all over heisenberg
