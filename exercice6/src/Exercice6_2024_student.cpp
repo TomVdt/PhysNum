@@ -18,7 +18,8 @@ constexpr double m = 1.0;
 
 enum PotentialType {
     DOUBLE_WELL,
-    STEP
+    STEP,
+    INV_STEP
 };
 
 // Fonction resolvant le systeme d'equations A * solution = rhs
@@ -55,6 +56,8 @@ double V_calculate(double x, double V0, double n_v, double xL, double xR, Potent
         return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
     } else if (type == STEP) {
         return ((x - xL)/(xR - xL) > 0.5) * V0;
+    } else if (type == INV_STEP) {
+        return ((x - xL)/(xR - xL) <= 0.5) * V0;
     }
     return 0.0;
 }
@@ -273,6 +276,8 @@ int main(int argc, char** argv) {
             pot_type = DOUBLE_WELL;
         } else if (tmp == "step") {
             pot_type = STEP;
+        } else if (tmp == "invstep") {
+            pot_type = INV_STEP;
         } else {
             throw runtime_error("Invalid potential type given");
         }

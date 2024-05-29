@@ -187,7 +187,41 @@ In a similar fashion the transmission probability ($P_\mathrm{trans}$) was calcu
 
 The first thing we can get from \autoref{fig:trans_energy} is that as expected the value of $P_\mathrm{trans}$ when $\qavg{E} = V_0$ is 0.5. We also see that in the extreme cases $\qavg{E}/V_0 \ll 1$ and $\qavg{E}/V_0 \gg 1$ we get closer to the classical intuition with respectively the probability going to 0 and 1. This correspond to a trapped particle in the first well of \autoref{fig:potential} and to a particle with way more energy than the barrier of potential it is inside of and thus passing it easily.
 
+\subsection{What if we changed the potential? jk... unless?}
 
+Another potential was also tested to look at the behavior of a quantum particle under different conditions. In quantum mechanics a step potential is often used to simplify some problems, like with an amonia particle. Here we set the potential to be:
+\begin{equation}
+    V(x) = \begin{cases}
+        \begin{aligned}
+            &0 &&\textrm{if } x <= 0 \\
+            &V_0 &&\textrm{if } x > 0
+        \end{aligned}
+    \end{cases}
+\end{equation}
+Using the same \(V_0\) as the previous sectionm, we obtain \autoref{fig:iii_normpsi}. The behavior is very similar to at double potential well, except that we have a much more visible interference. The potential wall is also very visible in this figure, due to the reflections it causes. For a \(V_0\) close to the energy of the particle, we gat an almost even split. For the case \(V_0 > \qavg{E}\), the wall acts almost like the edge, while still allowing some of the wave function through, meaning it is possible to find the particle inside the potential wall! Interference is very visible in the \(V_0 < \qavg{E}\) case, where the transmitted gets reflected back by the right hand side edge and interferes with the previously reflected wave.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/iii_normpsi.png}
+    \caption{Norm of wave functions $\psi$ for three scalings of $V_0$ relative to $\qavg{E}$, for a quantum particle inside a step potential}
+    \label{fig:iii_normpsi}
+\end{figure}
 
+A very interesting phenomenon occurs when we consider the same potential flipped along the y axis, meaning the particle starts in a high potential area. \autoref{fig:iii_normpsi_inv} shows the obtained wave function. At the edge of the potential we notice a change in slope: the particle moves faster when in the lower potential, resulting in a refraction-like effect. The same occurs when crossing the barrier in the other direction, with the speed reducing. This is shown more clearly on \autoref{fig:iii_pmoy_inv}.
 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/iii_normpsi_inv.png}
+        \caption{Norm of wave function $\psi$}
+        \label{fig:iii_normpsi_inv}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/iii_pmoy_inv.pdf}
+        \caption{Average momentum}
+        \label{fig:iii_pmoy_inv}
+    \end{subfigure}
+    \caption{Quantum particle starting in a high potential area, moving towards a lower potential}
+\end{figure}
