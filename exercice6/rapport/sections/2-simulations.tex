@@ -150,13 +150,44 @@ The results of \autoref{fig:tunnel_normpsi} show that the higher the potential $
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/tunnel_probtrans.pdf}
-    \caption{Probability of transition through the peak of a potential wall for three scalings of $V_0$ relative to $\qavg{E}$}
+    \caption{Probability of transmission through the peak of a potential wall for three scalings of $V_0$ relative to $\qavg{E}$}
     \label{fig:tunnel_probtrans}
 \end{figure}
 
 Both \autoref{fig:tunnel_normpsi} and \autoref{fig:tunnel_probtrans} both show the same behavior that for $V_0<\qavg{E}$ the particle mostly goes back and forth similar to a classical particle in a potential of the shape of \autoref{fig:potential}. It is not exactly the same as a classical particle since a small probability remains on both sides at any time, corresponding to a part of the wave begin reflected, whereas a classical particle would just be on one side or the other in a deterministic way. For $V_0 \approx \qavg{E}$ we find that the probability is after the first passage almost equal around 0.5 on both sides. We can compare this to a classical system being on the unstable peak of the potential and having equal odds of falling on both sides even if the quantum behaviour is significantly different than simply falling on one side. Finally for $V_0>\qavg{E}$ we have a probability of staying left that remains close to 1 but we do see a small probability to appear on the right side. This would be impossible in a classical description and is known as quantum tunneling.
 
 \subsubsection{Convergence analyses}
+We have observed the behaviour of quantum tunneling but it can now be interesting to find the characteristics of our numerical method in the simulation of this phenomenon. For this two convergence analyses were conducted for the probability of transmission, defined as the probability to find the particle in positive $x$ at $t=0.03$ i.e. $P_\mathrm{trans} = P_{x>0}(t=0.03)$, in the case $V_0 = E_\mathrm{free}$. The first analysis was done by taking powers of 2 for the number of intervals in order to avoid side effects by taking different points for the mesh. Taking only powers of 2 guarantee that all the previous points will be the same and only points will be added in between. Another convergence in values of $\Delta t$ was also conducted. Since the moment considered is at $t=0.03$ values of $\Delta t$ adding theoretically to 0.03 were taken. This gave the two convergence in order 2 shown respectively in \autoref{fig:conv-dx} and \autoref{fig:conv-dt}.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/conv_dx.pdf}
+        \caption{}
+        \label{fig:conv-dx}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \includegraphics[width=\linewidth]{figures/conv_dt.pdf}
+        \caption{}
+        \label{fig:conv-dt}
+    \end{subfigure}
+    \caption{Convergence analysis for (a) various numbers of intervals $N$, with $\Delta x = L/N$, and (b) various timesteps $\Delta t$}
+    \label{fig:convs}
+\end{figure}
+
+The converged values were also determined through a polynomial fit for the probability of transmission. This yielded for the convergence in $\Delta x$, $P_\mathrm{trans} = 0.476$, and for the one in $\Delta t$, $P_\mathrm{trans} = 0.477$. We do find similar and close to 0.5 probabilities as we expected. Thus we can assume that a particle arriving with an energy exactly equal to the peak of the potential would have a probability transmission of 0.5. It is important to note here that the convergences were done with $V_0 = E_\mathrm{free}$ the energy for a free particle in a null potential so in this case $V_0 \neq \qavg{E}$ it is only approximately equal.
+
+\subsubsection{Transmission probability}
+In a similar fashion the transmission probability ($P_\mathrm{trans}$) was calculated for various simulations at different energies. The results are shown in \autoref{fig:trans_energy}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.6\linewidth]{figures/energy_probtrans.pdf}
+    \caption{Probability of transmission according to the ratio of the peak of potential $V_0$ and the energy of the particle $\qavg{E}$}
+    \label{fig:trans_energy}
+\end{figure}
+
+The first thing we can get from \autoref{fig:trans_energy} is that as expected the value of $P_\mathrm{trans}$ when $\qavg{E} = V_0$ is 0.5. We also see that in the extreme cases $\qavg{E}/V_0 \ll 1$ and $\qavg{E}/V_0 \gg 1$ we get closer to the classical intuition with respectively the probability going to 0 and 1. This correspond to a trapped particle in the first well of \autoref{fig:potential} and to a particle with way more energy than the barrier of potential it is inside of and thus passing it easily.
+
+
 
 
 
