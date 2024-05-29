@@ -191,7 +191,7 @@ void normalize(vec_cmplx& psi, double dx) {
 void write_observables(std::ofstream& fichier_observables, 
                         double t, const vector<double>& x, const vec_cmplx& psi, 
                         const vec_cmplx& H_psi, double dx, size_t Nx0, bool convergence = false) {
-    if (!convergence){
+    if (!convergence) {
         fichier_observables << t << " "
             << prob(psi, dx, 0, Nx0) << " "
             << prob(psi, dx, Nx0, x.size() - 1) << " "
@@ -200,7 +200,7 @@ void write_observables(std::ofstream& fichier_observables,
             << x2moy(x, psi, dx) << " "
             << pmoy(psi, dx) << " "
             << p2moy(psi, dx) << endl;
-    } else if (convergence){
+    } else if (convergence) {
         fichier_observables << t << " "
             << prob(psi, dx, 0, Nx0) << " "
             << prob(psi, dx, Nx0, x.size() - 1) << " "
@@ -362,7 +362,7 @@ int main(int argc, char** argv) {
     write_observables(fichier_observables, t, x, psi, H_psi, dx, Nx0, convergence);
 
     // Time loop:    
-    while (t < tfin) {
+    while (t < tfin - 0.5 * dt) {
 
         // Compute right hand side term
         vec_cmplx psi_tmp(Npoints, 0.);
@@ -373,10 +373,12 @@ int main(int argc, char** argv) {
         t += dt;
 
         // Write psi at t
-        for (int i(0); i < Npoints; ++i) {
-            fichier_psi << pow(abs(psi[i]), 2) << " " << real(psi[i]) << " " << imag(psi[i]) << " ";
+        if (!convergence) {
+            for (int i(0); i < Npoints; ++i) {
+                fichier_psi << pow(abs(psi[i]), 2) << " " << real(psi[i]) << " " << imag(psi[i]) << " ";
+            }
+            fichier_psi << endl;
         }
-        fichier_psi << endl;
 
         // Writing observables
         H_psi = diag_matrix_vector(dH, aH, cH, psi);
