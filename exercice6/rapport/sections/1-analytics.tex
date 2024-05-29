@@ -11,12 +11,8 @@ where \(V_0\) and \(n_V\) are given for the simulations. We define \(L = x_R - x
     \psi(x, t=0) = C \exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)
 \end{equation}
 where $k_0$ is the wave number defined as $k_0 = 2\pi n/L$, $x_0$ is the center of the packet and \mbox{$\sigma = \sigma_{norm}L$} is its standard deviation. For the simulations, $n$, $x_0$ and $\sigma_{norm}$ will be given. We find that the wavelength is $\lambda = 2\pi/k_0 = L/n$ and the standard deviation of the packet is also proportional to the length. This gives a simulation scaled to the length of the potential well. Quantum mechanics require normalised states so \(C\) is a constant such that \mbox{\(\int_{x_L}^{x_R}|\psi(x,0)|^2 dx = 1\)}, i.e.
-% \begin{equation}
-%     C = \left. 1\middle/\sqrt{\int_{x_L}^{x_R} \left|\exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)\right|^2 \mathrm{d}x} \right.
-% \end{equation}
 \begin{equation}
-    C = \frac{1}{\sqrt{\int_{x_L}^{x_R} \left|\exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)\right|^2 \mathrm{d}x}}
-    \label{eq:c_norm}
+    C = \left. 1\middle/\sqrt{\int_{x_L}^{x_R} \left|\exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)\right|^2 \mathrm{d}x} \right.
 \end{equation}
 calculated numerically at the beginning of the simulation.
 
