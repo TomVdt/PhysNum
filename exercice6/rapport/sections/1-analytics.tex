@@ -6,7 +6,7 @@ The theory behind this system as well as the theory behind the Crank-Nicolson me
 \begin{equation}
     V(x) = \frac{1}{2} V_0 \left( 1 + \cos \left( 2\pi n_V \frac{x - x_L}{x_R - x_L} \right) \right)
 \end{equation}
-where \(V_0\) and \(n_V\) are given for the simulations. We define \(L = x_R - x_L\) the length of the potential well. The system is initialised as a Gaussian wave packet:
+where \(V_0\) and \(n_V\) are given in the simulations. We define \(L = x_R - x_L\) the length of the potential well. The system is initialised as a Gaussian wave packet:
 \begin{equation}
     \psi(x, t=0) = C \exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)
 \end{equation}
@@ -20,13 +20,13 @@ calculated numerically at the beginning of the simulation.
 
 Every integral presented here will be calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 0, \dots, N'\), is the uniformly discretized interval between \(x_a\) and \(x_b\) given by the mesh, and where \(N'\) is the number of intervals considered:
 \begin{equation}
-    \int_{x_a}^{x_b} f(x) \dd x = \Delta x \sum_{i=1}^N \frac{f(x_i) + f(x_{i+1})}{2}
+    \int_{x_a}^{x_b} f(x) \dd x = \Delta x \sum_{i=0}^{N'} \frac{f(x_i) + f(x_{i+1})}{2}
 \end{equation}
 The method used for derivation is finite differences. For first derivatives this is given by:
 \begin{equation}
     \frac{\partial \psi}{\partial x}(x) = \frac{\psi(x+\Delta x) - \psi(x - \Delta x)}{2\Delta x}
 \end{equation}
-and for the border cases we take forward and backward finite differences. For second derivatives we have:
+and for the edge cases we take forward and backward finite differences. For second derivatives we have:
 \begin{equation}
     \frac{\partial^2 \psi}{\partial x^2}(x) = \frac{\psi(x+\Delta x) - 2\psi(x) + \psi(x - \Delta x)}{\Delta x^2}
     \label{eq:second_derivative}
