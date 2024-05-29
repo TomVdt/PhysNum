@@ -128,21 +128,35 @@ The results from the simulation are shown in \autoref{fig:i_heisenberg}. The min
     \label{fig:i_heisenberg}
 \end{figure}
 
+% \newpage
 \subsection{Double potential well with quantum tunneling}
 \begin{wrapfigure}{R}{0.6\linewidth}
     \includegraphics[width=\linewidth]{figures/potential.pdf}
     \caption{Double potential well with $V_0 = E_\mathrm{free}$}
     \label{fig:potential}
 \end{wrapfigure}
-We now want to simulate a similar simulation with $V_0 \neq 0$. This simulation is done to analyse the quantum tunneling phenomenon that shows particles going through potential walls of higher value than their energy. For this we take various simulations with $V_0$ scaled to the energy of a free particle in an infinite potential well as determined in \autoref{sec:crank} with \autoref{fig:i_conservation_energy}: $E_\mathrm{free} = 1283.20379625$. One example of a potential with $V_0 = E_\mathrm{free}$ is shown in \autoref{fig:potential}.
+We now want to simulate a similar simulation with $V_0 \neq 0$. This simulation is done to analyse the quantum tunneling phenomenon that shows particles going through potential walls of higher value than their energy. For this we take various simulations with $V_0$ scaled to the energy of a free particle in an infinite potential well as determined in \autoref{sec:crank} with \autoref{fig:i_conservation_energy}: $E_\mathrm{free} = 1283.204$. One example of a potential with $V_0 = E_\mathrm{free}$ is shown in \autoref{fig:potential}.
 
-The first analysis done is of the value $|\psi(x,t)|$ in three specific situations $V_0<\langle E \rangle$, $V_0\approx\langle E \rangle$ and $V_0>\langle E \rangle$. By taking values for $V_0$ of $E_\mathrm{free}/2$, $E_\mathrm{free}$ and $1.5 E_\mathrm{free}$ we obtain the norm of wave functions shown in \autoref{fig:tunnel_normpsi}
+\subsubsection{General behaviour of quantum tunneling}
+The first analysis done is of the value $|\psi(x,t)|$ in three specific situations $V_0<\langle E \rangle$, $V_0\approx\langle E \rangle$ and $V_0>\langle E \rangle$ by taking values for $V_0$ of $E_\mathrm{free}/2$, $E_\mathrm{free}$ and $1.5 E_\mathrm{free}$ we obtain the norms of wave functions shown in \autoref{fig:tunnel_normpsi}
 \begin{figure}[h]
     \centering
     \includegraphics[width = \linewidth]{figures/tunnel_normpsi.png}
-    \caption{Norm of wave functions $\psi$ for three scalings of $V_0$}
+    \caption{Norm of wave functions $\psi$ for three scalings of $V_0$ relative to $\qavg{E}$}
     \label{fig:tunnel_normpsi}
 \end{figure}
+
+The results of \autoref{fig:tunnel_normpsi} show that the higher the potential $V_0$ is relative to the average energy $\qavg{E}$ the lower the probability is of going through the maximum of the potential at $x=0$. The situation with $V_0 > \qavg{E}$ shows a very small part of the wave passing through to positive values of $x$. There is still a part so it does show that it is possible to detect the particle on the other side of a potential wall that would be high to pass in a classical description. We can quantify this by considering the probability of finding the particle on each side of $x=0$ noted as $P_{x<0}(t)$ and $P_{x>0}(t)$. This is shown in \autoref{fig:tunnel_probtrans}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/tunnel_probtrans.pdf}
+    \caption{Probability of transition through the peak of a potential wall for three scalings of $V_0$ relative to $\qavg{E}$}
+    \label{fig:tunnel_probtrans}
+\end{figure}
+
+Both \autoref{fig:tunnel_normpsi} and \autoref{fig:tunnel_probtrans} both show the same behavior that for $V_0<\qavg{E}$ the particle mostly goes back and forth similar to a classical particle in a potential of the shape of \autoref{fig:potential}. It is not exactly the same as a classical particle since a small probability remains on both sides at any time, corresponding to a part of the wave begin reflected, whereas a classical particle would just be on one side or the other in a deterministic way. For $V_0 \approx \qavg{E}$ we find that the probability is after the first passage almost equal around 0.5 on both sides. We can compare this to a classical system being on the unstable peak of the potential and having equal odds of falling on both sides even if the quantum behaviour is significantly different than simply falling on one side. Finally for $V_0>\qavg{E}$ we have a probability of staying left that remains close to 1 but we do see a small probability to appear on the right side. This would be impossible in a classical description and is known as quantum tunneling.
+
+\subsubsection{Convergence analyses}
 
 
 
