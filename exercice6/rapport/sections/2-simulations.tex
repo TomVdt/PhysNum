@@ -58,11 +58,10 @@ In this section we will consider \(V_0 = 0\), which means that the particle is s
 \end{figure}
 
 \paragraph{Group and phase velocity} Looking at the real part of the wave in \autoref{fig:i_repsi} allows us to notice a difference between the phase and group velocity. Indeed, we notice that peaks move along a slightly different path than the probability density shown before, meaning that the phase velocity is different to the group velocity. The phase velocity can be read with the slope of the peaks of the real part, using \(\dd x / \dd t = v\). From this we see that phase velocity is slower than the group velocity, as the slope \(\dd x / \dd t\) of the peak of the probability density is greater than that of the real part. The waves with slightly different initial velocities also split appart, resulating in the effect seen in \autoref{fig:i_normpsi} before. The speed of the peaks of the real part of the wave also decrease when approaching the walls, as can be seen by the slight curvature of the peak lines.
-
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/i_repsi.png}
-    \caption{feur}
+    \caption{Real part of the wave function of a quantum particle in an infinite potential well}
     \label{fig:i_repsi}
 \end{figure}
 
@@ -88,7 +87,7 @@ we obtain the movement shown in \autoref{fig:i_classical_vs_quantum_energy}. We 
         \caption{Same initial momentum}
         \label{fig:i_classical_vs_quantum_momentum}
     \end{subfigure}
-    \caption{feur}
+    \caption{Comparing the quantum particle to a classical particle sharing some physical properties}
     \label{fig:i_classical_vs_quantum}
 \end{figure}
 
@@ -115,18 +114,19 @@ Let's also verify features of the the Crank Nicolson method. Firstly, it was sho
     \label{fig:i_conservation}
 \end{figure}
 
+\begin{wrapfigure}{R}{0.5\linewidth}
+    % \vspace*{-0.5cm}
+    \centering
+    \includegraphics[width=\linewidth]{figures/i_heisenberg.pdf}
+    \caption{Verification of Heisenberg's uncertainty principle}
+    \label{fig:i_heisenberg}
+    % \vspace*{-0.5cm}
+\end{wrapfigure}
 \paragraph{Heisenberg uncertainty principle} Finally, we want to verify that the simulation produces sane physical results, more specifically that it follows the Heisenberg uncertainty principle. With our unit normalisation, this corresponds to:
 \begin{equation}
     \langle \Delta x \rangle \langle \Delta p \rangle \ge \frac{1}{2}
 \end{equation}
 The results from the simulation are shown in \autoref{fig:i_heisenberg}. The minimal value for the product \(\langle \Delta x \rangle \langle \Delta p \rangle\) is around \(0.75\). We conclude that the Heisenberg uncertainty principle is respected. We notice that the product increases over time, meaning that we know less and less where the particle is and what momentum it has, as was seen previously.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/i_heisenberg.pdf}
-    \caption{Verification of Heisenberg's uncertainty principle}
-    \label{fig:i_heisenberg}
-\end{figure}
 
 % \newpage
 \subsection{Double potential well with quantum tunneling}

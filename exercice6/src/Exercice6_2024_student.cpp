@@ -16,6 +16,11 @@ constexpr complex<double> complex_i = complex<double>(0, 1); // Nombre imaginair
 constexpr double hbar = 1.0;
 constexpr double m = 1.0;
 
+enum PotentialType {
+    DOUBLE_WELL,
+    STEP
+};
+
 // Fonction resolvant le systeme d'equations A * solution = rhs
 // où A est une matrice tridiagonale
 template<class T>
@@ -45,8 +50,13 @@ void triangular_solve(
 }
 
 // Potential V(x)
-double V_calculate(double x, double V0, double n_v, double xL, double xR) {
-    return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
+double V_calculate(double x, double V0, double n_v, double xL, double xR, PotentialType type) {
+    if (type == DOUBLE_WELL) {
+        return 1.0/2.0 * V0 * (1.0 + cos(2.0 * M_PI * n_v * (x - xL)/(xR - xL)));
+    } else if (type == STEP) {
+        return ((x - xL)/(xR - xL) > 0.5) * V0;
+    }
+    return 0.0;
 }
 
 // Declaration des diagnostiques de la particule d'apres sa fonction d'onde psi :
@@ -256,6 +266,17 @@ int main(int argc, char** argv) {
     const double dx = L / Nintervals;
     // Is a convergence analysis being done
     bool convergence = configFile.get<bool>("convergence");
+    PotentialType pot_type;
+    {
+        string tmp = configFile.get<string>("potential");
+        if (tmp == "well") {
+            pot_type = DOUBLE_WELL;
+        } else if (tmp == "step") {
+            pot_type = STEP;
+        } else {
+            throw runtime_error("Invalid potential type given");
+        }
+    }
     
     // Parameters for initialisation
     const double x0 = configFile.get<double>("x0");
@@ -296,7 +317,7 @@ int main(int argc, char** argv) {
     // Vector of potential at each position
     vector<double> V(Npoints);
     for (size_t i(0); i < V.size(); ++i) {
-        V.at(i) = V_calculate(x.at(i), V0, n_v, xL, xR);
+        V.at(i) = V_calculate(x.at(i), V0, n_v, xL, xR, pot_type);
     }
 
     // Vector of the values of b of equation (4.100)

@@ -82,11 +82,16 @@ Using the formula for $\mathbf{A}$ and $\mathbf{B}$ we find $aA_i = -aB_i = -a ,
 
 The border conditions imposed \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\). This was implemented by setting the coefficients of \(A\) and \(B\) matrices such that: FEUR CA ME SAOULE
 
-
 A few observables are implemented to be returned by the simulation. First, the probability to find the particle with an observation between two given points $x_a$ and $x_b$ is implemented as:
 \begin{equation}
     \mathrm{P}(x\in[x_a,x_b]) = \int_{x_a}^{x_b}|\psi(x,t)|^2 dx = \int_{x_a}^{x_b}\psi^*(x,t)\psi(x,t) dx
 \end{equation}
-which is how \autoref{eq:c_norm} is calculated with before the normalisation $C=1$ and a the probability calculated for $x_a = x_L$ and $x_b = x_R$.
 
-
+The other observables are computed according to the discretisation formulas. These observables are:
+\begin{itemize}
+    \item Energy of particle: \(E(t) = \qavg{H}(t) = \int_{x_L}^{x_R} \psi^*(x,t) H(x) \psi(x,t) \dd x\)
+    \item Average position: \(\qavg{x}(t) = \int_{x_L}^{x_R} \psi^*(x,t) x \psi(x,t) \dd x\)
+    \item Average \(x^2\): \(\qavg{x^2}(t) = \int_{x_L}^{x_R} \psi^*(x,t) x^2 \psi(x,t) \dd x\)
+    \item Average momentum: \(\qavg{p}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \left( -i \hbar \frac{\partial \psi(x,t)}{\partial x} \right) \dd x\)
+    \item Average \(p^2\): \(\qavg{p^2}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \left( - \hbar^2 \frac{\partial^2 \psi(x,t)}{\partial x^2} \right) \dd x\). We consider the second derivatives at the borders to be \(0\)
+\end{itemize}
