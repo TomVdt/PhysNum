@@ -1,8 +1,8 @@
 \section{Analytical results}
 
-The theory behind this system as well as the theory behind the Crank-Nicolson method is shown in the numerical physics book \cite{physnumbook} in section 4.3. Some implementation details will be shown here.
+The theory behind this system as well as the theory behind the Crank-Nicolson method is given in the numerical physics book \cite{physnumbook} in section 4.3. Some implementation details will be shown here.
 
-The studied system is in 1 dimension located between \(x_L\) and \(x_R\) (\(x_L < x_R\)), with a potential given by:
+\paragraph{Physical characteristics} The studied system is in 1 dimension located between \(x_L\) and \(x_R\) (\(x_L < x_R\)), with a potential given by:
 \begin{equation}
     V(x) = \frac{1}{2} V_0 \left( 1 + \cos \left( 2\pi n_V \frac{x - x_L}{x_R - x_L} \right) \right)
 \end{equation}
@@ -16,11 +16,11 @@ where $k_0$ is the wave number defined as $k_0 = 2\pi n/L$, $x_0$ is the center 
 \end{equation}
 calculated numerically at the beginning of the simulation.
 
-The numerical simulation requires an uniform mesh $\{x_i\}_{i=0}^N$ for the positions where $N$ is the number of intervals in the mesh. The simulation takes $N$ and calculates the space between each point $\Delta x = L/N$. The constant timestep $\Delta t$ is also given.
+\paragraph{Numerical characteristics} The numerical simulation requires an uniform mesh $\{x_i\}_{i=0}^N$ for the positions where $N$ is the number of intervals in the mesh. The simulation takes $N$ and calculates the space between each point $\Delta x = L/N$. The constant timestep $\Delta t$ is also given.
 
-Every intergal presented here will be calculated calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 1, \dots, N+1\), is the uniformly discretized interval between \(x_a\) and \(x_b\) given by the mesh, and where \(N\) is the number of intervals:
+Every integral presented here will be calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 0, \dots, N'\), is the uniformly discretized interval between \(x_a\) and \(x_b\) given by the mesh, and where \(N'\) is the number of intervals considered:
 \begin{equation}
-    \int_{x_a}^{x_b} f(x) \dd x = \frac{x_b - x_a}{N} \sum_{i=1}^N \frac{f(x_i) + f(x_{i+1})}{2}
+    \int_{x_a}^{x_b} f(x) \dd x = \Delta x \sum_{i=1}^N \frac{f(x_i) + f(x_{i+1})}{2}
 \end{equation}
 The method used for derivation is finite differences. For first derivatives this is given by:
 \begin{equation}
@@ -33,11 +33,11 @@ and for the border cases we take forward and backward finite differences. For se
 \end{equation}
 and border cases use the same formula, with $\psi \equiv 0$ outside of $[x_L,x_R]$, if not mentioned otherwise.
 
-For the time evolution the Crank-Nicolson method corresponding to Equation (4.90) in the numerical physics book \cite{physnumbook} is implemented. For this three matrices are implemented similarly: the hamiltonian $\mathbf{H}$ and the matrices $\mathbf{A}$ and $\mathbf{B}$ from Equation (4.99) of the book \cite{physnumbook} giving:
+\paragraph{Implementation of Crank-Nicolson} For the time evolution the Crank-Nicolson method corresponding to Equation (4.90) in the numerical physics book \cite{physnumbook} is implemented. For this three matrices are implemented similarly: the hamiltonian $\mathbf{H}$ and the matrices $\mathbf{A}$ and $\mathbf{B}$ from Equation (4.99) of the book \cite{physnumbook} that are such that:
 \begin{equation}
     \mathbf{A} \Psi(t+\Delta t) = \mathbf{B} \Psi(t)
 \end{equation}
-with $\Psi$ the vector of the values of $\psi$ for every point $x_i$ of the mesh. The matrices $\mathbf{A}$ and $\mathbf{B}$ correspond respectively to $\mathbf{I} \pm (i/\hbar)(\Delta t/2) \mathbf{H}$ with $\mathbf{I}$ the identity. We thus need to find the implementation for $\mathbf{H}$ first. It is given that the corresponding operator is:
+with $\Psi$ the vector of the values of $\psi$ for every point $x_i$ of the mesh. The matrices $\mathbf{A}$ and $\mathbf{B}$ correspond respectively to $\mathbf{I} \pm (i \Delta t)/(2\hbar) \mathbf{H}$ with $\mathbf{I}$ the identity. We thus need to find the implementation for $\mathbf{H}$ first. It is given that the corresponding operator is:
 \begin{equation}
     \hat{\mathrm{H}}(x) = -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x)
 \end{equation}
@@ -73,21 +73,35 @@ with $\alpha = \hbar^2/(2m\Delta x^2)$. We take the same representation for $\ma
         \end{matrix} \right)
 \end{equation}
 
-TODO C EST MOCHE FAIRE UNE JOLIE EQUATION
-Using the formula for $\mathbf{A}$ and $\mathbf{B}$ we find $aA_i = -aB_i = -a , \forall i \in\{1, \dots, N-2\}$ and $dA_i = 1 + 2a + b, dB_i = 1 - 2a - b , \forall i \in\{1, \dots, N-1\}$ with $a = (i\hbar \Delta t)/(4m \Delta x^2)$ and $b = (i\Delta t V)/(2\hbar)$
+Using the formula for $\mathbf{A}$ and $\mathbf{B}$ we find:
+\begin{equation}
+    \begin{cases}
+        aA_i = cA_i = -a &, \, i \in\{1, \dots, N-2\} \\
+        aB_i = cB_i = a &, \, i \in\{1, \dots, N-2\} \\
+        dA_i = 1 + 2a + b, \, dB_i = 1 - 2a - b  &, \, i \in\{1, \dots, N-1\}
+    \end{cases}
+\end{equation}
+with $a = (i\hbar \Delta t)/(4m \Delta x^2)$ and $b = (i\Delta t V)/(2\hbar)$.
 
-The border conditions imposed \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\). This was implemented by setting the coefficients of \(A\) and \(B\) matrices such that: FEUR CA ME SAOULE
+The border conditions imposed \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\). This was implemented by setting the coefficients of \(\mathbf{A}\) and \(\mathbf{B}\) at the extremities of the three diagonals as:
+\begin{equation}
+    \begin{cases}
+        aA_i = cA_i = 0  &, \, i \in \{0, N-1\} \\
+        aB_i = cB_i = 0  &, \, i \in \{0, N-1\} \\
+        dA_i = dB_i = 1  &, \, i \in \{0, N\}
+    \end{cases}
+\end{equation}
 
 A few observables are implemented to be returned by the simulation. First, the probability to find the particle with an observation between two given points $x_a$ and $x_b$ is implemented as:
 \begin{equation}
     \mathrm{P}(x\in[x_a,x_b]) = \int_{x_a}^{x_b}|\psi(x,t)|^2 dx = \int_{x_a}^{x_b}\psi^*(x,t)\psi(x,t) dx
 \end{equation}
 
-The other observables are computed according to the discretisation formulas. These observables are:
+The other observables are also computed according to the discretisation formulas. These observables are:
 \begin{itemize}
-    \item Energy of particle: \(E(t) = \qavg{H}(t) = \int_{x_L}^{x_R} \psi^*(x,t) H(x) \psi(x,t) \dd x\)
+    \item Energy of the particle: \(E(t) = \qavg{H}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \hat{\mathrm{H}}(x) \psi(x,t) \dd x\)
     \item Average position: \(\qavg{x}(t) = \int_{x_L}^{x_R} \psi^*(x,t) x \psi(x,t) \dd x\)
     \item Average \(x^2\): \(\qavg{x^2}(t) = \int_{x_L}^{x_R} \psi^*(x,t) x^2 \psi(x,t) \dd x\)
     \item Average momentum: \(\qavg{p}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \left( -i \hbar \frac{\partial \psi(x,t)}{\partial x} \right) \dd x\)
-    \item Average \(p^2\): \(\qavg{p^2}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \left( - \hbar^2 \frac{\partial^2 \psi(x,t)}{\partial x^2} \right) \dd x\). We consider the second derivatives at the borders to be \(0\)
+    \item Average \(p^2\): \(\qavg{p^2}(t) = \int_{x_L}^{x_R} \psi^*(x,t) \left( - \hbar^2 \frac{\partial^2 \psi(x,t)}{\partial x^2} \right) \dd x\). We consider the second derivatives at the borders to be \(0\) here.
 \end{itemize}

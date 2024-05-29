@@ -114,27 +114,29 @@ Let's also verify features of the the Crank Nicolson method. Firstly, it was sho
     \label{fig:i_conservation}
 \end{figure}
 
-\begin{wrapfigure}{R}{0.5\linewidth}
-    % \vspace*{-0.5cm}
-    \centering
-    \includegraphics[width=\linewidth]{figures/i_heisenberg.pdf}
-    \caption{Verification of Heisenberg's uncertainty principle}
-    \label{fig:i_heisenberg}
-    % \vspace*{-0.5cm}
-\end{wrapfigure}
 \paragraph{Heisenberg uncertainty principle} Finally, we want to verify that the simulation produces sane physical results, more specifically that it follows the Heisenberg uncertainty principle. With our unit normalisation, this corresponds to:
 \begin{equation}
     \langle \Delta x \rangle \langle \Delta p \rangle \ge \frac{1}{2}
 \end{equation}
 The results from the simulation are shown in \autoref{fig:i_heisenberg}. The minimal value for the product \(\langle \Delta x \rangle \langle \Delta p \rangle\) is around \(0.75\). We conclude that the Heisenberg uncertainty principle is respected. We notice that the product increases over time, meaning that we know less and less where the particle is and what momentum it has, as was seen previously.
+\begin{figure}[H]
+    % \vspace*{-0.5cm}
+    \centering
+    \includegraphics[width=0.45\linewidth]{figures/i_heisenberg.pdf}
+    \caption{Verification of Heisenberg's uncertainty principle}
+    \label{fig:i_heisenberg}
+    % \vspace*{-0.5cm}
+\end{figure}
 
 % \newpage
-\subsection{Double potential well with quantum tunneling}
-\begin{wrapfigure}{R}{0.6\linewidth}
+\begin{wrapfigure}{R}{0.45\linewidth}
+    % \vspace*{-0.5cm}
     \includegraphics[width=\linewidth]{figures/potential.pdf}
-    \caption{Double potential well with $V_0 = E_\mathrm{free}$}
+    \caption{Double potential well with \mbox{$V_0 = E_\mathrm{free}$}}
     \label{fig:potential}
+    % \vspace*{-0.5cm}
 \end{wrapfigure}
+\subsection{Double potential well with quantum tunneling}
 We now want to simulate a similar simulation with $V_0 \neq 0$. This simulation is done to analyse the quantum tunneling phenomenon that shows particles going through potential walls of higher value than their energy. For this we take various simulations with $V_0$ scaled to the energy of a free particle in an infinite potential well as determined in \autoref{sec:crank} with \autoref{fig:i_conservation_energy}: $E_\mathrm{free} = 1283.204$. One example of a potential with $V_0 = E_\mathrm{free}$ is shown in \autoref{fig:potential}.
 
 \subsubsection{General behaviour of quantum tunneling}
@@ -187,7 +189,7 @@ In a similar fashion the transmission probability ($P_\mathrm{trans}$) was calcu
 
 The first thing we can get from \autoref{fig:trans_energy} is that as expected the value of $P_\mathrm{trans}$ when $\qavg{E} = V_0$ is 0.5. We also see that in the extreme cases $\qavg{E}/V_0 \ll 1$ and $\qavg{E}/V_0 \gg 1$ we get closer to the classical intuition with respectively the probability going to 0 and 1. This correspond to a trapped particle in the first well of \autoref{fig:potential} and to a particle with way more energy than the barrier of potential it is inside of and thus passing it easily.
 
-\subsection{What if we changed the potential? jk... unless?}
+\subsection{What if we changed the potential? \textcolor{white}{jk... unless?}}
 
 Another potential was also tested to look at the behavior of a quantum particle under different conditions. In quantum mechanics a step potential is often used to simplify some problems, like with an amonia particle. Here we set the potential to be:
 \begin{equation}
