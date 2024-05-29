@@ -2,42 +2,91 @@
 
 The theory behind this system as well as the theory behind the Crank-Nicolson method is shown in the numerical physics book \cite{physnumbook} in section 4.3. Some implementation details will be shown here.
 
-The studied system is located between \(x_L\) and \(x_R\) (\(x_L < x_R\)), with a potential given by:
+The studied system is in 1 dimension located between \(x_L\) and \(x_R\) (\(x_L < x_R\)), with a potential given by:
 \begin{equation}
     V(x) = \frac{1}{2} V_0 \left( 1 + \cos \left( 2\pi n_V \frac{x - x_L}{x_R - x_L} \right) \right)
 \end{equation}
-where \(V_0\) and \(n_V\) are given during the simulations. We define \(L = x_R - x_L\)
+where \(V_0\) and \(n_V\) are given for the simulations. We define \(L = x_R - x_L\) the length of the potential well. The system is initialised as a Gaussian wave packet:
+\begin{equation}
+    \psi(x, t=0) = C \exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)
+\end{equation}
+where $k_0$ is the wave number defined as $k_0 = 2\pi n/L$, $x_0$ is the center of the packet and \mbox{$\sigma = \sigma_{norm}L$} is its standard deviation. For the simulations, $n$, $x_0$ and $\sigma_{norm}$ will be given. We find that the wavelength is $\lambda = 2\pi/k_0 = L/n$ and the standard deviation of the packet is also proportional to the length. This gives a simulation scaled to the length of the potential well. Quantum mechanics require normalised states so \(C\) is a constant such that \mbox{\(\int_{x_L}^{x_R}|\psi(x,0)|^2 dx = 1\)}, i.e.
+% \begin{equation}
+%     C = \left. 1\middle/\sqrt{\int_{x_L}^{x_R} \left|\exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)\right|^2 \mathrm{d}x} \right.
+% \end{equation}
+\begin{equation}
+    C = \frac{1}{\sqrt{\int_{x_L}^{x_R} \left|\exp(i k_0 x)\exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)\right|^2 \mathrm{d}x}}
+    \label{eq:c_norm}
+\end{equation}
+calculated numerically at the beginning of the simulation.
 
-Every intergal will be calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 1, \dots, N+1\), is the uniformly discretized interval between \(x_a\) and \(x_b\), and where \(N\) is the number of intervals:
+The numerical simulation requires an uniform mesh $\{x_i\}_{i=0}^N$ for the positions where $N$ is the number of intervals in the mesh. The simulation takes $N$ and calculates the space between each point $\Delta x = L/N$. The constant timestep $\Delta t$ is also given.
+
+Every intergal presented here will be calculated calculated using the trapezoïdal method, where \(\{x_i\}\), \(i = 1, \dots, N+1\), is the uniformly discretized interval between \(x_a\) and \(x_b\) given by the mesh, and where \(N\) is the number of intervals:
 \begin{equation}
     \int_{x_a}^{x_b} f(x) \dd x = \frac{x_b - x_a}{N} \sum_{i=1}^N \frac{f(x_i) + f(x_{i+1})}{2}
 \end{equation}
-The matrices where constructed according to the given equations TODO: MARTIN HELP PLZ.
+The method used for derivation is finite differences. For first derivatives this is given by:
 \begin{equation}
-    A \psi_{t+1} = B \psi_t
+    \frac{\partial \psi}{\partial x}(x) = \frac{\psi(x+\Delta x) - \psi(x - \Delta x)}{2\Delta x}
 \end{equation}
-The border conditions imposed to force \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\) were implemented by setting the \(A\) and \(B\) matrices such that:
+and for the border cases we take forward and backward finite differences. For second derivatives we have:
+\begin{equation}
+    \frac{\partial^2 \psi}{\partial x^2}(x) = \frac{\psi(x+\Delta x) - 2\psi(x) + \psi(x - \Delta x)}{\Delta x^2}
+    \label{eq:second_derivative}
+\end{equation}
+and border cases use the same formula, with $\psi \equiv 0$ outside of $[x_L,x_R]$, if not mentioned otherwise.
+
+For the time evolution the Crank-Nicolson method corresponding to Equation (4.90) in the numerical physics book \cite{physnumbook} is implemented. For this three matrices are implemented similarly: the hamiltonian $\mathbf{H}$ and the matrices $\mathbf{A}$ and $\mathbf{B}$ from Equation (4.99) of the book \cite{physnumbook} giving:
+\begin{equation}
+    \mathbf{A} \Psi(t+\Delta t) = \mathbf{B} \Psi(t)
+\end{equation}
+with $\Psi$ the vector of the values of $\psi$ for every point $x_i$ of the mesh. The matrices $\mathbf{A}$ and $\mathbf{B}$ correspond respectively to $\mathbf{I} \pm (i/\hbar)(\Delta t/2) \mathbf{H}$ with $\mathbf{I}$ the identity. We thus need to find the implementation for $\mathbf{H}$ first. It is given that the corresponding operator is:
+\begin{equation}
+    \hat{\mathrm{H}}(x) = -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x)
+\end{equation}
+By applying the method from \autoref{eq:second_derivative} we know that the matrix representation will only be tridiagonal and we find:
+\begin{equation}
+    \mathbf{H} = \left( \begin{matrix}
+        dH_0 & cH_0      &          &   \\
+        aH_0 & \ddots    &          &   \\
+             &           & \ddots   & cH_{N-1} \\
+             &           & aH_{N-1} & dH_N
+        \end{matrix} \right)
+        , \qquad 
+        \begin{cases} aH_i = cH_i = -\alpha &, \forall i \\
+        &\\
+        dH_i = 2\alpha + V(x_i) &, \forall i
+        \end{cases}
+        \label{eq:H_matrix}
+\end{equation}
+with $\alpha = \hbar^2/(2m\Delta x^2)$. We take the same representation for $\mathbf{A}$ and $\mathbf{B}$:
 \begin{equation}
     A = \left( \begin{matrix}
-        1 & 0      &        &   \\
-        0 & \ddots &        &   \\
-          &        & \ddots & 0 \\
-          &        & 0      & 1
-    \end{matrix} \right)
+        dA_0 & cA_0      &          &   \\
+        aA_0 & \ddots    &          &   \\
+             &           & \ddots   & cA_{N-1} \\
+             &           & aA_{N-1} & dA_N
+        \end{matrix} \right)
     ,\qquad
     B = \left( \begin{matrix}
-        1 & 0      &        &   \\
-        0 & \ddots &        &   \\
-          &        & \ddots & 0 \\
-          &        & 0      & 1
-    \end{matrix} \right)
+        dB_0 & cB_0      &          &   \\
+        aB_0 & \ddots    &          &   \\
+             &           & \ddots   & cB_{N-1} \\
+             &           & aB_{N-1} & dB_N
+        \end{matrix} \right)
 \end{equation}
-The initial wave function is set to be
+
+TODO C EST MOCHE FAIRE UNE JOLIE EQUATION
+Using the formula for $\mathbf{A}$ and $\mathbf{B}$ we find $aA_i = -aB_i = -a , \forall i \in\{1, \dots, N-2\}$ and $dA_i = 1 + 2a + b, dB_i = 1 - 2a - b , \forall i \in\{1, \dots, N-1\}$ with $a = (i\hbar \Delta t)/(4m \Delta x^2)$ and $b = (i\Delta t V)/(2\hbar)$
+
+The border conditions imposed \(\psi(x_L, t) = \psi(x_R, t) = 0\,\, \forall t\). This was implemented by setting the coefficients of \(A\) and \(B\) matrices such that: FEUR CA ME SAOULE
+
+
+A few observables are implemented to be returned by the simulation. First, the probability to find the particle with an observation between two given points $x_a$ and $x_b$ is implemented as:
 \begin{equation}
-    \psi(x, 0) = C e^{i k_0 x} e^{-(x-x_0)^2/(2 \sigma^2)}
+    \mathrm{P}(x\in[x_a,x_b]) = \int_{x_a}^{x_b}|\psi(x,t)|^2 dx = \int_{x_a}^{x_b}\psi^*(x,t)\psi(x,t) dx
 \end{equation}
-where \(k_0 = 2 \pi n / L\), \(\sigma = \sigma_{\textrm{norm}} L\). \(n\) and \(\sigma_\textrm{norm}\) are given in the simulations. \(C\) is a constant imposed by normalisation such that \(\int_{x_L}^{x_R}|\psi(x,0)|^2 dx = 1\), i.e.
-\begin{equation}
-    C = 1/\sqrt{\int_{x_L}^{x_R} e^{i k_0 x} e^{-(x-x_0)^2/(2 \sigma^2)}}
-\end{equation}
-je sais pas trop a quel point il faut détailler ici mais maintenant j'ai un peu la flemme maintenant
+which is how \autoref{eq:c_norm} is calculated with before the normalisation $C=1$ and a the probability calculated for $x_a = x_L$ and $x_b = x_R$.
+
+
