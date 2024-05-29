@@ -1,6 +1,6 @@
 \section{Simulations}
 
-For all the simulations we set the physical parameters \(x_L = -1\), \(x_R = 1\), \(x_0 = -0.5\), \(\sigma_\textrm{norm} = 0.04\), \(n = 16\) and \(t_\textrm{fin} = 0.1\), unless specified otherwise. All physical values take arbitrary units as we imposed \(\hbar = 1\). We take \(n_x = 256\) mesh intervals and \(\Delta t = 10^{-4}\) for the numerical parameters, again unless specified otherwise.
+For all the simulations we set the physical parameters \(x_L = -1\), \(x_R = 1\), $n_V = 2$, \(x_0 = -0.5\), \mbox{\(\sigma_\textrm{norm} = 0.04\)}, \(n = 16\) and \(t_\textrm{fin} = 0.1\), unless specified otherwise. All physical values take arbitrary units in order to have \(\hbar = 1\) and $m=1$. We take \(n_x = 256\) mesh intervals and \(\Delta t = 10^{-4}\) for the numerical parameters, again unless specified otherwise.
 
 \subsection{Infinite potential well}
 
@@ -93,6 +93,7 @@ we obtain the movement shown in \autoref{fig:i_classical_vs_quantum_energy}. We 
 \end{figure}
 
 \subsubsection{Verifying properties of the Crank-Nicolson method}
+\label{sec:crank}
 
 Let's also verify features of the the Crank Nicolson method. Firstly, it was shown in the book \cite{physnumbook} that this method conserves energy to machine precision. This phenomenon can clearly be seen in \autoref{fig:i_conservation_energy}, with the stairs clearly showing errors due to floating point approximations. The error on energy conservation was found to be on the order of \(10^{-10}\). This method is also supposed to conserve normalisation (i.e. probability), which is shown in \autoref{fig:i_conservation_probability}. It is clear that the total probability remains constant, at \(1\). Due to the smaller values of probability, the error on conservation of probability was found to be on the order of \(10^{-13}\).
 
@@ -127,6 +128,21 @@ The results from the simulation are shown in \autoref{fig:i_heisenberg}. The min
     \label{fig:i_heisenberg}
 \end{figure}
 
-\subsection{Well well well if it isnt the double potential well}
+\subsection{Double potential well with quantum tunneling}
+\begin{wrapfigure}{R}{0.6\linewidth}
+    \includegraphics[width=\linewidth]{figures/potential.pdf}
+    \caption{Double potential well with $V_0 = E_\mathrm{free}$}
+    \label{fig:potential}
+\end{wrapfigure}
+We now want to simulate a similar simulation with $V_0 \neq 0$. This simulation is done to analyse the quantum tunneling phenomenon that shows particles going through potential walls of higher value than their energy. For this we take various simulations with $V_0$ scaled to the energy of a free particle in an infinite potential well as determined in \autoref{sec:crank} with \autoref{fig:i_conservation_energy}: $E_\mathrm{free} = 1283.20379625$. One example of a potential with $V_0 = E_\mathrm{free}$ is shown in \autoref{fig:potential}.
 
-feur all over heisenberg
+The first analysis done is of the value $|\psi(x,t)|$ in three specific situations $V_0<\langle E \rangle$, $V_0\approx\langle E \rangle$ and $V_0>\langle E \rangle$. By taking values for $V_0$ of $E_\mathrm{free}/2$, $E_\mathrm{free}$ and $1.5 E_\mathrm{free}$ we obtain the norm of wave functions shown in \autoref{fig:tunnel_normpsi}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = \linewidth]{figures/tunnel_normpsi.png}
+    \caption{Norm of wave functions $\psi$ for three scalings of $V_0$}
+    \label{fig:tunnel_normpsi}
+\end{figure}
+
+
+
